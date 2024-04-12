@@ -15,6 +15,10 @@ app.use(logger);
 
 app.use(express.json());
 
+app.get("/:id", (req, res) => {
+  res.json({ name: "anoj", age: 24, email: "anoj@gamil.com" });
+});
+
 app.use(errorHandler);
 
 app.listen(PORT, () => {
