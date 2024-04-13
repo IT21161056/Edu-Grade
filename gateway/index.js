@@ -4,6 +4,7 @@ import proxy from "express-http-proxy";
 import rootRoute from "./routes/root.js";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
+import { protect } from "./middleware/authMiddleware.js";
 
 const app = express();
 
@@ -15,9 +16,10 @@ app.use(express.json());
 
 app.use("/", express.static(join(__dirname, "public")));
 
-app.use("/", rootRoute);
+// app.use("/", rootRoute);
 
 //main routes
+app.use(protect);
 app.use("/user", proxy("http://localhost:8001"));
 
 //out side routes
