@@ -1,9 +1,13 @@
 import dotenv from "dotenv";
 dotenv.config();
 import express from "express";
+import cors from "cors";
 import connectDB from "./config/db.js";
 import { logger } from "./middleware/logger.js";
 import errorHandler from "./middleware/errorHandler.js";
+
+//routes
+import authRoutes from "./routes/auth.routes.js";
 
 const app = express();
 const PORT = process.env.PORT || 3010;
@@ -13,11 +17,11 @@ connectDB();
 
 app.use(logger);
 
+app.use(cors());
+
 app.use(express.json());
 
-app.get("/:id", (req, res) => {
-  res.json({ name: "anoj", age: 24, email: "anoj@gamil.com" });
-});
+app.use("/", authRoutes);
 
 app.use(errorHandler);
 

@@ -8,7 +8,7 @@ import {
   updateUserProfile,
   deleteUserProfile,
   deleteUser,
-} from "../controller/authController.js";
+} from "../controllers/auth.controller.js";
 
 import { protect } from "../middleware/authMiddleware.js";
 
@@ -18,7 +18,7 @@ router.post("/auth", authUser);
 router.post("/register", registerUser);
 router.post("/logout", logoutUser);
 router.get("/profile", protect, getUserProfile);
-router.get("/allProfiles", protect, getAllProfiles);
+router.get("/allProfiles", getAllProfiles);
 router.put("/profile", protect, updateUserProfile);
 router.delete("/profile", protect, deleteUserProfile);
 router.delete("/:id", deleteUser);
