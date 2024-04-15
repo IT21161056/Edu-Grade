@@ -21,6 +21,10 @@ app.use(cors());
 
 app.use(express.json());
 
+app.get("/", (req, res) => {
+  res.json({ message: "proxy is working 👌" });
+});
+
 app.use("/", authRoutes);
 
 app.use(errorHandler);
