@@ -1,16 +1,12 @@
 import jwt from "jsonwebtoken";
+import User from "../models/userModel.js";
 import { CustomError } from "../exceptions/baseException.js";
 
 export const protect = async (req, res, next) => {
   let token;
-  console.log(req.cookies);
-  try {
-    if (req.url && req.url == "/api/user/auth") {
-      next();
-    }
 
-    token = req.cookies;
-    console.log(token);
+  try {
+    token = req.cookies.jwt;
 
     if (!token) {
       throw new CustomError("Not authorized, no token", 401);
@@ -18,11 +14,7 @@ export const protect = async (req, res, next) => {
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    // req.user = await User.findById(decoded.userId).select("-password");
-
-    req.user = await fetch("http://localhost:8001/api/user/" + decoded.userId, {
-      method: "GET",
-    });
+    req.user = await User.findById(decoded.userId).select("-password");
 
     if (!req.user) {
       throw new CustomError("Unauthorized, user not found", 401);
@@ -36,6 +28,9 @@ export const protect = async (req, res, next) => {
 
 export const checkRole = (role) => {
   return (req, res, next) => {
+    // console.log("role >>>", role);
+    // console.log("req.user >>>", req.user);
+    // console.log("pass >>>", req.user.role === role);
     try {
       if (!req.user || req.user.role !== role) {
         throw new CustomError(`Access denied, ${role} role required`, 403);
