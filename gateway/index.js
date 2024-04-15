@@ -17,11 +17,11 @@ app.use(express.json());
 app.use("/", express.static(join(__dirname, "public")));
 
 app.use("/", rootRoute);
-
 //main routes
 // app.use(protect);
 
-app.use("/api/user/", proxy("http://user_service:8001"));
+// app.use("/api/user/", proxy("http://user_service:8001"));
+app.use("/api/user/", proxy("http://localhost:8001"));
 
 //out side routes
 app.all("*", (req, res) => {

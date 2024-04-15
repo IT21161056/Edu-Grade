@@ -125,6 +125,16 @@ const deleteUser = tryCatch(async (req, res, next) => {
   }
 });
 
+const userById = tryCatch(async (req, res) => {
+  const id = req.params.id;
+
+  const user = await User.findById(id).select("-password");
+
+  if (!user) throw new CustomError("User not Found.", 404);
+
+  res.status(200).json(user);
+});
+
 export {
   authUser,
   registerUser,
@@ -134,4 +144,5 @@ export {
   updateUserProfile,
   deleteUserProfile,
   deleteUser,
+  userById,
 };

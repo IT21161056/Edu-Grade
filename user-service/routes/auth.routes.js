@@ -8,6 +8,7 @@ import {
   updateUserProfile,
   deleteUserProfile,
   deleteUser,
+  userById,
 } from "../controllers/auth.controller.js";
 
 import { protect } from "../middleware/authMiddleware.js";
@@ -22,5 +23,6 @@ router.get("/allProfiles", getAllProfiles);
 router.put("/profile", protect, updateUserProfile);
 router.delete("/profile", protect, deleteUserProfile);
 router.delete("/:id", deleteUser);
+router.post("/:id", userById);
 
 export default router;
