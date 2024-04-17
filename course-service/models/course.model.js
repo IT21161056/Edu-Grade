@@ -10,10 +10,17 @@ const courseSchema = new Schema(
     },
   },
   {
+    description: {
+      type: String,
+    },
+  },
+  {
+    contents: [{ type: mongoose.Schema.Types.ObjectId, ref: "Content" }],
+  },
+  {
     timestamps: true,
   }
 );
-
 const Course = model("Course", courseSchema);
 
 export default Course;
