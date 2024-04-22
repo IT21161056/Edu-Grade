@@ -11,7 +11,7 @@ const addCourse = tryCatch(async (req, res) => {
 
   if (!newCourse) throw new CustomError("Course creation failed.", 500);
 
-  req.status(200).json(newCourse);
+  res.status(200).json(newCourse);
 });
 
 const getCourses = tryCatch(async (_, res) => {
