@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { File, Upload } from "lucide-react";
-import { cn } from "../../util/cn";
+import { cn } from "../util/cn";
 
 const DropZone = ({ onChange }) => {
   const [dragOver, setDragOver] = useState(false);
@@ -48,7 +48,7 @@ const DropZone = ({ onChange }) => {
   return (
     <div
       className={cn(
-        "border border-gray-400 border-dashed rounded-lg p-10 w-full flex flex-col justify-center items-center",
+        "border border-dashed rounded-lg p-10 w-full flex flex-col justify-center items-center",
         dragOver && "bg-blue-50"
       )}
       onDragOver={handleDragOver}

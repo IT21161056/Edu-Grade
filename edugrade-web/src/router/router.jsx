@@ -7,7 +7,7 @@ import ResetPassword from "../pages/auth/resetPassword";
 import Register from "../pages/auth/register";
 import Profile from "../pages/profile";
 import Home from "../pages/home";
-import DropZone from "../pages/dropZone";
+import CreateCourse from "../pages/createCourse";
 
 const Router = () => {
   const ProtectedRoute = ({ children }) => {
@@ -24,7 +24,8 @@ const Router = () => {
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path="/reset-password" element={<ResetPassword />} />
-      <Route path="/file-upload" element={<DropZone />} />
+      <Route path="/create-course" element={<CreateCourse />} />
+
       <Route
         path="/profile"
         element={
