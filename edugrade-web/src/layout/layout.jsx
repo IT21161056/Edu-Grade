@@ -33,7 +33,7 @@ const Layout = () => {
 
   return (
     <div>
-      {/* <Navbar /> */}
+      <Navbar />
       <Router />
 
       {/* <Home /> */}

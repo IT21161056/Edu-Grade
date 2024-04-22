@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import DropZone from "../components/ui/dropZone";
 import {
   Button,
@@ -10,14 +10,10 @@ import {
 
 const Home = () => {
   const [video, setVideo] = useState(null);
-  const [videoURL, setVideoURL] = useState("");
   const [objectURL, setOBjectURL] = useState("");
-
   const [open, setOpen] = React.useState(false);
 
   const handleOpen = () => setOpen(!open);
-
-  // console.log(URL.createObjectURL(video));
 
   const uploadVideo = () => {
     const formData = new FormData();
@@ -29,9 +25,7 @@ const Home = () => {
       body: formData,
     })
       .then((response) => response.json())
-      .then((data) => {
-        setVideoURL(data.secure_url);
-      });
+      .then((data) => {});
   };
 
   useEffect(() => {
@@ -43,20 +37,31 @@ const Home = () => {
   };
 
   const removeSelected = () => {
+    console.log("clicked");
+    setOBjectURL("");
     setVideo(null);
   };
+
   return (
     <div className="flex w-1/2 gap-4 p-4 rounded-lg shadow-lg ">
       <div className="w-full">
-        <DropZone onChange={onChange} clear={removeSelected} />
+        <DropZone onChange={onChange} />
       </div>
 
       <div className="flex flex-col justify-between">
-        <Button onClick={handleOpen} variant="gradient">
+        <Button
+          onClick={handleOpen}
+          variant="gradient"
+          disabled={!Boolean(objectURL)}
+        >
           Preview
         </Button>
-        <Button onClick={uploadVideo}>Upload Video</Button>
-        <Button onClick={removeSelected}>Clear</Button>
+        <Button onClick={uploadVideo} disabled={!Boolean(objectURL)}>
+          Upload Video
+        </Button>
+        <Button onClick={removeSelected} disabled={!Boolean(objectURL)}>
+          Clear
+        </Button>
       </div>
 
       <Dialog open={open} handler={handleOpen}>
