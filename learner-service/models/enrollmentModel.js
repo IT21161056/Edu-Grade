@@ -8,6 +8,12 @@ const enrollmentSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User',
     },
+    userEmail:{
+        type:String
+    },
+    authorEmail:{
+        type:String
+    },
     enrolledCourses: [{
         type: Schema.Types.ObjectId,
         ref: 'Course',
