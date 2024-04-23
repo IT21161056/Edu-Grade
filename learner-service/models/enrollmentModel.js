@@ -11,7 +11,7 @@ const enrollmentSchema = new Schema({
     userEmail:{
         type:String
     },
-    authorEmail:{
+    userMobile:{
         type:String
     },
     enrolledCourses: [{
