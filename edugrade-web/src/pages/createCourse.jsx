@@ -133,19 +133,10 @@ const CreateCourse = () => {
     formData.append("file", video);
     formData.append("upload_preset", "EduGrade");
 
-    await axios
-      .post(
-        "https://api.cloudinary.com/v1_1/ddeh0t6uq/video/upload",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-          onUploadProgress: (event) => {
-            setProgressBar(Math.round((100 * event.loaded) / event.total));
-          },
-        }
-      )
+    await fetch("https://api.cloudinary.com/v1_1/ddeh0t6uq/video/upload", {
+      method: "POST",
+      body: formData,
+    })
       .then((response) => response.json())
       .then((data) => {
         localStorage.setItem("url", data.url);
