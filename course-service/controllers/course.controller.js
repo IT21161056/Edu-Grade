@@ -3,13 +3,17 @@ import { CustomError } from "../exceptions/baseException.js";
 import Course from "../models/course.model.js";
 
 const addCourse = tryCatch(async (req, res) => {
-  const { name, description } = req.body;
+  const { courseName, description } = req.body;
 
-  if (!name) throw new CustomError("Name is required.", 500);
+  if (!courseName) throw new CustomError("Name is required.", 500);
 
-  const newCourse = await Course.create({ name, description });
+  const newCourse = await Course.create({
+    courseName: courseName,
+    courseDescription: description,
+  });
 
   if (!newCourse) throw new CustomError("Course creation failed.", 500);
+  console.log();
 
   res.status(200).json(newCourse);
 });

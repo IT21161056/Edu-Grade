@@ -8,6 +8,7 @@ import errorHandler from "./middleware/errorHandler.js";
 
 //routes
 import courseRoutes from "./routes/course.routes.js";
+import contentRoutes from "./routes/content.routes.js";
 
 const app = express();
 const PORT = process.env.PORT || 3011;
@@ -26,6 +27,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/", courseRoutes);
+app.use("/content", contentRoutes);
 
 app.use(errorHandler);
 
