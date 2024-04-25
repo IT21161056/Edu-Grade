@@ -11,7 +11,7 @@ import courseRoutes from "./routes/course.routes.js";
 import contentRoutes from "./routes/content.routes.js";
 
 const app = express();
-const PORT = process.env.PORT || 3010;
+const PORT = process.env.PORT || 3011;
 
 //connect to the mongoDB
 connectDB();
