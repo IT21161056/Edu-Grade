@@ -4,23 +4,20 @@ const { Schema, model } = mongoose;
 
 const courseSchema = new Schema(
   {
-    name: {
+    courseName: {
       type: String,
       required: true,
     },
-  },
-  {
-    description: {
+    courseDescription: {
       type: String,
     },
-  },
-  {
     contents: [{ type: mongoose.Schema.Types.ObjectId, ref: "Content" }],
   },
   {
     timestamps: true,
   }
 );
+
 const Course = model("Course", courseSchema);
 
 export default Course;

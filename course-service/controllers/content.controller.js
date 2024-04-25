@@ -4,6 +4,7 @@ import Content from "../models/content.model.js";
 import Course from "../models/course.model.js";
 
 const addContent = tryCatch(async (req, res) => {
+  console.log("content eka aawa");
   const { topic, description, type, body, source, courseID } = req.body;
 
   if (!topic)
@@ -17,6 +18,8 @@ const addContent = tryCatch(async (req, res) => {
 
   const course = await Course.findById(courseID);
 
+  console.log("course >>", course);
+
   if (!course) throw new CustomError("Course not found.", 404);
 
   const content = await Content.create({
@@ -28,7 +31,13 @@ const addContent = tryCatch(async (req, res) => {
     courseID,
   });
 
+  console.log("content >>", content);
+
   course.contents.push(content._id);
+
+  const updated = await course.save();
+
+  res.status(200).json(updated);
 });
 
 const getCourse = tryCatch(async (req, res) => {});

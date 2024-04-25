@@ -22,6 +22,7 @@ app.use("/", rootRoute);
 
 // app.use("/api/user/", proxy("http://user_service:8001"));
 app.use("/api/user/", proxy("http://localhost:8001"));
+app.use("/api/course/", proxy("http://localhost:8003"));
 
 //out side routes
 app.all("*", (req, res) => {
