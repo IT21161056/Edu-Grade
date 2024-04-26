@@ -107,9 +107,11 @@ const ResetPassword = () => {
                   setUserDetails({ ...userDetails, rePassword: e.target.value })
                 }
               />
-              <Typography color="red" className="mt4">
-                {error}
-              </Typography>
+              {error && (
+                <Typography color="red" className="mt4">
+                  {error}
+                </Typography>
+              )}
               <Button
                 className="mt-6"
                 fullWidth
