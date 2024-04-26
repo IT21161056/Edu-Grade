@@ -53,7 +53,10 @@ const Login = () => {
               labelProps={{
                 className: "before:content-none after:content-none",
               }}
-              onChange={(e) => setUserDetails(e.target.value)}
+              value={userDetails.userName}
+              onChange={(e) =>
+                setUserDetails({ ...userDetails, userName: e.target.value })
+              }
             />
             <Typography variant="h6" color="blue-gray" className="-mb-3">
               Password
@@ -67,7 +70,10 @@ const Login = () => {
               labelProps={{
                 className: "before:content-none after:content-none",
               }}
-              onChange={(e) => setUserDetails(e.target.value)}
+              value={userDetails.password}
+              onChange={(e) =>
+                setUserDetails({ ...userDetails, password: e.target.value })
+              }
             />
             <Button
               className="mt-6"
