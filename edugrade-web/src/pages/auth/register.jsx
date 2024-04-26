@@ -5,8 +5,13 @@ import {
   Button,
   Typography,
 } from "@material-tailwind/react";
+import { useState, useEffect } from "react";
 
 const Register = () => {
+  const [userName, setUserName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   return (
     <div className="flex items-center justify-center mt-10">
       <Card color="transparent" shadow={false}>
@@ -29,6 +34,8 @@ const Register = () => {
               labelProps={{
                 className: "before:content-none after:content-none",
               }}
+              value={userName}
+              onChange={(e) => setUserName(e.target.value)}
             />
             <Typography variant="h6" color="blue-gray" className="-mb-3">
               Your Email
@@ -41,6 +48,8 @@ const Register = () => {
               labelProps={{
                 className: "before:content-none after:content-none",
               }}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <Typography variant="h6" color="blue-gray" className="-mb-3">
               Password
@@ -53,6 +62,8 @@ const Register = () => {
               labelProps={{
                 className: "before:content-none after:content-none",
               }}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           <Checkbox
@@ -73,7 +84,11 @@ const Register = () => {
             }
             containerProps={{ className: "-ml-2.5" }}
           />
-          <Button className="mt-6" fullWidth>
+          <Button
+            className="mt-6"
+            fullWidth
+            style={{ backgroundColor: "rgb(0, 86, 210)", color: "#fff" }}
+          >
             sign up
           </Button>
           <Typography color="gray" className="mt-4 text-center font-normal">

@@ -36,12 +36,16 @@ const Login = () => {
                 className: "before:content-none after:content-none",
               }}
             />
-            <Button className="mt-6" fullWidth>
+            <Button
+              className="mt-6"
+              fullWidth
+              style={{ backgroundColor: "rgb(0, 86, 210)", color: "#fff" }}
+            >
               log in
             </Button>
             <Typography color="gray" className="mt-4 text-center font-normal">
               Do not have an account?
-              <a href="/register" className="font-medium text-gray-900">
+              <a href="/register" className="font-medium text-blue-800">
                 Sign Up
               </a>
             </Typography>
