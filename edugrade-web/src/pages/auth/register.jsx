@@ -28,6 +28,7 @@ const Register = () => {
         password: "",
       });
       setIsLoading(false);
+      console.log(userDetails);
     } catch (err) {
       console.log(err);
       setIsLoading(false);
@@ -117,8 +118,8 @@ const Register = () => {
             {isLoading ? <Loading /> : "Sign Up"}
           </Button>
           <Typography color="gray" className="mt-4 text-center font-normal">
-            Already have an account?
-            <a href="/login" className="font-medium text-gray-900">
+            Already have an account?{" "}
+            <a href="/login" className="font-medium text-blue-800">
               Sign In
             </a>
           </Typography>

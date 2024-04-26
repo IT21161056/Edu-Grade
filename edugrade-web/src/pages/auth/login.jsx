@@ -1,6 +1,32 @@
 import { Card, Input, Button, Typography } from "@material-tailwind/react";
+import { useState } from "react";
+import axios from "axios";
+import Loading from "../../components/common/loading";
 
 const Login = () => {
+  const [userDetails, setUserDetails] = useState({
+    userName: "",
+    password: "",
+  });
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleUserLogin = async () => {
+    e.preventDefault();
+    setIsLoading(true);
+    await axios.post(`http://localhost/login`, userDetails);
+    setUserDetails({
+      userName: "",
+      password: "",
+    });
+    setIsLoading(false);
+    console.log(userDetails);
+    try {
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="flex items-center justify-center mt-10">
       <Card color="transparent" shadow={false}>
@@ -10,12 +36,16 @@ const Login = () => {
         <Typography color="gray" className="mt-1 font-normal">
           Enter your details to login.
         </Typography>
-        <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96">
+        <form
+          onSubmit={handleUserLogin}
+          className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96"
+        >
           <div className="mb-1 flex flex-col gap-6">
             <Typography variant="h6" color="blue-gray" className="-mb-3">
               Your Name or email-address
             </Typography>
             <Input
+              name="userName"
               type="text"
               size="lg"
               placeholder="name or email"
@@ -23,11 +53,13 @@ const Login = () => {
               labelProps={{
                 className: "before:content-none after:content-none",
               }}
+              onChange={(e) => setUserDetails(e.target.value)}
             />
             <Typography variant="h6" color="blue-gray" className="-mb-3">
               Password
             </Typography>
             <Input
+              name="password"
               type="password"
               size="lg"
               placeholder="*******"
@@ -35,16 +67,17 @@ const Login = () => {
               labelProps={{
                 className: "before:content-none after:content-none",
               }}
+              onChange={(e) => setUserDetails(e.target.value)}
             />
             <Button
               className="mt-6"
               fullWidth
               style={{ backgroundColor: "rgb(0, 86, 210)", color: "#fff" }}
             >
-              log in
+              {isLoading ? <Loading /> : "Log In"}
             </Button>
             <Typography color="gray" className="mt-4 text-center font-normal">
-              Do not have an account?
+              Do not have an account?{" "}
               <a href="/register" className="font-medium text-blue-800">
                 Sign Up
               </a>
