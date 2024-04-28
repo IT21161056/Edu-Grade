@@ -5,7 +5,9 @@ import {
   Navbar,
   Typography,
 } from "@material-tailwind/react";
-import React from "react";
+import React, { useContext, useState } from "react";
+import { AuthContext } from "../../context/authContext";
+import { Link, NavLink, useNavigate, useNavigation } from "react-router-dom";
 
 const list = [
   {
@@ -27,7 +29,21 @@ const list = [
 ];
 
 export default function StickyNavbar() {
-  const [openNav, setOpenNav] = React.useState(false);
+  const [openNav, setOpenNav] = useState(false);
+  const navigate = useNavigate();
+  const { user, loading, error, logout } = useContext(AuthContext);
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+    window.location.reload();
+  };
+
+  const [nav, setNav] = useState(true);
+
+  const handleNav = () => {
+    setNav(!nav);
+  };
 
   React.useEffect(() => {
     window.addEventListener(
@@ -67,16 +83,37 @@ export default function StickyNavbar() {
         <div className="flex items-center gap-4">
           <div className="mr-4 hidden lg:block">{navList}</div>
           <div className="flex items-center gap-x-1">
-            <Button variant="text" size="sm" className="hidden lg:inline-block">
-              <span>Log In</span>
-            </Button>
-            <Button
-              variant="gradient"
-              size="sm"
-              className="hidden lg:inline-block"
-            >
-              <span>Sign in</span>
-            </Button>
+            {user ? (
+              <Button
+                variant="text"
+                size="sm"
+                className="hidden lg:inline-block"
+                onClick={handleLogout}
+              >
+                <span>Log out</span>
+              </Button>
+            ) : (
+              <Link to="login">
+                <Button
+                  variant="text"
+                  size="sm"
+                  className="hidden lg:inline-block"
+                >
+                  <span>Log In</span>
+                </Button>
+              </Link>
+            )}
+            {!user && (
+              <Link to="register">
+                <Button
+                  variant="gradient"
+                  size="sm"
+                  className="hidden lg:inline-block"
+                >
+                  <span>Sign in</span>
+                </Button>
+              </Link>
+            )}
           </div>
           <IconButton
             variant="text"
@@ -120,12 +157,30 @@ export default function StickyNavbar() {
       <Collapse open={openNav}>
         {navList}
         <div className="flex items-center gap-x-1">
-          <Button fullWidth variant="text" size="sm" className="">
-            <span>Log In</span>
-          </Button>
-          <Button fullWidth variant="gradient" size="sm" className="">
-            <span>Sign in</span>
-          </Button>
+          {user ? (
+            <Button
+              fullWidth
+              variant="text"
+              size="sm"
+              className=""
+              onClick={handleLogout}
+            >
+              <span>Log out</span>
+            </Button>
+          ) : (
+            <Link to="/login">
+              <Button fullWidth variant="text" size="sm" className="">
+                <span>Log In</span>
+              </Button>
+            </Link>
+          )}
+          {!user && (
+            <Link to="/register">
+              <Button fullWidth variant="gradient" size="sm" className="">
+                <span>Sign in</span>
+              </Button>
+            </Link>
+          )}
         </div>
       </Collapse>
     </Navbar>

@@ -12,10 +12,4 @@ const FormItem = ({ children, name, errors }) => {
   );
 };
 
-FormItem.prototype = {
-  children: PropTypes.node.isRequired,
-  name: PropTypes.string.isRequired,
-  errors: PropTypes.object.isRequired,
-};
-
 export default FormItem;
