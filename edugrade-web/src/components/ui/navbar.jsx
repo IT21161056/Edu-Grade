@@ -1,11 +1,11 @@
-import React from "react";
 import {
-  Navbar,
-  MobileNav,
-  Typography,
   Button,
+  Collapse,
   IconButton,
+  Navbar,
+  Typography,
 } from "@material-tailwind/react";
+import React from "react";
 
 const list = [
   {
@@ -44,7 +44,7 @@ export default function StickyNavbar() {
           variant="small"
           color="blue-gray"
           className="p-1 font-normal"
-          key={navItem.href}
+          key={navItem.label}
         >
           <a href={navItem.href} className="flex items-center">
             {navItem.label}
@@ -117,7 +117,7 @@ export default function StickyNavbar() {
           </IconButton>
         </div>
       </div>
-      <MobileNav open={openNav}>
+      <Collapse open={openNav}>
         {navList}
         <div className="flex items-center gap-x-1">
           <Button fullWidth variant="text" size="sm" className="">
@@ -127,7 +127,7 @@ export default function StickyNavbar() {
             <span>Sign in</span>
           </Button>
         </div>
-      </MobileNav>
+      </Collapse>
     </Navbar>
   );
 }

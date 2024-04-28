@@ -8,6 +8,7 @@ import {
 } from "@material-tailwind/react";
 
 const Login = () => {
+  const { loading, error, dispatch } = useContext(AuthContext);
   return (
     <div>
       <Card color="transparent" shadow={false}>
