@@ -1,7 +1,7 @@
 import nodemailer from 'nodemailer'
 import {Vonage} from '@vonage/server-sdk'
 
-
+    
 export const SendEmail = (userMail) => {
     const transporter = nodemailer.createTransport({
         service: "gmail",

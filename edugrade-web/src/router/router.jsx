@@ -8,6 +8,8 @@ import Register from "../pages/auth/register";
 import Profile from "../pages/profile";
 import Home from "../pages/home";
 import CreateCourse from "../pages/createCourse";
+import ViewCourses from "../pages/ViewCourses";
+import ViewCourse from "../pages/ViewCourse";
 
 const Router = () => {
   const ProtectedRoute = ({ children }) => {
@@ -24,6 +26,10 @@ const Router = () => {
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path="/reset-password" element={<ResetPassword />} />
+
+      <Route path="/view-course" element={<ViewCourses/>} />
+      <Route path="/view/:id" element={<ViewCourse/>} />
+
       <Route
         path="/create-course"
         element={
@@ -32,7 +38,7 @@ const Router = () => {
           </ProtectedRoute>
         }
       />
-
+          
       <Route
         path="/profile"
         element={
