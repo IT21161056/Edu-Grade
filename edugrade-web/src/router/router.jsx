@@ -24,7 +24,14 @@ const Router = () => {
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path="/reset-password" element={<ResetPassword />} />
-      <Route path="/create-course" element={<CreateCourse />} />
+      <Route
+        path="/create-course"
+        element={
+          <ProtectedRoute>
+            <CreateCourse />
+          </ProtectedRoute>
+        }
+      />
 
       <Route
         path="/profile"
