@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import axios from "axios";
+import Aos from 'aos'
+import 'aos/dist/aos.css'
 import Course from '../components/Course';
 import { Button, Input } from '@material-tailwind/react';
 
@@ -73,6 +75,10 @@ const contentsData = [
 
 const ViewCourses = () => {
 
+    useEffect(() => {
+        Aos.init({ duration: 2000 })
+    }, [])
+
     return (
         <div className="px-4 md:px-8 lg:px-16 xl:px-20 mt-8">
             <div className="flex flex-col md:flex-row items-baseline justify-center gap-4 md:gap-2">
@@ -84,7 +90,7 @@ const ViewCourses = () => {
                 </div>
             </div>
             <p className="text-2xl mt-6 md:mt-1 md:px-20">All Courses</p>
-            <div className="flex flex-wrap justify-center gap-4 md:gap-6 mt-6">
+            <div className="flex flex-wrap justify-center gap-4 md:gap-6 mt-6" data-aos="fade-up">
                 {contentsData && contentsData.map((element, index) => (
                         <Course key={index} topic={element.topic} description={element.description} id={element.id}/>
                ))}
