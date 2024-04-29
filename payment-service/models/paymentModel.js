@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { type } from "os";
 
 const { Schema, model } = mongoose;
 
@@ -36,3 +35,6 @@ const paymentSchema = new Schema(
   },
   { timestamps: true }
 );
+
+const Payment = model("Payment", paymentSchema);
+export default Payment;
