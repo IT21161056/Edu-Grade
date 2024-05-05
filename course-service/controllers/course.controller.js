@@ -34,11 +34,13 @@ const removeCourse = tryCatch(async (req, res) => {
 const getCourseById = tryCatch(async (req, res) => {
   const id = req.params.id;
 
-  const course = await Course.findById(id);
+  console.log(req.body);
 
-  if (!course) throw new CustomError("Course Not found.", 404);
+  // const course = await Course.findById(id);
 
-  res.status(200).json(course);
+  // if (!course) throw new CustomError("Course Not found.", 404);
+
+  // res.status(200).json(course);
 });
 
 export { addCourse, getCourses, removeCourse, getCourseById };

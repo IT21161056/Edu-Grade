@@ -5,13 +5,13 @@ import enrollRoutes from "./routes/enroll.route.js";
 import completeContent from "./routes/contentCompletion.route.js";
 
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT || 3011;
 
 app.use(cors());
 app.use(express.json());
 
 ConnectDB();
-app.use("/course", enrollRoutes);
+app.use("/enrollment", enrollRoutes);
 app.use("/complete", completeContent);
 
 app.listen(PORT, () => {

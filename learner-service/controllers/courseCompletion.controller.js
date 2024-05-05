@@ -1,6 +1,6 @@
-import { tryCatch } from "../utils/tryCatchWrapper";
-import ContentCompletion from "../models/complete.model";
-import { CustomError } from "../exceptions/baseException";
+import { tryCatch } from "../utils/tryCatchWrapper.js";
+import ContentCompletion from "../models/complete.model.js";
+import { CustomError } from "../exceptions/baseException.js";
 
 const addCompletion = tryCatch(async (req, res) => {
   const { userId, courseId, contentID } = req.body;
@@ -19,4 +19,16 @@ const addCompletion = tryCatch(async (req, res) => {
   res.status(200).json(complete);
 });
 
-export { addCompletion };
+const getCompletedCourse = tryCatch(async (req, res) => {
+  console.log("hello");
+  const { userId, courseId } = req.body;
+
+  const completedContents = await ContentCompletion.find({ userId, courseId });
+
+  if (completedContents.length == 0)
+    throw new CustomError("Resource not found!", 404);
+
+  res.status(200).json(completedContents);
+});
+
+export { addCompletion, getCompletedCourse };

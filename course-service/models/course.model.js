@@ -11,7 +11,7 @@ const courseSchema = new Schema(
     courseDescription: {
       type: String,
     },
-    contents: [{ type: mongoose.Schema.Types.ObjectId, ref: "Content" }],
+    contents: [{ type: Schema.Types.ObjectId, ref: "Content" }],
   },
   {
     timestamps: true,
