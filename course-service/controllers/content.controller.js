@@ -15,7 +15,7 @@ const addContent = tryCatch(async (req, res) => {
     if (!body) throw new CustomError("There should be content to read.", 400);
   }
   const course = await Course.findById(courseID);
-  console.log("course >>", course);
+
   if (!course) throw new CustomError("Course not found.", 404);
   const content = await Content.create({
     topic,

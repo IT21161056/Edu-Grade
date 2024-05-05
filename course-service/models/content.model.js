@@ -8,30 +8,20 @@ const contentSchema = new Schema(
       type: String,
       required: true,
     },
-  },
-  {
     contentDescription: {
       type: String,
     },
-  },
-  {
     type: {
       type: String,
       enum: ["video", "reading"],
     },
-  },
-  {
     body: {
       type: String,
     },
-  },
-  {
     source: {
       type: String,
     },
-  },
-  {
-    courseID: { type: mongoose.Schema.Types.ObjectId, ref: "Course" },
+    courseID: { type: mongoose.Schema.Types.ObjectId, ref: "Course" }, // Placed within the main object block
   },
   {
     timestamps: true,
