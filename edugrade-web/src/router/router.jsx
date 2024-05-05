@@ -34,8 +34,6 @@ const Router = () => {
       <Route path="/view-course" element={<ViewCourses />} />
       <Route path="/view/:id" element={<ViewCourse />} />
 
-      <Route path="/progress" element={<CourseProgress />} />
-
       <Route
         path="/create-course"
         element={
