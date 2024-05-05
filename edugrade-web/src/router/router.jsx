@@ -8,7 +8,6 @@ import Register from "../pages/auth/register";
 import Profile from "../pages/profile";
 import Home from "../pages/home";
 import CreateCourse from "../pages/createCourse";
-import Payment from "../pages/makePayment";
 import ViewCourses from "../pages/ViewCourses";
 import ViewCourse from "../pages/ViewCourse";
 
@@ -49,7 +48,6 @@ const Router = () => {
         }
       />
       <Route path="/register" element={<Register />} />
-      <Route path="/paypal" element={<Payment />} />
     </Routes>
   );
 };

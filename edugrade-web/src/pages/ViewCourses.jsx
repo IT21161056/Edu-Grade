@@ -76,10 +76,10 @@ const contentsData = [
 const ViewCourses = () => {
 
     const [courseData,setCourseData] = useState([])
-    console.log(courseData.slice(0,1))
+    console.log(courseData)
 
     const getCourses = async() =>{
-        await axios.get('http://localhost:8000/api/course')
+        await axios.get('http://localhost:8003/api/course')
         .then((response) => {
             setCourseData(response.data)
         })
