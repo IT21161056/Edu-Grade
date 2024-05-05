@@ -5,11 +5,12 @@ import {
   CardBody,
   CardFooter,
 } from "@material-tailwind/react";
+import webdev from "../assets/webdev.jpg";
 
 const LandingPage = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <div className="max-w-3xl mx-auto text-center mb-12">
+      <div className="max-w-3xl mx-auto text-center mb-6">
         <Typography variant="h2" className="mb-4">
           Welcome to Edu Grade Platform
         </Typography>
@@ -19,9 +20,10 @@ const LandingPage = () => {
         <Button>Browse Courses</Button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-8">
-        <Card className="shadow-lg">
-          <CardBody>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto px-8">
+        <Card className="shadow-lg flex flex-col items-center p-4">
+          <img src={webdev} alt="course" className="w-full h-auto mb-2" />
+          <CardBody className="text-center">
             <Typography variant="h5" className="mb-2">
               Web Development
             </Typography>
@@ -34,7 +36,8 @@ const LandingPage = () => {
           </CardFooter>
         </Card>
 
-        <Card className="shadow-lg">
+        <Card className="shadow-lg flex flex-col items-center p-4">
+          <img src={webdev} alt="course" className="w-full h-auto mb-2" />
           <CardBody>
             <Typography variant="h5" className="mb-2">
               Data Science
@@ -48,7 +51,8 @@ const LandingPage = () => {
           </CardFooter>
         </Card>
 
-        <Card className="shadow-lg">
+        <Card className="shadow-lg flex flex-col items-center p-4">
+          <img src={webdev} alt="course" className="w-full h-auto mb-2" />
           <CardBody>
             <Typography variant="h5" className="mb-2">
               UI/UX Design
