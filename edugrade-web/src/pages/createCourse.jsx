@@ -126,7 +126,7 @@ const CreateCourse = () => {
 
   const handleNext = async (courseData) => {
     await axios
-      .post("http://localhost:8000/api/course", courseData)
+      .post("http://localhost:8000/api/course/v1", courseData)
       .then((res) => {
         !isLastStep && setActiveStep((cur) => cur + 1);
         localStorage.setItem("active", 1);
@@ -138,21 +138,23 @@ const CreateCourse = () => {
   };
 
   const createContent = async () => {
-    const course1 = JSON.parse(localStorage.getItem("course"));
+    const course = JSON.parse(localStorage.getItem("course"));
+
     const contentData = JSON.parse(localStorage.getItem("content"));
     const url = localStorage.getItem("url");
 
     const content = {
       topic: contentData.topic,
-      body: contentData.body,
       contentDescription: contentData.contentDescription,
       type: contentData.type,
-      courseID: course1._id,
       source: url,
+      courseID: course._id,
     };
 
+    console.log("content >>", content);
+
     await axios
-      .post("http://localhost:8000/api/course/content", content)
+      .post("http://localhost:8000/api/course/v2", content)
       .then((res) => {
         setVideo(null);
         setContentObject({
