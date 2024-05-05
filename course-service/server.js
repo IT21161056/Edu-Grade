@@ -22,8 +22,8 @@ app.use(cors());
 
 app.use(express.json());
 
-app.use("/", courseRoutes);
-app.use("/content", contentRoutes);
+app.use("/v2", contentRoutes);
+app.use("/v1", courseRoutes);
 
 app.use(errorHandler);
 

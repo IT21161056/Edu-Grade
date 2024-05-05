@@ -11,6 +11,8 @@ import CreateCourse from "../pages/createCourse";
 import Payment from "../pages/makePayment";
 import ViewCourses from "../pages/ViewCourses";
 import ViewCourse from "../pages/ViewCourse";
+import CourseProgress from "../pages/courseProgress";
+
 import LandingPage from "../pages/LandingPage";
 
 const Router = () => {
