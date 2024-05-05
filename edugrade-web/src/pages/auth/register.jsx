@@ -8,27 +8,32 @@ import {
 import axios from "axios";
 import { useState } from "react";
 import Loading from "../../components/common/loading";
+import { useForm } from "react-hook-form";
+import FormItem from "../../components/common/formItem";
 
 const Register = () => {
-  const [userDetails, setUserDetails] = useState({
-    userName: "",
-    email: "",
-    password: "",
-  });
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
+
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleUserRegistration = async (e) => {
-    e.preventDefault();
+  const handleUserRegistration = async (formData) => {
     setIsLoading(true);
     try {
-      await axios.post(`http://localhost:3000/register`, userDetails);
-      setUserDetails({
-        userName: "",
-        email: "",
-        password: "",
-      });
+      await axios
+        .post(`http://localhost:8000/api/user/register`, formData)
+        .then(() => {
+          reset();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
       setIsLoading(false);
-      console.log(userDetails);
     } catch (err) {
       console.log(err);
       setIsLoading(false);
@@ -45,61 +50,87 @@ const Register = () => {
           Nice to meet you! Enter your details to register.
         </Typography>
         <form
-          onSubmit={handleUserRegistration}
+          onSubmit={handleSubmit(handleUserRegistration)}
           className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96"
         >
           <div className="mb-1 flex flex-col gap-6">
             <Typography variant="h6" color="blue-gray" className="-mb-3">
               Your Name
             </Typography>
-            <Input
-              name="userName"
-              type="text"
-              size="lg"
-              placeholder="name"
-              className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-              labelProps={{
-                className: "before:content-none after:content-none",
-              }}
-              value={userDetails.userName}
-              onChange={(e) =>
-                setUserDetails({ ...userDetails, userName: e.target.value })
-              }
-            />
+            <FormItem name="name" errors={errors}>
+              <Input
+                name="name"
+                {...register("name", {
+                  required: "Name is required!",
+                })}
+                placeholder="Anoj Peiris"
+                labelProps={{
+                  className: "before:!mr-0 after:!ml-0",
+                }}
+                error={Boolean(errors.name)}
+              />
+            </FormItem>
+
             <Typography variant="h6" color="blue-gray" className="-mb-3">
               Your Email
             </Typography>
-            <Input
-              name="email"
-              type="email"
-              size="lg"
-              placeholder="name@mail.com"
-              className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-              labelProps={{
-                className: "before:content-none after:content-none",
-              }}
-              value={userDetails.email}
-              onChange={(e) =>
-                setUserDetails({ ...userDetails, email: e.target.value })
-              }
-            />
+            <FormItem name="email" errors={errors}>
+              <Input
+                name="email"
+                {...register("email", {
+                  required: "Email is required!",
+                  pattern: {
+                    value: /^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$/,
+                    message: "Invalid email.",
+                  },
+                })}
+                placeholder="example@gmail.com"
+                labelProps={{
+                  className: "before:!mr-0 after:!ml-0",
+                }}
+                error={Boolean(errors.email)}
+              />
+            </FormItem>
+            <Typography variant="h6" color="blue-gray" className="-mb-3">
+              Your Mobile Number
+            </Typography>
+            <FormItem name="mobile" errors={errors}>
+              <Input
+                name="mobile"
+                {...register("mobile", {
+                  required: "Mobile is required!",
+                  pattern: {
+                    value: /^(?:7|0|(?:\+94))[0-9]{9,10}$/,
+                    message: "Invalid mobile number.",
+                  },
+                })}
+                placeholder="0712345678"
+                labelProps={{
+                  className: "before:!mr-0 after:!ml-0",
+                }}
+                error={Boolean(errors.mobile)}
+              />
+            </FormItem>
+
             <Typography variant="h6" color="blue-gray" className="-mb-3">
               Password
             </Typography>
-            <Input
-              name="password"
-              type="password"
-              size="lg"
-              placeholder="********"
-              className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-              labelProps={{
-                className: "before:content-none after:content-none",
-              }}
-              value={userDetails.password}
-              onChange={(e) =>
-                setUserDetails({ ...userDetails, password: e.target.value })
-              }
-            />
+
+            <FormItem name="password" errors={errors}>
+              <Input
+                name="password"
+                type="password"
+                size="lg"
+                placeholder="*******"
+                {...register("password", {
+                  required: "Password is required!",
+                })}
+                labelProps={{
+                  className: "before:!mr-0 after:!ml-0",
+                }}
+                error={Boolean(errors.password)}
+              />
+            </FormItem>
           </div>
           <Checkbox
             label={
@@ -122,6 +153,7 @@ const Register = () => {
           <Button
             className="mt-6"
             fullWidth
+            type="submit"
             style={{ backgroundColor: "rgb(0, 86, 210)", color: "#fff" }}
           >
             {isLoading ? <Loading /> : "Sign Up"}

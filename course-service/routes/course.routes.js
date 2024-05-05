@@ -4,10 +4,12 @@ import {
   addCourse,
   getCourses,
   removeCourse,
+  getCourseById,
 } from "../controllers/course.controller.js";
 
 router.post("/", addCourse);
 router.get("/", getCourses);
 router.delete("/:id", removeCourse);
+router.post("/:id", getCourseById);
 
 export default router;

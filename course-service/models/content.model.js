@@ -10,7 +10,7 @@ const contentSchema = new Schema(
     },
   },
   {
-    description: {
+    contentDescription: {
       type: String,
     },
   },
