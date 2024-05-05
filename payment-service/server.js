@@ -1,8 +1,3 @@
-// import connectDB from "./config/db.js";
-
-// //connect to the mongoDB
-// connectDB();
-
 // app.get("/", (req, res) => {
 //   res.json({ message: "proxy is working 👌" });
 // });
@@ -11,11 +6,13 @@ import express from "express";
 import fetch from "node-fetch";
 import "dotenv/config";
 import cors from "cors";
+import connectDB from "./config/db.js";
 
 const { PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET, PORT = 8888 } = process.env;
 const base = "https://api-m.sandbox.paypal.com";
 const app = express();
 
+connectDB();
 app.use(cors());
 app.use(express.json());
 
