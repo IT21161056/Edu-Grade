@@ -196,10 +196,10 @@ const CreateCourse = () => {
   };
 
   const complete = () => {
-    localStorage.clear("content");
-    localStorage.clear("url");
-    localStorage.clear("course");
-    localStorage.clear("active");
+    localStorage.removeItem("content");
+    localStorage.removeItem("url");
+    localStorage.removeItem("course");
+    localStorage.removeItem("active");
 
     navigate("/");
   };
