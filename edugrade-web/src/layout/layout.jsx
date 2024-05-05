@@ -8,18 +8,12 @@ import Home from "../pages/home";
 const Layout = () => {
   const { user } = useContext(AuthContext);
   const location = useLocation();
-
+  console.log(location);
   // to render the alternative Navbar or the default Navbar
-  const showAdminNavbar =
-    location.pathname === "/admin" ||
-    location.pathname === "/users" ||
-    location.pathname === "/hotels" ||
-    location.pathname === "/tours" ||
-    location.pathname === "/vehicle" ||
-    location.pathname === "/train" ||
-    location.pathname === "/adduser" ||
-    location.pathname === "/userpage" ||
-    location.pathname === "/update";
+  const showNavbar =
+    location.pathname === "/login" || location.pathname === "/register";
+
+  console.log("hideNavbar", showNavbar);
 
   const showFinaceNavbar =
     location.pathname === "/finace" ||
@@ -33,7 +27,7 @@ const Layout = () => {
 
   return (
     <div>
-      <Navbar />
+      {!showNavbar && <Navbar />}
       <Router />
 
       {/* <Home /> */}
