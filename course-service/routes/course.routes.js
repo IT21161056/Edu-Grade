@@ -10,6 +10,6 @@ import {
 router.post("/", addCourse);
 router.get("/", getCourses);
 router.delete("/:id", removeCourse);
-router.post("/:id", getCourseById);
+router.get("/:id", getCourseById);
 
 export default router;

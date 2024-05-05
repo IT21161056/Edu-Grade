@@ -20,7 +20,6 @@ const addCompletion = tryCatch(async (req, res) => {
 });
 
 const getCompletedCourse = tryCatch(async (req, res) => {
-  console.log("hello");
   const { userId, courseId } = req.body;
 
   const completedContents = await ContentCompletion.find({ userId, courseId });
@@ -28,7 +27,9 @@ const getCompletedCourse = tryCatch(async (req, res) => {
   if (completedContents.length == 0)
     throw new CustomError("Resource not found!", 404);
 
-  res.status(200).json(completedContents);
+  res
+    .status(200)
+    .json({ data: completedContents, metaData: completedContents.length });
 });
 
 export { addCompletion, getCompletedCourse };
