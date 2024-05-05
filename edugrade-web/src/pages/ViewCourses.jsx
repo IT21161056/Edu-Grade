@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from "axios";
 import Aos from 'aos'
 import 'aos/dist/aos.css'
@@ -75,8 +75,19 @@ const contentsData = [
 
 const ViewCourses = () => {
 
+    const [courseData,setCourseData] = useState([])
+    console.log(courseData.slice(0,1))
+
+    const getCourses = async() =>{
+        await axios.get('http://localhost:8000/api/course')
+        .then((response) => {
+            setCourseData(response.data)
+        })
+    }
+
     useEffect(() => {
         Aos.init({ duration: 2000 })
+        getCourses()
     }, [])
 
     return (
