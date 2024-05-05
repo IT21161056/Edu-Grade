@@ -1,23 +1,25 @@
-import React from "react";
-import axios from "axios";
 import {
-  Card,
-  Input,
   Button,
-  Typography,
-  Textarea,
-  Stepper,
-  Step,
-  Radio,
+  Card,
   Dialog,
-  DialogHeader,
   DialogBody,
+  DialogHeader,
+  Input,
+  Radio,
+  Step,
+  Stepper,
+  Textarea,
+  Typography,
 } from "@material-tailwind/react";
-import Container from "../components/common/container";
-import { useState } from "react";
-import DropZone from "../components/ui/dropZone";
+import axios from "axios";
 import { View } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import Container from "../components/common/container";
+import FormItem from "../components/common/formItem";
 import Loading from "../components/common/loading";
+import DropZone from "../components/ui/dropZone";
+import { useNavigate } from "react-router-dom";
 
 const Content = ({ image }) => {
   return (
@@ -36,13 +38,34 @@ const Content = ({ image }) => {
 };
 
 const CreateCourse = () => {
+  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const {
+    register: register2,
+    handleSubmit: handleSubmit2,
+
+    watch,
+    formState: { errors: errors2 },
+  } = useForm({
+    defaultValues: {
+      topic: "",
+      contentDescription: "",
+      type: "video",
+    },
+  });
+
   const [courseObject, setCourseObject] = useState({
     courseName: "",
-    description: "",
+    courseDescription: "",
   });
   const [contentObject, setContentObject] = useState({
     topic: "",
-    description: "",
+    contentDescription: "",
     type: "video",
     body: "",
     source: "",
@@ -57,6 +80,20 @@ const CreateCourse = () => {
   const [objectURL, setOBjectURL] = useState("");
   const [contentList, setContentList] = useState([]);
   const [progressBar, setProgressBar] = useState(0);
+
+  useEffect(() => {
+    localStorage.setItem("contents", contentList);
+  }, [contentList]);
+
+  useEffect(() => {
+    const activePage = localStorage.getItem("active");
+
+    if (activePage) {
+      setActiveStep(1);
+    }
+
+    setActiveStep(0);
+  });
 
   const handleOnChange = (video) => {
     setVideo(video);
@@ -87,12 +124,12 @@ const CreateCourse = () => {
     });
   };
 
-  const handleNext = async () => {
+  const handleNext = async (courseData) => {
     await axios
-      .post("http://localhost:8000/api/course", courseObject)
+      .post("http://localhost:8000/api/course", courseData)
       .then((res) => {
         !isLastStep && setActiveStep((cur) => cur + 1);
-
+        localStorage.setItem("active", 1);
         localStorage.setItem("course", JSON.stringify(res.data));
       })
       .catch((error) => {
@@ -102,10 +139,14 @@ const CreateCourse = () => {
 
   const createContent = async () => {
     const course1 = JSON.parse(localStorage.getItem("course"));
+    const contentData = JSON.parse(localStorage.getItem("content"));
     const url = localStorage.getItem("url");
 
     const content = {
-      ...contentObject,
+      topic: contentData.topic,
+      body: contentData.body,
+      contentDescription: contentData.contentDescription,
+      type: contentData.type,
       courseID: course1._id,
       source: url,
     };
@@ -116,7 +157,7 @@ const CreateCourse = () => {
         setVideo(null);
         setContentObject({
           topic: "",
-          description: "",
+          contentDescription: "",
           type: "video",
           body: "",
           source: "",
@@ -144,11 +185,23 @@ const CreateCourse = () => {
       });
   };
 
-  const addContent = () => {
+  const addContent = (contentFormData) => {
+    localStorage.setItem("content", JSON.stringify(contentFormData));
+    setContentObject(contentFormData);
     if (video) {
       uploadVideo();
     }
   };
+
+  const complete = () => {
+    localStorage.clear("content");
+    localStorage.clear("url");
+    localStorage.clear("course");
+    localStorage.clear("active");
+
+    navigate("/");
+  };
+
   return (
     <Container>
       <div className="w-full py-4 mt-10">
@@ -161,47 +214,56 @@ const CreateCourse = () => {
           <Step onClick={() => setActiveStep(1)}>2</Step>
         </Stepper>
       </div>
-      {activeStep == 0 && (
+      {parseInt(localStorage.getItem("active")) != 1 ? (
         <Card color="transparent" shadow={false} className="mt-4 ">
           <Typography variant="h4" color="blue-gray">
             Add New Course
           </Typography>
-          <form className="mt-8 mb-2 w-full">
+          <form
+            className="mt-8 mb-2 w-full"
+            onSubmit={handleSubmit(handleNext)}
+          >
             <div className="mb-1 flex flex-col gap-6">
               <Typography variant="h6" color="blue-gray" className="-mb-3">
                 Course Name
               </Typography>
-              <Input
-                name="courseName"
-                size="lg"
-                placeholder="name@mail.com"
-                className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-                labelProps={{
-                  className: "before:content-none after:content-none",
-                }}
-                onChange={(e) => handleCourseData(e)}
-              />
+              <FormItem name="courseName" errors={errors}>
+                <Input
+                  name="courseName"
+                  labelProps={{
+                    className: "before:!mr-0 after:!ml-0",
+                  }}
+                  {...register("courseName", {
+                    required: "Course Name is required.",
+                  })}
+                  error={Boolean(errors.courseName)}
+                />
+              </FormItem>
+
               <Typography variant="h6" color="blue-gray" className="-mb-3">
                 Course Description
               </Typography>
-              <Textarea
-                name="description"
-                className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-                labelProps={{
-                  className: "before:content-none after:content-none",
-                }}
-                onChange={(e) => handleCourseData(e)}
-              />
+              <FormItem name="courseDescription" errors={errors}>
+                <Textarea
+                  name="courseDescription"
+                  labelProps={{
+                    className: "before:!mr-0 after:!ml-0",
+                  }}
+                  {...register("courseDescription", {
+                    required: "Course Description is required.",
+                  })}
+                  error={Boolean(errors.courseDescription)}
+                />
+              </FormItem>
             </div>
             <div>
-              <Button onClick={handleNext} disabled={isLastStep}>
+              <Button type="submit" disabled={isLastStep}>
                 Save
               </Button>
             </div>
           </form>
         </Card>
-      )}
-      {activeStep == 1 && (
+      ) : (
         <div className="mt-10">
           <div className="w-full border flex flex-nowrap gap-2 p-2 relative overflow-auto">
             {contentList.map((element, index) => (
@@ -213,53 +275,57 @@ const CreateCourse = () => {
               Add New Content
             </Typography>
 
-            <form className="mt-8 mb-2">
+            <form className="mt-8 mb-2" onSubmit={handleSubmit2(addContent)}>
               <div className="mb-1 flex flex-col gap-6">
                 <Typography variant="h6" color="blue-gray" className="-mb-3">
                   Topic
                 </Typography>
-                <Input
-                  size="lg"
-                  name="topic"
-                  placeholder="name@mail.com"
-                  className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-                  labelProps={{
-                    className: "before:content-none after:content-none",
-                  }}
-                  value={contentObject.topic}
-                  onChange={(e) => handleContentData(e)}
-                />
+                <FormItem name="topic" errors={errors2}>
+                  <Input
+                    name="topic"
+                    labelProps={{
+                      className: "before:!mr-0 after:!ml-0",
+                    }}
+                    {...register2("topic", {
+                      required: "Topic is required.",
+                    })}
+                    error={Boolean(errors2.topic)}
+                  />
+                </FormItem>
                 <Typography variant="h6" color="blue-gray" className="-mb-3">
                   Description
                 </Typography>
-                <Textarea
-                  name="description"
-                  onChange={(e) => handleContentData(e)}
-                  className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-                  labelProps={{
-                    className: "before:content-none after:content-none",
-                  }}
-                  value={contentObject.description}
-                />
+                <FormItem name="contentDescription" errors={errors2}>
+                  <Textarea
+                    name="contentDescription"
+                    labelProps={{
+                      className: "before:!mr-0 after:!ml-0",
+                    }}
+                    {...register2("contentDescription", {
+                      required: "Content Description is required.",
+                    })}
+                    error={Boolean(errors2.contentDescription)}
+                  />
+                </FormItem>
                 <Typography variant="h6" color="blue-gray" className="-mb-3">
                   Select Content Type
                 </Typography>
                 <div className="flex gap-10">
                   <Radio
                     name="type"
-                    onChange={(e) => handleContentData(e)}
+                    {...register2("type")}
                     label="Video"
                     value="video"
                     defaultChecked
                   />
                   <Radio
                     name="type"
-                    onChange={(e) => handleContentData(e)}
+                    {...register2("type")}
                     label="Reading"
                     value="reading"
                   />
                 </div>
-                {contentObject.type == "video" ? (
+                {watch("type") == "video" ? (
                   <div>
                     <Typography variant="h6" className="text-gray-900">
                       Video material
@@ -297,9 +363,14 @@ const CreateCourse = () => {
                 )}
               </div>
 
-              <Button onClick={addContent} className="mt-4">
-                {isLoading ? <Loading /> : "Add"}
-              </Button>
+              <div className="flex gap-2">
+                <Button type="submit" className="mt-4">
+                  {isLoading ? <Loading /> : "Add"}
+                </Button>
+                <Button type="submit" className="mt-4" onClick={complete}>
+                  complete
+                </Button>
+              </div>
             </form>
           </Card>
         </div>

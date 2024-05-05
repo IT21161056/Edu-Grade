@@ -5,7 +5,7 @@ import Course from "../models/course.model.js";
 
 const addContent = tryCatch(async (req, res) => {
   console.log("content eka aawa");
-  const { topic, description, type, body, source, courseID } = req.body;
+  const { topic, contentDescription, type, body, source, courseID } = req.body;
 
   if (!topic)
     throw new CustomError("there should be a topic to the content", 400);
@@ -24,7 +24,7 @@ const addContent = tryCatch(async (req, res) => {
 
   const content = await Content.create({
     topic,
-    description,
+    contentDescription,
     type,
     body,
     source,
