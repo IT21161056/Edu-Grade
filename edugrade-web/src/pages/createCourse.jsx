@@ -1,25 +1,25 @@
-import React, { useEffect } from "react";
-import axios from "axios";
 import {
-  Card,
-  Input,
   Button,
-  Typography,
-  Textarea,
-  Stepper,
-  Step,
-  Radio,
+  Card,
   Dialog,
-  DialogHeader,
   DialogBody,
+  DialogHeader,
+  Input,
+  Radio,
+  Step,
+  Stepper,
+  Textarea,
+  Typography,
 } from "@material-tailwind/react";
-import Container from "../components/common/container";
-import { useState } from "react";
-import DropZone from "../components/ui/dropZone";
+import axios from "axios";
 import { View } from "lucide-react";
-import Loading from "../components/common/loading";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import Container from "../components/common/container";
 import FormItem from "../components/common/formItem";
+import Loading from "../components/common/loading";
+import DropZone from "../components/ui/dropZone";
+import { useNavigate } from "react-router-dom";
 
 const Content = ({ image }) => {
   return (
@@ -38,6 +38,7 @@ const Content = ({ image }) => {
 };
 
 const CreateCourse = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -81,12 +82,13 @@ const CreateCourse = () => {
   const [progressBar, setProgressBar] = useState(0);
 
   useEffect(() => {
+    localStorage.setItem("contents", contentList);
+  }, [contentList]);
+
+  useEffect(() => {
     const activePage = localStorage.getItem("active");
 
-    console.log("activePage>>", activePage);
-
     if (activePage) {
-      console.log("afw");
       setActiveStep(1);
     }
 
@@ -137,10 +139,14 @@ const CreateCourse = () => {
 
   const createContent = async () => {
     const course1 = JSON.parse(localStorage.getItem("course"));
+    const contentData = JSON.parse(localStorage.getItem("content"));
     const url = localStorage.getItem("url");
 
     const content = {
-      ...contentObject,
+      topic: contentData.topic,
+      body: contentData.body,
+      contentDescription: contentData.contentDescription,
+      type: contentData.type,
       courseID: course1._id,
       source: url,
     };
@@ -180,10 +186,20 @@ const CreateCourse = () => {
   };
 
   const addContent = (contentFormData) => {
+    localStorage.setItem("content", JSON.stringify(contentFormData));
     setContentObject(contentFormData);
     if (video) {
       uploadVideo();
     }
+  };
+
+  const complete = () => {
+    localStorage.clear("content");
+    localStorage.clear("url");
+    localStorage.clear("course");
+    localStorage.clear("active");
+
+    navigate("/");
   };
 
   return (
@@ -347,9 +363,14 @@ const CreateCourse = () => {
                 )}
               </div>
 
-              <Button type="submit" className="mt-4">
-                {isLoading ? <Loading /> : "Add"}
-              </Button>
+              <div className="flex gap-2">
+                <Button type="submit" className="mt-4">
+                  {isLoading ? <Loading /> : "Add"}
+                </Button>
+                <Button type="submit" className="mt-4" onClick={complete}>
+                  complete
+                </Button>
+              </div>
             </form>
           </Card>
         </div>

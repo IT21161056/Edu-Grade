@@ -5,8 +5,10 @@ import Loading from "../../components/common/loading";
 import { useForm } from "react-hook-form";
 import FormItem from "../../components/common/formItem";
 import { AuthContext } from "../../context/authContext";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -29,6 +31,7 @@ const Login = () => {
         setIsLoading(false);
         console.log(res);
         dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
+        navigate("/");
       })
       .catch((error) => {
         console.log(error);
@@ -62,7 +65,7 @@ const Login = () => {
                 labelProps={{
                   className: "before:!mr-0 after:!ml-0",
                 }}
-                error={Boolean(errors.userName)}
+                error={Boolean(errors.email)}
               />
             </FormItem>
 
@@ -94,9 +97,9 @@ const Login = () => {
             </Button>
             <Typography color="gray" className="mt-4 text-center font-normal">
               Do not have an account?{" "}
-              <a href="/register" className="font-medium text-blue-800">
+              <Link to="/register" className="font-medium text-blue-800">
                 Sign Up
-              </a>
+              </Link>
             </Typography>
           </div>
         </form>
