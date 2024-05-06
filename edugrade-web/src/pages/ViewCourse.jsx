@@ -22,7 +22,7 @@ const ViewCourse = () => {
 
   return (
     <div>
-      <Button onClick={back} className=''>Back</Button>
+      <Button onClick={back} className='relative top-4 ml-7'>Back</Button>
       <div className='flex justify-center items-center'>
         <Card className="w-full max-w-[50rem] flex-row mt-20">
           <CardHeader
