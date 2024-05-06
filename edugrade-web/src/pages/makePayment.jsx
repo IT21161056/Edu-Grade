@@ -19,7 +19,7 @@ const MakePayment = () => {
 
   return (
     <PayPalScriptProvider options={initialOptions}>
-      <Order handleOrderSubmit={handleOrderSubmit} />
+      <Order onSubmit={handleOrderSubmit} />
       {orderDetails.description && orderDetails.cost && (
         <PayPal orderDetails={orderDetails} />
       )}
