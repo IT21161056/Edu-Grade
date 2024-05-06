@@ -10,32 +10,32 @@ const app = express();
 const PORT = process.env.PORT || 9000;
 connectDB();
 
-const stripe = new Stripe(process.env.SECRET_KEY);
-
 app.use(cors());
 app.use(morgan("tiny"));
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.json({ message: "Proxy is working 👌" });
-});
+// app.get("/", (req, res) => {
+//   res.json({ message: "Proxy is working 👌" });
+// });
+
+const stripe = new Stripe(process.env.SECRET_KEY);
 
 app.post("/checkout", async (req, res) => {
-  console.log(req.body);
-  const checkoutItems = req.body.items;
+  console.log(req.body.items);
+  const items = req.body.items;
   let lineItems = [];
-  checkoutItems.forEach((item) => {
+  items.forEach((item) => {
     lineItems.push({
       price: item.id,
       quantity: item.quantity,
     });
   });
 
-  const session = await stripe.Checkout.sessions.create({
-    lineItems: lineItems,
-    mode: PaymentMethodChangeEvent,
+  const session = await stripe.checkout.sessions.create({
+    line_items: lineItems,
+    mode: "payment",
     success_url: "http://localhost/3000",
-    cancel_url: "http://localhost/300/order",
+    cancel_url: "http://localhost/3000/view-course",
   });
 
   res.send(
@@ -46,5 +46,5 @@ app.post("/checkout", async (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Node server listening at http://localhost:${PORT}/`);
+  console.log(`Node server listening at PORT ${PORT}`);
 });
