@@ -225,38 +225,96 @@ const CreateCourse = () => {
             className="mt-8 mb-2 w-full"
             onSubmit={handleSubmit(handleNext)}
           >
-            <div className="mb-1 flex flex-col gap-6">
-              <Typography variant="h6" color="blue-gray" className="-mb-3">
-                Course Name
-              </Typography>
-              <FormItem name="courseName" errors={errors}>
-                <Input
-                  name="courseName"
-                  labelProps={{
-                    className: "before:!mr-0 after:!ml-0",
-                  }}
-                  {...register("courseName", {
-                    required: "Course Name is required.",
-                  })}
-                  error={Boolean(errors.courseName)}
-                />
-              </FormItem>
-
-              <Typography variant="h6" color="blue-gray" className="-mb-3">
-                Course Description
-              </Typography>
-              <FormItem name="courseDescription" errors={errors}>
-                <Textarea
+            <div className="mb-1 grid md:grid-cols-2 md:gap-4">
+              <div className="flex flex-col ">
+                <Typography variant="h6" color="blue-gray" className="mb-2">
+                  Course Name
+                </Typography>
+                <FormItem name="courseName" className="mb-4" errors={errors}>
+                  <Input
+                    name="courseName"
+                    labelProps={{
+                      className: "before:!mr-0 after:!ml-0",
+                    }}
+                    {...register("courseName", {
+                      required: "Course name is required.",
+                    })}
+                    error={Boolean(errors.courseName)}
+                  />
+                </FormItem>
+                <Typography variant="h6" color="blue-gray" className="mb-2">
+                  Course Value
+                </Typography>
+                <FormItem name="price" className="mb-4" errors={errors}>
+                  <Input
+                    type="number"
+                    min={0}
+                    name="price"
+                    icon={<h1 className="text-xs">USD</h1>}
+                    labelProps={{
+                      className: "before:!mr-0 after:!ml-0",
+                    }}
+                    {...register("price", {
+                      required: "Course price is required.",
+                      pattern: {
+                        value: /^\d+$/,
+                        message: "Invalid amount.",
+                      },
+                    })}
+                    error={Boolean(errors.price)}
+                  />
+                </FormItem>
+                <Typography variant="h6" color="blue-gray" className="mb-2">
+                  Course Description
+                </Typography>
+                <FormItem
                   name="courseDescription"
-                  labelProps={{
-                    className: "before:!mr-0 after:!ml-0",
-                  }}
-                  {...register("courseDescription", {
-                    required: "Course Description is required.",
-                  })}
-                  error={Boolean(errors.courseDescription)}
-                />
-              </FormItem>
+                  className="mb-4"
+                  errors={errors}
+                >
+                  <Textarea
+                    name="courseDescription"
+                    labelProps={{
+                      className: "before:!mr-0 after:!ml-0",
+                    }}
+                    {...register("courseDescription", {
+                      required: "Course Description is required.",
+                    })}
+                    error={Boolean(errors.courseDescription)}
+                  />
+                </FormItem>
+              </div>
+              <div className="flex flex-col">
+                <Typography variant="h6" color="blue-gray" className="mb-2">
+                  Course Author
+                </Typography>
+                <FormItem name="author" errors={errors} className="mb-4">
+                  <Input
+                    name="author"
+                    labelProps={{
+                      className: "before:!mr-0 after:!ml-0",
+                    }}
+                    {...register("author", {
+                      required: "Course author is required.",
+                    })}
+                    error={Boolean(errors.author)}
+                  />
+                </FormItem>
+                <Typography variant="h6" color="blue-gray" className="mb-2">
+                  Duration(Hours)
+                </Typography>
+                <FormItem name="duration" errors={errors} className="mb-4">
+                  <Input
+                    name="duration"
+                    type="number"
+                    labelProps={{
+                      className: "before:!mr-0 after:!ml-0",
+                    }}
+                    {...register("duration")}
+                    error={Boolean(errors.duration)}
+                  />
+                </FormItem>
+              </div>
             </div>
             <div>
               <Button type="submit" disabled={isLastStep}>
