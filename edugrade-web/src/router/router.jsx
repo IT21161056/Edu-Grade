@@ -9,14 +9,12 @@ import Profile from "../pages/profile";
 import Home from "../pages/home";
 import CreateCourse from "../pages/createCourse";
 import ViewCourses from "../pages/ViewCourses";
-import ViewCourse from "../pages/ViewCourse";
-import MakePayment from "../pages/MakePayment";
-import ViewCourses from "../pages/ViewCourses";
-import ViewCourse from "../pages/ViewCourse";
+import MakePayment from "../pages/makePayment";
 import CourseProgress from "../pages/courseProgress";
 
 import LandingPage from "../pages/LandingPage";
 import Order from "../pages/Order";
+import ViewCourse from "../pages/ViewCourse";
 
 const Router = () => {
   const ProtectedRoute = ({ children }) => {
@@ -36,8 +34,6 @@ const Router = () => {
 
       <Route path="/view-course" element={<ViewCourses/>} />
       <Route path="/view/:id" element={<ViewCourse/>} />
-      <Route path="/view-course" element={<ViewCourses />} />
-      <Route path="/view/:id" element={<ViewCourse />} />
 
       <Route
         path="/create-course"

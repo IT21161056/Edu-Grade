@@ -5,81 +5,80 @@ import 'aos/dist/aos.css'
 import Course from '../components/Course';
 import { Button, Input } from '@material-tailwind/react';
 
-const contentsData = [
-    {
-        id: '123',
-        topic: "Introduction to JavaScript",
-        description: "Overview of JavaScript language basics",
-        type: "reading",
-        body: "JavaScript is a widely-used programming language widely-used programming language...",
-        source: "https://example.com/js-intro",
-    },
-    {
-        id: '124',
-        topic: "Arrays in JavaScript",
-        description: "Learn about arrays and their usage in JavaScript",
-        type: "video",
-        source: "https://example.com/js-arrays",
-    },
-    {
-        id: '125',
-        topic: "Node.js Fundamentals",
-        description: "Introduction to Node.js and its core concepts",
-        type: "video",
-        source: "https://example.com/nodejs-fundamentals",
-    },
-    {
-        id: '126',
-        topic: "Node.js Fundamentals",
-        description: "Introduction to Node.js and its core concepts",
-        type: "video",
-        source: "https://example.com/nodejs-fundamentals",
-    },
-    {
-        id: '127',
-        topic: "Node.js Fundamentals",
-        description: "Introduction to Node.js and its core concepts",
-        type: "video",
-        source: "https://example.com/nodejs-fundamentals",
-    },
-    {
-        id: '128',
-        topic: "Node.js Fundamentals",
-        description: "Introduction to Node.js and its core concepts",
-        type: "video",
-        source: "https://example.com/nodejs-fundamentals",
-    },
-    {
-        id: '129',
-        topic: "Asynchronous JavaScript",
-        description: "Understanding asynchronous programming in JavaScript",
-        type: "reading",
-        body: "Asynchronous programming allows tasks to...",
-    },
-    {
-        id: '130',
-        topic: "Asynchronous JavaScript",
-        description: "Understanding asynchronous programming in JavaScript",
-        type: "reading",
-        body: "Asynchronous programming allows tasks to...",
-    },
-    {
-        id: '131',
-        topic: "Introduction to JavaScript",
-        description: "Overview of JavaScript language basics",
-        type: "reading",
-        body: "JavaScript is a widely-used programming language widely-used programming language...",
-        source: "https://example.com/js-intro",
-    },
-];
+// const contentsData = [
+//     {
+//         id: '123',
+//         topic: "Introduction to JavaScript",
+//         description: "Overview of JavaScript language basics",
+//         type: "reading",
+//         body: "JavaScript is a widely-used programming language widely-used programming language...",
+//         source: "https://example.com/js-intro",
+//     },
+//     {
+//         id: '124',
+//         topic: "Arrays in JavaScript",
+//         description: "Learn about arrays and their usage in JavaScript",
+//         type: "video",
+//         source: "https://example.com/js-arrays",
+//     },
+//     {
+//         id: '125',
+//         topic: "Node.js Fundamentals",
+//         description: "Introduction to Node.js and its core concepts",
+//         type: "video",
+//         source: "https://example.com/nodejs-fundamentals",
+//     },
+//     {
+//         id: '126',
+//         topic: "Node.js Fundamentals",
+//         description: "Introduction to Node.js and its core concepts",
+//         type: "video",
+//         source: "https://example.com/nodejs-fundamentals",
+//     },
+//     {
+//         id: '127',
+//         topic: "Node.js Fundamentals",
+//         description: "Introduction to Node.js and its core concepts",
+//         type: "video",
+//         source: "https://example.com/nodejs-fundamentals",
+//     },
+//     {
+//         id: '128',
+//         topic: "Node.js Fundamentals",
+//         description: "Introduction to Node.js and its core concepts",
+//         type: "video",
+//         source: "https://example.com/nodejs-fundamentals",
+//     },
+//     {
+//         id: '129',
+//         topic: "Asynchronous JavaScript",
+//         description: "Understanding asynchronous programming in JavaScript",
+//         type: "reading",
+//         body: "Asynchronous programming allows tasks to...",
+//     },
+//     {
+//         id: '130',
+//         topic: "Asynchronous JavaScript",
+//         description: "Understanding asynchronous programming in JavaScript",
+//         type: "reading",
+//         body: "Asynchronous programming allows tasks to...",
+//     },
+//     {
+//         id: '131',
+//         topic: "Introduction to JavaScript",
+//         description: "Overview of JavaScript language basics",
+//         type: "reading",
+//         body: "JavaScript is a widely-used programming language widely-used programming language...",
+//         source: "https://example.com/js-intro",
+//     },
+// ];
 
 const ViewCourses = () => {
 
     const [courseData,setCourseData] = useState([])
-    console.log(courseData)
 
     const getCourses = async() =>{
-        await axios.get('http://localhost:8003/api/course')
+        await axios.get('http://localhost:8000/api/course/v1')
         .then((response) => {
             setCourseData(response.data)
         })
@@ -102,8 +101,8 @@ const ViewCourses = () => {
             </div>
             <p className="text-2xl mt-6 md:mt-1 md:px-20">All Courses</p>
             <div className="flex flex-wrap justify-center gap-4 md:gap-6 mt-6" data-aos="fade-up">
-                {contentsData && contentsData.map((element, index) => (
-                        <Course key={index} topic={element.topic} description={element.description} id={element.id}/>
+                {courseData && courseData.map((element, index) => (
+                        <Course key={index} topic={element.courseName} description={element.courseDescription} id={element._id}/>
                ))}
             </div>
         </div>
