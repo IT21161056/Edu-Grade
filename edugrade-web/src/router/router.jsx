@@ -10,6 +10,13 @@ import Home from "../pages/home";
 import CreateCourse from "../pages/createCourse";
 import ViewCourses from "../pages/ViewCourses";
 import ViewCourse from "../pages/ViewCourse";
+import MakePayment from "../pages/MakePayment";
+import ViewCourses from "../pages/ViewCourses";
+import ViewCourse from "../pages/ViewCourse";
+import CourseProgress from "../pages/courseProgress";
+
+import LandingPage from "../pages/LandingPage";
+import Order from "../pages/Order";
 
 const Router = () => {
   const ProtectedRoute = ({ children }) => {
@@ -29,6 +36,8 @@ const Router = () => {
 
       <Route path="/view-course" element={<ViewCourses/>} />
       <Route path="/view/:id" element={<ViewCourse/>} />
+      <Route path="/view-course" element={<ViewCourses />} />
+      <Route path="/view/:id" element={<ViewCourse />} />
 
       <Route
         path="/create-course"
@@ -48,6 +57,9 @@ const Router = () => {
         }
       />
       <Route path="/register" element={<Register />} />
+      <Route path="/order" element={<Order />} />
+      <Route path="/pay" element={<MakePayment />} />
+
     </Routes>
   );
 };

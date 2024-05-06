@@ -1,8 +1,3 @@
-// import connectDB from "./config/db.js";
-
-// //connect to the mongoDB
-// connectDB();
-
 // app.get("/", (req, res) => {
 //   res.json({ message: "proxy is working 👌" });
 // });
@@ -11,11 +6,13 @@ import express from "express";
 import fetch from "node-fetch";
 import "dotenv/config";
 import cors from "cors";
+import connectDB from "./config/db.js";
 
 const { PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET, PORT = 8888 } = process.env;
 const base = "https://api-m.sandbox.paypal.com";
 const app = express();
 
+connectDB();
 app.use(cors());
 app.use(express.json());
 
@@ -50,11 +47,11 @@ const generateAccessToken = async () => {
  * Create an order to start the transaction.
  * @see https://developer.paypal.com/docs/api/orders/v2/#orders_create
  */
-const createOrder = async (cart) => {
+const createOrder = async (orderDetails) => {
   // use the cart information passed from the front-end to calculate the purchase unit details
   console.log(
     "shopping cart information passed from the frontend createOrder() callback:",
-    cart
+    orderDetails
   );
 
   const accessToken = await generateAccessToken();
@@ -65,8 +62,9 @@ const createOrder = async (cart) => {
       {
         amount: {
           currency_code: "USD",
-          value: cart.product.cost,
+          value: orderDetails.cost,
         },
+        description: orderDetails.description,
       },
     ],
   };
@@ -118,8 +116,8 @@ async function handleResponse(response) {
 app.post("/my-server/create-paypal-order", async (req, res) => {
   try {
     // use the cart information passed from the front-end to calculate the order amount detals
-    const { cart } = req.body;
-    const { jsonResponse, httpStatusCode } = await createOrder(cart);
+    const { orderDetails } = req.body;
+    const { jsonResponse, httpStatusCode } = await createOrder(orderDetails);
     res.status(httpStatusCode).json(jsonResponse);
   } catch (error) {
     console.error("Failed to create order:", error);

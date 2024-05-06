@@ -1,6 +1,6 @@
 import { PayPalButtons } from "@paypal/react-paypal-js";
 
-const PayPal = () => {
+const PayPal = ({ orderDetails }) => {
   const serverURL = "http://localhost:8888";
 
   const createOrder = async (data) => {
@@ -12,12 +12,7 @@ const PayPal = () => {
       },
       // use the "body" param to optionally pass additional order information
       // like product skus and quantities
-      body: JSON.stringify({
-        product: {
-          description: "Course SE",
-          cost: "300.00",
-        },
-      }),
+      body: JSON.stringify(orderDetails),
     })
       .then((response) => response.json())
       .then((order) => order.id);
