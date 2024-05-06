@@ -18,8 +18,8 @@ const addCourse = tryCatch(async (req, res) => {
 });
 
 const getCourses = tryCatch(async (_, res) => {
-  const courses = await Course.find();
-
+  const courses = await Course.find().populate('contents');
+  
   res.status(200).json(courses);
 });
 
@@ -35,7 +35,7 @@ const getCourseById = tryCatch(async (req, res) => {
   const id = req.params.id;
   console.log("prams", id);
 
-  const course = await Course.findOne({ _id: id });
+  const course = await Course.findOne({ _id: id }).populate('contents');
   console.log("course", course);
 
   // if (!course) throw new CustomError("Course Not foundaaca.", 404);

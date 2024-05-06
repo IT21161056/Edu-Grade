@@ -17,7 +17,10 @@ const Course = ({ topic, description, id }) => {
                     {topic}
                 </Typography>
                 <Typography className='text-sm'>
-                    {description}
+                    {description && description.slice(0,70)}
+                    {description && description.length > 10 && (
+                        '....'
+                    )}
                 </Typography>
             </CardBody>
             <CardFooter className="pt-0">
