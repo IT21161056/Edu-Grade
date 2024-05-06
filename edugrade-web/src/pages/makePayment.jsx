@@ -1,29 +1,36 @@
-import { PayPalScriptProvider } from "@paypal/react-paypal-js";
-import PayPal from "./PayPal.jsx";
-import PAYPAL_API_KEY from "../paypal_api/PaypalAPI.js";
-import Order from "./Order.jsx";
-import { useState } from "react";
+import { Button } from "@material-tailwind/react";
+
+const products = [
+  {
+    id: "price_1PDMKzRrpMRVze6GAcsA43vB",
+    title: "Course SE",
+    price: 10,
+  },
+];
+
+const checkout = async () => {
+  await fetch("http://localhost:8000/checkout", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ items: products }),
+  })
+    .then((res) => {
+      return res.json();
+    })
+    .then((res) => {
+      if (res.url) {
+        window.location.assign(res.url);
+      }
+    });
+};
 
 const MakePayment = () => {
-  const initialOptions = {
-    clientId: PAYPAL_API_KEY,
-    currency: "USD",
-    intent: "capture",
-  };
-
-  const [orderDetails, setOrderDetails] = useState({});
-
-  const handleOrderSubmit = (details) => {
-    setOrderDetails(details);
-  };
-
   return (
-    <PayPalScriptProvider options={initialOptions}>
-      <Order onSubmit={handleOrderSubmit} />
-      {orderDetails.description && orderDetails.cost && (
-        <PayPal orderDetails={orderDetails} />
-      )}
-    </PayPalScriptProvider>
+    <div>
+      <Button onClick={checkout}>Purchase</Button>
+    </div>
   );
 };
 
