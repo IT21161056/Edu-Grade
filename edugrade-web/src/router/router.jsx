@@ -8,7 +8,7 @@ import Register from "../pages/auth/register";
 import Profile from "../pages/profile";
 import Home from "../pages/home";
 import CreateCourse from "../pages/createCourse";
-import MakePayment from "../pages/MakePayment";
+import MakePayment from "../pages/makePayment";
 import ViewCourses from "../pages/ViewCourses";
 import ViewCourse from "../pages/ViewCourse";
 import CourseProgress from "../pages/courseProgress";
@@ -55,6 +55,7 @@ const Router = () => {
       <Route path="/register" element={<Register />} />
       <Route path="/order" element={<Order />} />
       <Route path="/pay" element={<MakePayment />} />
+      <Route path="/progress" element={<CourseProgress />} />
     </Routes>
   );
 };
