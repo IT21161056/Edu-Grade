@@ -1,15 +1,32 @@
 import { tryCatch } from "../utils/tryCatchWrapper.js";
 import { CustomError } from "../exceptions/baseException.js";
 import Course from "../models/course.model.js";
+import { stripe } from "../server.js";
 
 const addCourse = tryCatch(async (req, res) => {
-  const { courseName, courseDescription } = req.body;
+  const { courseName, courseDescription, price, author, rating, duration } =
+    req.body;
 
-  if (!courseName) throw new CustomError("Name is required.", 500);
+  if (!courseName || !price) throw new CustomError("Fields are required.", 500);
+
+  const priceObject = await stripe.prices.create({
+    currency: "usd",
+    unit_amount_decimal: price,
+    product_data: {
+      name: courseName,
+    },
+  });
+
+  if (!priceObject) throw new CustomError("Stipe object creation failed!");
 
   const newCourse = await Course.create({
     courseName,
     courseDescription,
+    stripeId: priceObject.id,
+    price: Number(price),
+    author,
+    rating,
+    duration,
   });
 
   if (!newCourse) throw new CustomError("Course creation failed.", 500);

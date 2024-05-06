@@ -5,6 +5,11 @@ import cors from "cors";
 import connectDB from "./config/db.js";
 import { logger } from "./middleware/logger.js";
 import errorHandler from "./middleware/errorHandler.js";
+import stripePackage from "stripe";
+
+export const stripe = stripePackage(
+  "sk_test_51PDMH1RrpMRVze6G9IduR0V7WB4OrTiFBFk7Vf1HGb0zw9ikOW7ShjwLmnswF8AK6Mc8vdfIAweJuNgE91euFejS00okfZ6joR"
+);
 
 //routes
 import courseRoutes from "./routes/course.routes.js";

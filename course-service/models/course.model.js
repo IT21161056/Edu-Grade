@@ -8,8 +8,25 @@ const courseSchema = new Schema(
       type: String,
       required: true,
     },
+    ratings: {
+      type: Number,
+      default: 0,
+    },
+    author: {
+      type: String,
+    },
+    duration: {
+      type: Number,
+    },
     courseDescription: {
       type: String,
+    },
+    stripeId: {
+      type: String,
+    },
+    price: {
+      type: Number,
+      required: true,
     },
     contents: [{ type: Schema.Types.ObjectId, ref: "Content" }],
   },
