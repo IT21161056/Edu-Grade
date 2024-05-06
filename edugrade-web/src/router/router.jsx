@@ -8,12 +8,13 @@ import Register from "../pages/auth/register";
 import Profile from "../pages/profile";
 import Home from "../pages/home";
 import CreateCourse from "../pages/createCourse";
-import Payment from "../pages/makePayment";
+import MakePayment from "../pages/MakePayment";
 import ViewCourses from "../pages/ViewCourses";
 import ViewCourse from "../pages/ViewCourse";
 import CourseProgress from "../pages/courseProgress";
 
 import LandingPage from "../pages/LandingPage";
+import Order from "../pages/Order";
 
 const Router = () => {
   const ProtectedRoute = ({ children }) => {
@@ -52,7 +53,8 @@ const Router = () => {
         }
       />
       <Route path="/register" element={<Register />} />
-      <Route path="/paypal" element={<Payment />} />
+      <Route path="/order" element={<Order />} />
+      <Route path="/pay" element={<MakePayment />} />
     </Routes>
   );
 };
