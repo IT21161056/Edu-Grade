@@ -5,6 +5,7 @@ import {
   CardBody,
   CardFooter,
 } from "@material-tailwind/react";
+import { Link } from "react-router-dom";
 import webdev from "../assets/webdev.jpg";
 
 const LandingPage = () => {
@@ -17,7 +18,9 @@ const LandingPage = () => {
         <Typography variant="lead" className="mb-8 text-gray-600">
           Unlock your learning potential with our wide range of courses.
         </Typography>
-        <Button>Browse Courses</Button>
+        <Link to="/view-course">
+          <Button>Browse Courses</Button>
+        </Link>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto px-8">
