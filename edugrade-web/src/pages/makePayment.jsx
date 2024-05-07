@@ -22,6 +22,7 @@ const checkout = async () => {
     })
     .then((res) => {
       if (res.url) {
+        localStorage.setItem("sessionId", JSON.stringify(res.sessionId));
         window.location.assign(res.url);
       }
     });
