@@ -10,6 +10,8 @@ import {
 import axios from 'axios';
 import Content from '../components/Content';
 import { AuthContext } from '../context/authContext';
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
 const ViewCourse = () => {
 
@@ -38,6 +40,14 @@ const ViewCourse = () => {
     }
   }
 
+  const showAlert = (icon, title, text) => {
+    Swal.fire({
+      icon: icon,
+      title: title,
+      text: text,
+    });
+  }
+
   const back = () => {
     navigate('/view-course')
   }
@@ -49,15 +59,19 @@ const ViewCourse = () => {
   const enrollToCourse = async () => {
     try {
       setLoading(true)
-      await axios.post(`http://localhost:8000/api/learner-service/enrollment/enroll/${id}`,enroll)
+      await axios.post(`http://localhost:8000/api/learner-service/enrollment/enroll/${id}`, enroll)
         .then((res) => {
-          if (res.status === 200) {
-            alert('enroll success')
+          if (res.status === 201) {
+            showAlert("success", "Enrollment Success")
+          } else if (res.status === 200) {
+            showAlert("success", "Successfully enrolled")
           }
           setLoading(false)
         })
         .catch((err) => {
           console.log(err)
+          showAlert("error", "Oops...", "You have already enrolled to this course")
+          setLoading(false)
         })
     } catch (err) {
       console.log(err)

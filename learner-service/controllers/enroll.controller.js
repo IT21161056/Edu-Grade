@@ -12,7 +12,7 @@ export const enrollToCourse = async (req, res) => {
         if (enrollUser) {
             // User is already enrolled, check if they're enrolled in this course
             if (enrollUser.enrolledCourses.includes(courseId)) {
-                return res.status(200).json({ message: "You have already enrolled in this course" });
+                return res.status(403).json({ message: "You have already enrolled in this course" });
             } else {
                 enrollUser.enrolledCourses.push(courseId);
                 await enrollUser.save();
@@ -27,7 +27,7 @@ export const enrollToCourse = async (req, res) => {
             SendEmail(enrolledUser.userEmail)
             SendSms(enrolledUser.userMobile)
 
-            return res.status(200).json({ message: "You successfully enrolled in this course", enrolledUser });
+            return res.status(201).json({ message: "You successfully enrolled in this course", enrolledUser });
         }
 
     } catch (error) {
