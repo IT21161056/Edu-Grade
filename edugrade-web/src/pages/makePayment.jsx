@@ -5,6 +5,7 @@ const products = [
     id: "price_1PDMKzRrpMRVze6GAcsA43vB",
     title: "Course SE",
     price: 10,
+    quantity: 1,
   },
 ];
 
