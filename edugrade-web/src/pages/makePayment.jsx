@@ -10,7 +10,7 @@ const products = [
 ];
 
 const checkout = async () => {
-  await fetch("http://localhost:8000/checkout", {
+  await fetch("http://localhost:8000/api/payment-service/checkout", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

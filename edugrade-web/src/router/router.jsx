@@ -9,7 +9,7 @@ import Profile from "../pages/profile";
 import Home from "../pages/home";
 import CreateCourse from "../pages/createCourse";
 import ViewCourses from "../pages/ViewCourses";
-import MakePayment from "../pages/MakePayment";
+import MakePayment from "../pages/makePayment";
 import CourseProgress from "../pages/courseProgress";
 import ViewCourse from "../pages/ViewCourse";
 
