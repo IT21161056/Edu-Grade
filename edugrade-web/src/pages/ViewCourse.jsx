@@ -70,13 +70,14 @@ const ViewCourse = () => {
   }, []);
 
   const enrollToCourse = async () => {
+    const { contents, createdAt, updatedAt, ratings, ...rest } = course;
     try {
       setLoading(true);
       await axios
-        .post(
-          `http://localhost:8000/api/learner-service/enrollment/enroll/${id}`,
-          { user }
-        )
+        .post(`http://localhost:8000/api/learner-service/enrollment/enroll`, {
+          user,
+          course: rest,
+        })
         .then((res) => {
           if (res.status === 201) {
             showAlert("success", "Enrollment Success");
@@ -125,10 +126,12 @@ const ViewCourse = () => {
               {course.courseDescription}
             </Typography>
             <div className="flex flex-col">
-              <span className="items-center">Author:Anoj</span>
+              <span className="items-center capitalize">
+                Author :{course?.author}
+              </span>
               <span className="flex items-center">
                 Ratings:
-                <Rating value={4} readonly className="ml-4" />
+                <Rating value={4} readonly className="ml-1" />
               </span>
               <Button
                 className=" w-fit mt-4"

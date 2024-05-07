@@ -7,7 +7,7 @@ import {
 } from "@material-tailwind/react";
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../../context/authContext";
-import { Link, NavLink, useNavigate, useNavigation } from "react-router-dom";
+import { Link, useNavigate, useNavigation } from "react-router-dom";
 
 const list = [
   {
@@ -62,7 +62,7 @@ export default function StickyNavbar() {
           className="p-1 font-normal"
           key={navItem.label}
         >
-          <Link href={navItem.href} className="flex items-center">
+          <Link to={navItem.href} className="flex items-center">
             {navItem.label}
           </Link>
         </Typography>
