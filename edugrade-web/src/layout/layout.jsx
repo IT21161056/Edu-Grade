@@ -4,6 +4,7 @@ import Router from "../router/router";
 import { AuthContext } from "../context/authContext";
 import Navbar from "../components/ui/navbar";
 import Home from "../pages/home";
+import Footer from "../components/common/footer";
 
 const Layout = () => {
   const { user } = useContext(AuthContext);
@@ -15,22 +16,13 @@ const Layout = () => {
 
   console.log("hideNavbar", showNavbar);
 
-  const showFinaceNavbar =
-    location.pathname === "/finace" ||
-    location.pathname === "/finance/salary" ||
-    location.pathname === "/finance/employee" ||
-    location.pathname === "/finance/salarySheet" ||
-    location.pathname === "/finance/FinanceHealth" ||
-    location.pathname === "/finance/refund" ||
-    location.pathname === "/finance/addRefund" ||
-    location.pathname === "/finance/updateRefund/:id";
+  const showFinaceNavbar = location.pathname === "/finace";
 
   return (
     <div>
       {!showNavbar && <Navbar />}
       <Router />
-
-      {/* <Home /> */}
+      <Footer />
     </div>
   );
 };

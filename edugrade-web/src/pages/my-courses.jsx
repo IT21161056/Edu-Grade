@@ -1,13 +1,27 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 
 import Container from "../components/common/container";
 import CourseCard from "../components/ui/card";
 import { Input } from "@material-tailwind/react";
+import { Search } from "lucide-react";
+import axios from "axios";
+import { AuthContext } from "../context/authContext";
 
 const myCourses = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 const MyCourses = () => {
+  const { user } = useContext(AuthContext);
+
+  console.log(user);
   const [activeTab, setActiveTab] = React.useState("html");
+
+  const getMyCourses = async () => {
+    await axios.post("http://localhost/api/learner-service/enrollment");
+  };
+
+  useEffect(() => {
+    getMyCourses();
+  }, []);
 
   return (
     <>
@@ -23,6 +37,9 @@ const MyCourses = () => {
             <Input
               name="courseName"
               className="w-[300px]"
+              label="Search..."
+              placeholder="Search..."
+              icon={<Search />}
               labelProps={{
                 className: "before:!mr-0 after:!ml-0",
               }}
