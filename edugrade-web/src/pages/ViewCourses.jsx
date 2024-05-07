@@ -1,44 +1,60 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Aos from 'aos'
-import 'aos/dist/aos.css'
-import Course from '../components/Course';
-import { Button, Input } from '@material-tailwind/react';
+import Aos from "aos";
+import "aos/dist/aos.css";
+import Course from "../components/Course";
+import { Button, Input } from "@material-tailwind/react";
+import Container from "../components/common/container";
 
 const ViewCourses = () => {
+  const [courseData, setCourseData] = useState([]);
 
-    const [courseData,setCourseData] = useState([])
+  const getCourses = async () => {
+    await axios.get("http://localhost:8000/api/course/v1").then((response) => {
+      setCourseData(response.data);
+    });
+  };
 
-    const getCourses = async() =>{
-        await axios.get('http://localhost:8000/api/course/v1')
-        .then((response) => {
-            setCourseData(response.data)
-        })
-    }
+  useEffect(() => {
+    Aos.init({ duration: 2000 });
+    getCourses();
+  }, []);
 
-    useEffect(() => {
-        Aos.init({ duration: 2000 })
-        getCourses()
-    }, [])
+  return (
+    <>
+      <div className="bg-black text-white">
+        <Container className="pt-4 pb-2">
+          <h1 className="text-3xl">All Courses</h1>
+          <h2 className="mt-5">Browse courses</h2>
+        </Container>
+      </div>
 
-    return (
-        <div className="px-4 md:px-8 lg:px-16 xl:px-20 mt-8">
-            <div className="flex flex-col md:flex-row items-baseline justify-center gap-4 md:gap-2">
-                <div className="flex-1 md:w-full md:max-w-md"> {/* Adjusted width here */}
-                    <Input color="blue"  label="Search courses" />
-                </div>
-                <div>
-                    <Button >Search</Button>
-                </div>
-            </div>
-            <p className="text-2xl mt-6 md:mt-1 md:px-20">All Courses</p>
-            <div className="flex flex-wrap justify-center gap-4 md:gap-6 mt-6" data-aos="fade-up">
-                {courseData && courseData.map((element, index) => (
-                        <Course key={index} topic={element.courseName} description={element.courseDescription} id={element._id}/>
-               ))}
-            </div>
+      <Container>
+        <div className=" flex justify-end mt-10 mb-8">
+          <div>
+            <Input
+              name="courseName"
+              className="w-[300px]"
+              labelProps={{
+                className: "before:!mr-0 after:!ml-0",
+              }}
+            />
+          </div>
         </div>
-    );
-}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-x-2 gap-y-4">
+          {courseData &&
+            courseData.map((element, index) => (
+              <Course
+                key={index}
+                topic={element.courseName}
+                description={element.courseDescription}
+                id={element._id}
+              />
+            ))}
+        </div>
+      </Container>
+    </>
+  );
+};
 
-export default ViewCourses
+export default ViewCourses;
