@@ -1,8 +1,13 @@
 import express from "express";
-import { enrollToCourse, unEnrollFromCourse } from "../controllers/enroll.controller.js";
+import {
+  enrollToCourse,
+  unEnrollFromCourse,
+  getMyCourses,
+} from "../controllers/enroll.controller.js";
 const router = express.Router();
 
-router.post("/enroll/:id",enrollToCourse)
-router.patch("/unEnroll",unEnrollFromCourse)
+router.post("/get-all", getMyCourses);
+router.post("/enroll/:id", enrollToCourse);
+router.patch("/unEnroll", unEnrollFromCourse);
 
-export default router
+export default router;

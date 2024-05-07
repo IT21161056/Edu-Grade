@@ -16,7 +16,7 @@ const authUser = tryCatch(async (req, res) => {
       name: user.name,
       email: user.email,
       role: user.role,
-      mobile: user.mobile
+      mobile: user.mobile,
     });
   } else {
     throw new CustomError("Invalid email or password", 401);
@@ -133,7 +133,9 @@ const userById = tryCatch(async (req, res) => {
 
   if (!user) throw new CustomError("User not Found.", 404);
 
-  res.status(200).json(user);
+  console.log(user);
+
+  res.status(200).json({ user });
 });
 
 export {

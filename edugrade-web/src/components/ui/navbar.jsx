@@ -23,8 +23,8 @@ const list = [
     href: "/",
   },
   {
-    label: "Docs",
-    href: "/",
+    label: "My Learnings",
+    href: "/my-courses",
   },
 ];
 
@@ -62,9 +62,9 @@ export default function StickyNavbar() {
           className="p-1 font-normal"
           key={navItem.label}
         >
-          <a href={navItem.href} className="flex items-center">
+          <Link href={navItem.href} className="flex items-center">
             {navItem.label}
-          </a>
+          </Link>
         </Typography>
       ))}
     </ul>
