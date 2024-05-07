@@ -3,7 +3,6 @@ import { stripe } from "../server.js";
 import { tryCatch } from "../utils/tryCatchWrapper.js";
 
 const makePayment = tryCatch(async (req, res) => {
-  console.log("body >>1", req.body);
   const items = req.body.items;
 
   if (!items) throw new CustomError("No Data provided!", 404);
@@ -29,6 +28,7 @@ const makePayment = tryCatch(async (req, res) => {
   res.send(
     JSON.stringify({
       url: session.url,
+      sessionId: session.id,
     })
   );
 });
