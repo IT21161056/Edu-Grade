@@ -1,79 +1,97 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import React, { useContext, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   Card,
   CardHeader,
   CardBody,
   Typography,
   Button,
+  Rating,
 } from "@material-tailwind/react";
-import axios from 'axios';
-import Content from '../components/Content';
-import { AuthContext } from '../context/authContext';
+import axios from "axios";
+import Content from "../components/Content";
+import { AuthContext } from "../context/authContext";
+import Container from "../components/common/container";
+
+import {
+  Accordion,
+  AccordionHeader,
+  AccordionBody,
+} from "@material-tailwind/react";
+import Arrow from "../assets/icons";
 
 const ViewCourse = () => {
+  const [open, setOpen] = React.useState(0);
 
-  const { id } = useParams()
-  const [loading, setLoading] = useState(false)
-  const [course, setCourse] = useState([])
+  const handleOpen = (value) => setOpen(open === value ? 0 : value);
 
-  const navigate = useNavigate()
+  const { id } = useParams();
+  const [loading, setLoading] = useState(false);
+  const [course, setCourse] = useState([]);
+
+  const navigate = useNavigate();
 
   const { user } = useContext(AuthContext);
 
   const [enroll, setEnroll] = useState({
     userId: user._id,
     userEmail: user.email,
-    userMobile: user.mobile
-  })
+    userMobile: user.mobile,
+  });
 
   const getCourse = async () => {
     try {
-      await axios.get(`http://localhost:8000/api/course/v1/${id}`)
+      await axios
+        .get(`http://localhost:8000/api/course/v1/${id}`)
         .then((res) => {
-          setCourse(res.data)
-        })
+          setCourse(res.data);
+        });
     } catch (err) {
-      console.log('error fetching the course', err)
+      console.log("error fetching the course", err);
     }
-  }
+  };
 
   const back = () => {
-    navigate('/view-course')
-  }
+    navigate("/view-course");
+  };
 
   useEffect(() => {
-    getCourse()
-  }, [])
+    getCourse();
+  }, []);
 
   const enrollToCourse = async () => {
     try {
-      setLoading(true)
-      await axios.post(`http://localhost:8000/api/learner-service/enrollment/enroll/${id}`,enroll)
+      setLoading(true);
+      await axios
+        .post(
+          `http://localhost:8000/api/learner-service/enrollment/enroll/${id}`,
+          enroll
+        )
         .then((res) => {
           if (res.status === 200) {
-            alert('enroll success')
+            alert("enroll success");
           }
-          setLoading(false)
+          setLoading(false);
         })
         .catch((err) => {
-          console.log(err)
-        })
+          console.log(err);
+        });
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
-  }
+  };
 
   return (
-    <div>
-      <Button onClick={back} className='relative top-4 ml-7'>Back</Button>
-
-      <div className='flex justify-center items-center'>
-        <Card className="w-full max-w-[50rem] flex-row mt-16">
+    <>
+      <Button onClick={back} className="relative top-4 ml-7">
+        Back
+      </Button>
+      <Container>
+        <Card className="w-full md:flex-row flex-col mt-16 shadow-none ">
           <CardHeader
             shadow={false}
             floated={false}
-            className="m-0 w-2/5 shrink-0 rounded-r-none"
+            className="m-0 md:w-2/5 shrink-0 rounded-none"
           >
             <img
               src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1471&q=80"
@@ -81,34 +99,58 @@ const ViewCourse = () => {
               className="h-full w-full object-cover"
             />
           </CardHeader>
-          <CardBody>
-            <Typography variant="h4" color="blue-gray" className="mb-2">
+          <CardBody className="md:pl-4 px-0 md:py-0">
+            <Typography color="blue-gray" className="mb-4 text-3xl md:text-4xl">
               {course.courseName}
             </Typography>
-            <Typography color="gray" className="mb-8 font-normal">
+            <Typography color="gray" className="mb-2 font-normal">
               {course.courseDescription}
             </Typography>
-            <a href="#" className="inline-block">
-              <Button loading={loading} onClick={enrollToCourse}>Enroll</Button>
-            </a>
+            <div className="flex flex-col">
+              <span className="items-center">Author:Anoj</span>
+              <span className="flex items-center">
+                Ratings:
+                <Rating value={4} readonly className="ml-4" />
+              </span>
+              <Button
+                className=" w-fit mt-4"
+                loading={loading}
+                onClick={enrollToCourse}
+              >
+                Enroll
+              </Button>
+            </div>
           </CardBody>
         </Card>
-      </div>
-      <Typography variant="h4" className='mt-5 ml-64 text-gray-600' color="blue-gray">Course Content</Typography>
-      <div className='grid place-items-center'>
-        {
-          course.contents && course.contents.map((element, index) => (
-            <Content
-              index={element._id}
-              topic={element.topic}
-              contentDescription={element.contentDescription}
-              sourceVideo={element.source}
-            />
-          ))
-        }
-      </div>
-    </div>
-  );
-}
 
-export default ViewCourse
+        <div className="w-full">
+          <Typography variant="h3" className="mt-12 mb-5" color="blue-gray">
+            Course Content
+          </Typography>
+          <div className="grid place-items-center">
+            {course.contents &&
+              course.contents.map((element, index) => (
+                // <Content
+                //   index={element._id}
+                //   topic={element.topic}
+                //   contentDescription={element.contentDescription}
+                //   sourceVideo={element.source}
+                // />
+                <Accordion
+                  open={open === index + 1}
+                  icon={<Arrow id={index + 1} open={open} />}
+                >
+                  <AccordionHeader onClick={() => handleOpen(index + 1)}>
+                    <h1 className="capitalize">{element.topic}</h1>
+                  </AccordionHeader>
+                  <AccordionBody>{element.contentDescription}</AccordionBody>
+                </Accordion>
+              ))}
+          </div>
+        </div>
+      </Container>
+    </>
+  );
+};
+
+export default ViewCourse;

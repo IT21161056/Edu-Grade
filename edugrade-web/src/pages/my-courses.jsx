@@ -29,7 +29,7 @@ const MyCourses = () => {
             />
           </div>
         </div>
-        <div className="grid grid-cols-4 gap-2">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-x-2 gap-y-4">
           {myCourses.map((data, index) => (
             <CourseCard />
           ))}

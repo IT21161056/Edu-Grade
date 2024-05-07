@@ -12,7 +12,7 @@ import {
 
 const CourseCard = ({ image, title, author, progress }) => {
   return (
-    <Card className="w-full overflow-hidden rounded-none">
+    <Card className="w-full overflow-hidden rounded-none shadow-none hover:shadow-lg">
       <CardHeader
         floated={false}
         shadow={false}
@@ -24,20 +24,19 @@ const CourseCard = ({ image, title, author, progress }) => {
           alt="ui/ux review check"
         />
       </CardHeader>
-      <CardBody className="w-full">
-        <Typography variant="h5" color="blue-gray" className="">
+      <CardBody className="w-full p-3">
+        <Typography variant="h6" color="blue-gray" className="p-0 m-0">
           UI/UX Review Check
         </Typography>
         <Typography
           variant="lead"
           color="gray"
-          className="mt-2 font-normal text-sm"
+          className=" font-normal text-sm"
         >
-          Because it&apos;s about motivating the doers. Because I&apos;m here to
-          follow my dreams and inspire others.
+          Peiris M.M.A.E
         </Typography>
       </CardBody>
-      <CardFooter className="flex flex-col justify-between w-full">
+      <CardFooter className="flex flex-col justify-between w-full px-3 pt-0 pb-3">
         <Progress value={25} size="sm" />
         <div className="flex items-start -space-x-3 mt-1">
           <Typography variant="small" className="font-normal ">
