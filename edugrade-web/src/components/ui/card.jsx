@@ -9,10 +9,21 @@ import {
   Tooltip,
   Progress,
 } from "@material-tailwind/react";
+import { useLocation, useNavigate } from "react-router-dom";
 
-const CourseCard = ({ image, title, author, progress }) => {
+const CourseCard = ({ data }) => {
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
+
+  console.log(pathname);
+
+  console.log(data);
+  const { image, courseName, author, progress, courseId } = data;
   return (
-    <Card className="w-full overflow-hidden rounded-none shadow-none hover:shadow-lg">
+    <Card
+      className="w-full overflow-hidden rounded-none shadow-none hover:shadow-lg"
+      onClick={() => navigate(`${pathname}/${courseId}`)}
+    >
       <CardHeader
         floated={false}
         shadow={false}
@@ -26,14 +37,14 @@ const CourseCard = ({ image, title, author, progress }) => {
       </CardHeader>
       <CardBody className="w-full p-3">
         <Typography variant="h6" color="blue-gray" className="p-0 m-0">
-          UI/UX Review Check
+          {courseName}
         </Typography>
         <Typography
           variant="lead"
           color="gray"
-          className=" font-normal text-sm"
+          className=" font-normal text-sm capitalize"
         >
-          Peiris M.M.A.E
+          {author}
         </Typography>
       </CardBody>
       <CardFooter className="flex flex-col justify-between w-full px-3 pt-0 pb-3">

@@ -1,8 +1,8 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import Container from "../components/common/container";
 import CourseCard from "../components/ui/card";
-import { Input } from "@material-tailwind/react";
+import { Input, useSelect } from "@material-tailwind/react";
 import { Search } from "lucide-react";
 import axios from "axios";
 import { AuthContext } from "../context/authContext";
@@ -11,13 +11,20 @@ const myCourses = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 const MyCourses = () => {
   const { user } = useContext(AuthContext);
+  const [courses, setCourses] = useState([]);
 
-  console.log(user);
   const [activeTab, setActiveTab] = React.useState("html");
 
   const getMyCourses = async () => {
-    await axios.post("http://localhost/api/learner-service/enrollment");
+    const courses = await axios.post(
+      "http://localhost:8000/api/learner-service/enrollment/get-all",
+      { userId: user._id }
+    );
+
+    setCourses(courses.data);
   };
+
+  console.log(courses);
 
   useEffect(() => {
     getMyCourses();
@@ -47,8 +54,8 @@ const MyCourses = () => {
           </div>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-x-2 gap-y-4">
-          {myCourses.map((data, index) => (
-            <CourseCard />
+          {courses.map((data, index) => (
+            <CourseCard data={data} />
           ))}
         </div>
       </Container>

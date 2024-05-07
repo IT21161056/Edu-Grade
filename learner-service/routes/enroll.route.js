@@ -7,7 +7,7 @@ import {
 const router = express.Router();
 
 router.post("/get-all", getMyCourses);
-router.post("/enroll/:id", enrollToCourse);
+router.post("/enroll", enrollToCourse);
 router.patch("/unEnroll", unEnrollFromCourse);
 
 export default router;

@@ -8,9 +8,18 @@ const enrollmentSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "User",
     },
-    course: {
+    courseId: {
       type: Schema.Types.ObjectId,
       ref: "Course",
+    },
+    courseName: {
+      type: String,
+    },
+    author: {
+      type: String,
+    },
+    courseDescription: {
+      type: String,
     },
   },
   {
