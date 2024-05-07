@@ -16,6 +16,7 @@ const authUser = tryCatch(async (req, res) => {
       name: user.name,
       email: user.email,
       role: user.role,
+      mobile: user.mobile
     });
   } else {
     throw new CustomError("Invalid email or password", 401);

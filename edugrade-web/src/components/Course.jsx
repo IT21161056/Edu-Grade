@@ -1,6 +1,6 @@
 import React from 'react'
 import { Card, CardHeader, CardBody, CardFooter, Typography, Button, } from "@material-tailwind/react";
-import { NavLink} from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 const Course = ({ topic, description, id }) => {
 
@@ -17,10 +17,13 @@ const Course = ({ topic, description, id }) => {
                     {topic}
                 </Typography>
                 <Typography className='text-sm'>
-                    {description && description.slice(0,70)}
+                    {description && description.slice(0, 75)}
                     {description && description.length > 10 && (
                         '....'
                     )}
+                </Typography>
+                <Typography color="blue-gray" className="text-lg flex justify-end mt-1">
+                    $95.00
                 </Typography>
             </CardBody>
             <CardFooter className="pt-0">
