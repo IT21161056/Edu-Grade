@@ -6,6 +6,8 @@ import { fileURLToPath } from "url";
 import { dirname, join } from "path";
 import { protect } from "./middleware/authMiddleware.js";
 
+
+const PORT = process.env.PORT || 3040;
 const app = express();
 
 const __filename = fileURLToPath(import.meta.url);
@@ -38,6 +40,6 @@ app.all("*", (req, res) => {
   }
 });
 
-app.listen(8000, () => {
+app.listen(PORT, () => {
   console.log("Gateway is Listening to Port 8000");
 });
