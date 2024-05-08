@@ -6,15 +6,13 @@ import { CustomError } from "../../course-service/exceptions/baseException.js";
 const enrollToCourse = tryCatch(async (req, res) => {
   const { user, course } = req.body;
 
-  console.log(req.body);
-
   if (!course || !user) throw new CustomError("Data not provided!", 404);
 
-  // // TODO: we cannot populate these properties
-  // // Check if user is already enrolled
+  // TODO: we cannot populate these properties
+  // Check if user is already enrolled
   const alreadyEnrolled = await Enrollment.findOne({
     userId: user._id,
-    course: course._id,
+    courseId: course._id,
   });
 
   if (alreadyEnrolled) throw new CustomError("Already enrolled!", 201);

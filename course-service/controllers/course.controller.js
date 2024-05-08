@@ -11,7 +11,7 @@ const addCourse = tryCatch(async (req, res) => {
 
   const priceObject = await stripe.prices.create({
     currency: "usd",
-    unit_amount_decimal: price,
+    unit_amount_decimal: Number(price) * 100,
     product_data: {
       name: courseName,
     },
@@ -35,8 +35,8 @@ const addCourse = tryCatch(async (req, res) => {
 });
 
 const getCourses = tryCatch(async (_, res) => {
-  const courses = await Course.find().populate('contents');
-  
+  const courses = await Course.find().populate("contents");
+
   res.status(200).json(courses);
 });
 
@@ -50,11 +50,8 @@ const removeCourse = tryCatch(async (req, res) => {
 
 const getCourseById = tryCatch(async (req, res) => {
   const id = req.params.id;
-  console.log("prams", id);
 
-  const course = await Course.findOne({ _id: id }).populate('contents');
-  console.log("course", course);
-
+  const course = await Course.findOne({ _id: id }).populate("contents");
   // if (!course) throw new CustomError("Course Not foundaaca.", 404);
 
   res.status(200).json(course);
