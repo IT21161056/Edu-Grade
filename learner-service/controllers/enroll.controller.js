@@ -1,63 +1,72 @@
-import Enrollment from "../models/enrollmentModel.js"
+import Enrollment from "../models/enrollmentModel.js";
 import { SendEmail, SendSms } from "./notification.controller.js";
+import { tryCatch } from "../utils/tryCatchWrapper.js";
+import { CustomError } from "../../course-service/exceptions/baseException.js";
 
-export const enrollToCourse = async (req, res) => {
-    try {
-        const courseId = req.params.id;
-        const { userId, userEmail, userMobile } = req.body;
+const enrollToCourse = tryCatch(async (req, res) => {
+  const { user, course } = req.body;
 
-        // Check if user is already enrolled
-        const enrollUser = await Enrollment.findOne({ userId: userId });
+  console.log(req.body);
 
-        if (enrollUser) {
-            // User is already enrolled, check if they're enrolled in this course
-            if (enrollUser.enrolledCourses.includes(courseId)) {
-                return res.status(403).json({ message: "You have already enrolled in this course" });
-            } else {
-                enrollUser.enrolledCourses.push(courseId);
-                await enrollUser.save();
+  if (!course || !user) throw new CustomError("Data not provided!", 404);
 
-                SendEmail(enrollUser.userEmail) //send email notification
-                SendSms(enrollUser.userMobile) //send sms notification
+  // // TODO: we cannot populate these properties
+  // // Check if user is already enrolled
+  const alreadyEnrolled = await Enrollment.findOne({
+    userId: user._id,
+    course: course._id,
+  });
 
-                return res.status(200).json({ message: "You successfully enrolled in this course" });
-            }
-        } else {
-            const enrolledUser = await Enrollment.create({ userId: userId, userEmail, userMobile, enrolledCourses: [courseId] });
-            SendEmail(enrolledUser.userEmail)
-            SendSms(enrolledUser.userMobile)
+  if (alreadyEnrolled) throw new CustomError("Already enrolled!", 201);
 
-            return res.status(201).json({ message: "You successfully enrolled in this course", enrolledUser });
-        }
+  const enrollment = await Enrollment.create({
+    userId: user._id,
+    courseId: course._id,
+    courseName: course.courseName,
+    courseDescription: course.courseDescription,
+    author: course.author,
+  });
 
-    } catch (error) {
-        console.error("Error enrolling user:", error);
-        return res.status(500).json({ message: "Failed to enroll user" });
-    }
-};
+  if (!enrollment) throw new CustomError("Enrollment unsuccessful!", 500);
 
+  SendEmail(user.email); //send email notification
+  SendSms(user.mobile); //send sms notification
 
+  res.status(200).json(enrollment);
+});
 
-export const unEnrollFromCourse = async (req, res) => {
+const unEnrollFromCourse = tryCatch(async (req, res) => {
+  const { userId, courseId } = req.body;
 
-    try {
-        const { userId, courseId } = req.body
+  const unEnrolled = await Enrollment.findOneAndDelete({
+    userId: userId,
+    course: courseId,
+  });
 
-        const enrollUser = await Enrollment.findOne({ userId: userId });
-        if (enrollUser) {
+  if (!unEnrolled) throw new CustomError("Un-enrollment unsuccessful!", 500);
+});
 
-            const index = enrollUser.enrolledCourses.indexOf(courseId)//get the index of where courseId located
+const getMyCourses = tryCatch(async (req, res) => {
+  const { userId } = req.body;
 
-            if (index == -1) {
-                return res.status(500).json({ message: "Course not enroll for this user" });
-            }
-            enrollUser.enrolledCourses.splice(index, 1); //remove course id from array
-            await enrollUser.save()
-            return res.status(500).json({ message: "Course enrollment removed from user successfully" });
-        }
+  if (!userId) throw new CustomError("User id not defined!", 404);
 
-    } catch (error) {
-        console.error("Error enrolling user:", error)
-        return res.status(403).json({ message: "Failed to un enroll" })
-    }
-}
+  //   const response = await fetch("http://localhost:8000/api/user/" + userId, {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   });
+  //   console.log(response);
+  //   res.status(200).json(response);
+
+  // TODO: we cannot populate these properties
+
+  const courses = await Enrollment.find({ userId: userId });
+
+  if (!courses.length) throw new CustomError("Resources not found!", 404);
+
+  res.status(200).json(courses);
+});
+
+export { enrollToCourse, unEnrollFromCourse, getMyCourses };

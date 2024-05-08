@@ -2,22 +2,29 @@ import mongoose from "mongoose";
 
 const { Schema, model } = mongoose;
 
-
-const enrollmentSchema = new Schema({
+const enrollmentSchema = new Schema(
+  {
     userId: {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
+      type: Schema.Types.ObjectId,
+      ref: "User",
     },
-    userEmail:{
-        type:String
+    courseId: {
+      type: Schema.Types.ObjectId,
+      ref: "Course",
     },
-    userMobile:{
-        type:String
+    courseName: {
+      type: String,
     },
-    enrolledCourses: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Course',
-    }],
-})
+    author: {
+      type: String,
+    },
+    courseDescription: {
+      type: String,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
 
-export default model("Enrollment",enrollmentSchema);
+export default model("Enrollment", enrollmentSchema);

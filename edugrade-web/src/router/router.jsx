@@ -13,6 +13,7 @@ import MakePayment from "../pages/makePayment";
 import CourseProgress from "../pages/courseProgress";
 import ViewCourse from "../pages/ViewCourse";
 import MyCourses from "../pages/my-courses";
+import WatchCourse from "../pages/watchCourse";
 
 const Router = () => {
   const ProtectedRoute = ({ children }) => {
@@ -34,6 +35,7 @@ const Router = () => {
       <Route path="/view/:id" element={<ViewCourse />} />
 
       <Route path="/my-courses" element={<MyCourses />} />
+      <Route path="/my-courses/:id" element={<WatchCourse />} />
 
       <Route
         path="/create-course"

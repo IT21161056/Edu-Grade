@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Aos from "aos";
 import "aos/dist/aos.css";
-import Course from "../components/Course";
+import Course from "../components/common/Course";
 import { Button, Input } from "@material-tailwind/react";
 import Container from "../components/common/container";
 

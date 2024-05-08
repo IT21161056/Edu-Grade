@@ -19,8 +19,8 @@ import {
   AccordionBody,
 } from "@material-tailwind/react";
 import Arrow from "../assets/icons";
-import Swal from 'sweetalert2'
-import withReactContent from 'sweetalert2-react-content'
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 const ViewCourse = () => {
   const [open, setOpen] = React.useState(0);
@@ -59,7 +59,7 @@ const ViewCourse = () => {
       title: title,
       text: text,
     });
-  }
+  };
 
   const back = () => {
     navigate("/view-course");
@@ -70,22 +70,31 @@ const ViewCourse = () => {
   }, []);
 
   const enrollToCourse = async () => {
+    const { contents, createdAt, updatedAt, ratings, ...rest } = course;
     try {
-      setLoading(true)
-      await axios.post(`http://localhost:8000/api/learner-service/enrollment/enroll/${id}`, enroll)
+      setLoading(true);
+      await axios
+        .post(`http://localhost:8000/api/learner-service/enrollment/enroll`, {
+          user,
+          course: rest,
+        })
         .then((res) => {
           if (res.status === 201) {
-            showAlert("success", "Enrollment Success")
+            showAlert("success", "Enrollment Success");
           } else if (res.status === 200) {
-            showAlert("success", "Successfully enrolled")
+            showAlert("success", "Successfully enrolled");
           }
           setLoading(false);
         })
         .catch((err) => {
-          console.log(err)
-          showAlert("error", "Oops...", "You have already enrolled to this course")
-          setLoading(false)
-        })
+          console.log(err);
+          showAlert(
+            "error",
+            "Oops...",
+            "You have already enrolled to this course"
+          );
+          setLoading(false);
+        });
     } catch (err) {
       console.log(err);
     }
@@ -109,7 +118,7 @@ const ViewCourse = () => {
               className="h-full w-full object-cover"
             />
           </CardHeader>
-          <CardBody className="md:pl-4 px-0 md:py-0">
+          <CardBody className="md:pl-6 px-0 md:py-0">
             <Typography color="blue-gray" className="mb-4 text-3xl md:text-4xl">
               {course.courseName}
             </Typography>
@@ -117,10 +126,12 @@ const ViewCourse = () => {
               {course.courseDescription}
             </Typography>
             <div className="flex flex-col">
-              <span className="items-center">Author:Anoj</span>
+              <span className="items-center capitalize">
+                Author :{course?.author}
+              </span>
               <span className="flex items-center">
                 Ratings:
-                <Rating value={4} readonly className="ml-4" />
+                <Rating value={4} readonly className="ml-1" />
               </span>
               <Button
                 className=" w-fit mt-4"
