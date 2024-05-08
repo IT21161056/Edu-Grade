@@ -31,13 +31,21 @@ const WatchCourse = () => {
 
   return (
     <div className="">
-      <Container>
-        {course && (
-          <video className="h-full w-full rounded-lg" controls>
-            <source src={contents[contentIndex].source} type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-        )}
+      <Container className="grid grid-cols-4 bg-yellow-500 h-full px-0">
+        <div className="col-span-3 bg-red-600 max-h-[560px]">
+          {course && (
+            <video className="h-full w-full rounded-lg" controls>
+              <source src={contents[contentIndex].source} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          )}
+        </div>
+        <div className="col-span-1 bg-green-500 h-full overflow-auto max-h-[560px]">
+          {course &&
+            [1, 2, 3, 4, 5, 6].map((content, index) => (
+              <div className="w-full h-[160px] mb-4 bg-purple-500">{index}</div>
+            ))}
+        </div>
         <button onClick={() => setContentIndex((prv) => prv + 1)}>next</button>
       </Container>
     </div>
