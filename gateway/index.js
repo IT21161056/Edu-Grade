@@ -1,4 +1,6 @@
 import express from "express";
+import dotenv from "dotenv";
+dotenv.config();
 import cors from "cors";
 import proxy from "express-http-proxy";
 import rootRoute from "./routes/root.js";
@@ -6,9 +8,8 @@ import { fileURLToPath } from "url";
 import { dirname, join } from "path";
 import { protect } from "./middleware/authMiddleware.js";
 
-
-const PORT = process.env.PORT || 3040;
 const app = express();
+const PORT = process.env.PORT || 3040;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
