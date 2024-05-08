@@ -14,6 +14,7 @@ import CourseProgress from "../pages/courseProgress";
 import ViewCourse from "../pages/ViewCourse";
 import MyCourses from "../pages/my-courses";
 import WatchCourse from "../pages/watchCourse";
+import Success from "../pages/paymentSuccess";
 
 const Router = () => {
   const ProtectedRoute = ({ children }) => {
@@ -36,6 +37,8 @@ const Router = () => {
 
       <Route path="/my-courses" element={<MyCourses />} />
       <Route path="/my-courses/:id" element={<WatchCourse />} />
+
+      <Route path="/success" element={<Success />} />
 
       <Route
         path="/create-course"

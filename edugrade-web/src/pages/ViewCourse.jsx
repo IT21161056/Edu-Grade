@@ -21,6 +21,7 @@ import {
 import Arrow from "../assets/icons";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import { checkout } from "../util/checkout";
 
 const ViewCourse = () => {
   const [open, setOpen] = React.useState(0);
@@ -71,33 +72,18 @@ const ViewCourse = () => {
 
   const enrollToCourse = async () => {
     const { contents, createdAt, updatedAt, ratings, ...rest } = course;
-    try {
-      setLoading(true);
-      await axios
-        .post(`http://localhost:8000/api/learner-service/enrollment/enroll`, {
-          user,
-          course: rest,
-        })
-        .then((res) => {
-          if (res.status === 201) {
-            showAlert("success", "Enrollment Success");
-          } else if (res.status === 200) {
-            showAlert("success", "Successfully enrolled");
-          }
-          setLoading(false);
-        })
-        .catch((err) => {
-          console.log(err);
-          showAlert(
-            "error",
-            "Oops...",
-            "You have already enrolled to this course"
-          );
-          setLoading(false);
-        });
-    } catch (err) {
-      console.log(err);
-    }
+
+    localStorage.setItem("rest", JSON.stringify(rest));
+
+    const products = [
+      {
+        id: course.stripeId,
+        title: course.courseName,
+        price: course.price,
+        quantity: 1,
+      },
+    ];
+    checkout({ products });
   };
 
   return (

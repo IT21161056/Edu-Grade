@@ -5,6 +5,8 @@ import connectDB from "./config/db.js";
 import morgan from "morgan";
 import Stripe from "stripe";
 
+import errorHandler from "./middleware/errorHandler.js";
+
 import checkoutRoutes from "./routes/payment.route.js";
 
 const app = express();
@@ -23,6 +25,8 @@ app.use(express.json());
 export const stripe = new Stripe(process.env.SECRET_KEY);
 
 app.use("/checkout", checkoutRoutes);
+
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`Node server listening at PORT ${PORT}`);

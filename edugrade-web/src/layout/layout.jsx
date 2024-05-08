@@ -9,8 +9,7 @@ import Footer from "../components/common/footer";
 const Layout = () => {
   const { user } = useContext(AuthContext);
   const location = useLocation();
-  console.log(location);
-  // to render the alternative Navbar or the default Navbar
+
   const showNavbar =
     location.pathname === "/login" || location.pathname === "/register";
 

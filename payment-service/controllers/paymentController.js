@@ -19,7 +19,7 @@ const makePayment = tryCatch(async (req, res) => {
   const session = await stripe.checkout.sessions.create({
     line_items: lineItems,
     mode: "payment",
-    success_url: "http://localhost:5173/",
+    success_url: "http://localhost:5173/success",
     cancel_url: "http://localhost:5173/view-course",
   });
 

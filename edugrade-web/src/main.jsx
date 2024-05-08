@@ -7,11 +7,11 @@ import { AuthContextProvider } from "./context/authContext.jsx";
 import { ThemeProvider } from "@material-tailwind/react";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <AuthContextProvider>
-      <ThemeProvider>
-        <App />
-      </ThemeProvider>
-    </AuthContextProvider>
-  </React.StrictMode>
+  // <React.StrictMode>
+  <AuthContextProvider>
+    <ThemeProvider>
+      <App />
+    </ThemeProvider>
+  </AuthContextProvider>
+  // </React.StrictMode>
 );

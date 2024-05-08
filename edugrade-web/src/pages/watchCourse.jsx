@@ -6,6 +6,7 @@ import Container from "../components/common/container";
 const WatchCourse = () => {
   const [course, setCourse] = useState();
   const [contents, setContents] = useState([]);
+  const [contentIndex, setContentIndex] = useState(0);
   const { id } = useParams();
 
   const getCourse = async () => {
@@ -26,13 +27,18 @@ const WatchCourse = () => {
     getCourse();
   }, []);
 
+  console.log("contents[0]?.source >", contents[0]?.source);
+
   return (
     <div className="">
       <Container>
-        <video className="h-full w-full rounded-lg" controls>
-          <source src={contents[0]?.source} type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
+        {course && (
+          <video className="h-full w-full rounded-lg" controls>
+            <source src={contents[contentIndex].source} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        )}
+        <button onClick={() => setContentIndex((prv) => prv + 1)}>next</button>
       </Container>
     </div>
   );
