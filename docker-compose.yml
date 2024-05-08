@@ -5,15 +5,27 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-      - user_service
-      - course_service
+      - user-service
+      - course-service
+      - learner-service
+      - payment-service
 
-  user_service:
+  user-service:
     build: ./user-service
     ports:
       - "8001:8001"
 
-  course_service:
+  course-service:
     build: ./course-service
     ports:
-      - "8002:8002"
+      - "8003:8003"
+
+  learner-service:
+    build: ./learner-service
+    ports:
+      - "8004:8004"
+
+  payment-service:
+    build: ./payment-service
+    ports:
+      - "8005:8005"
