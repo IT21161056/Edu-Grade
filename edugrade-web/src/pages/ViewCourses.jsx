@@ -7,9 +7,8 @@ import { Button, Input } from "@material-tailwind/react";
 import Container from "../components/common/container";
 
 const ViewCourses = () => {
-  
   const [courseData, setCourseData] = useState([]);
- 
+
   const getCourses = async () => {
     await axios.get("http://localhost:8000/api/course/v1").then((response) => {
       setCourseData(response.data);
@@ -50,6 +49,7 @@ const ViewCourses = () => {
                 topic={element.courseName}
                 description={element.courseDescription}
                 id={element._id}
+                price={element.price}
               />
             ))}
         </div>
