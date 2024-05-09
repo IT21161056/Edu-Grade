@@ -9,7 +9,7 @@ import {
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-const Course = ({ topic, description, id }) => {
+const Course = ({ topic, description, id, price }) => {
   return (
     <Card className="w-full overflow-hidden rounded-none shadow-none hover:shadow-lg transition-shadow">
       <CardHeader
@@ -42,7 +42,7 @@ const Course = ({ topic, description, id }) => {
           <Button size="sm">View Course</Button>
         </NavLink>
         <Typography color="blue-gray" className="text-lg flex justify-end mt-1">
-          $95.00
+          {price}$
         </Typography>
       </CardFooter>
     </Card>
