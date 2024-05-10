@@ -15,6 +15,9 @@ import ViewCourse from "../pages/ViewCourse";
 import MyCourses from "../pages/my-courses";
 import WatchCourse from "../pages/watchCourse";
 import Success from "../pages/paymentSuccess";
+import CourseDashboard from "../pages/CourseDashboard";
+import { ManageUser } from "../pages/ManageUser";
+
 
 const Router = () => {
   const ProtectedRoute = ({ children }) => {
@@ -40,6 +43,8 @@ const Router = () => {
 
       <Route path="/success" element={<Success />} />
 
+      <Route path="/manage-user" element={<ManageUser/>} />
+      
       <Route
         path="/create-course"
         element={
@@ -60,6 +65,8 @@ const Router = () => {
       <Route path="/register" element={<Register />} />
       <Route path="/pay" element={<MakePayment />} />
       <Route path="/progress" element={<CourseProgress />} />
+
+      <Route path="/courseDash" element={<CourseDashboard />} />
     </Routes>
   );
 };
