@@ -31,7 +31,7 @@ const TABLE_ROWS = [
 
 export const ManageUser = () => {
     return (
-        <div className="mt-20 grid place-items-center">
+        <div className="mt-10 grid place-items-center">
                 <Typography className="font-bold text-xl mb-4">User management</Typography>
             <Card className="h-full w-4/6 overflow-scroll mt-4">
                 <table className="w-full table-auto text-left">
