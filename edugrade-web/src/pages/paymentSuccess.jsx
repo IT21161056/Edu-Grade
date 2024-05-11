@@ -73,14 +73,13 @@ const Success = () => {
           </h3>
         </Container>
       </div>
-      {enrolled && (
-        <Container className="py-4">
-          <Button size="sm" className="flex items-center" onClick={handleClick}>
-            <span className="mt-[2px]"> Continue</span>
-            <ChevronRight height={20} />
-          </Button>
-        </Container>
-      )}
+
+      <Container className="py-4">
+        <Button size="sm" className="flex items-center" onClick={handleClick}>
+          <span className="mt-[2px]"> Continue</span>
+          <ChevronRight height={20} />
+        </Button>
+      </Container>
     </>
   );
 };
