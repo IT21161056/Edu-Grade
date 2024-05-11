@@ -13,7 +13,7 @@ const CourseDashboard = () => {
   useEffect(() => {
     const fetchCourseData = async () => {
       try {
-        const res = await axios.get(`http://localhost:8003/v1`);
+        const res = await axios.get("http://localhost:8000/api/course/v1");
         setCourseDetails(res.data);
         console.log(res.data);
       } catch (err) {
@@ -29,7 +29,7 @@ const CourseDashboard = () => {
   const deleteCourse = async (id) => {
     setIsLoading(true);
     try {
-      await axios.delete(`http://localhost:8003/v1/${id}`);
+      await axios.delete(`http://localhost:8000/api/course/v1/${id}`);
       const filteredData = courseDetails.map((course) => course._id !== id);
       setCourseDetails(filteredData);
     } catch (err) {
@@ -39,6 +39,8 @@ const CourseDashboard = () => {
       setIsLoading(false);
     }
   };
+
+  console.log("hi");
 
   const filterCourses = courseDetails.filter((course) => {
     return course.topic.toLowerCase().includes(filterQuery.toLowerCase());
@@ -73,8 +75,11 @@ const CourseDashboard = () => {
     <Card className="h-full w-full overflow-scroll p-4">
       <div className="flex justify-between items-center mb-4">
         <Typography variant="h5">Manage Courses</Typography>
-        <Link>
-          <Button to="/">Add Course</Button>
+        <Link
+          to="/create-course"
+          className="bg-blue-800 rounded-lg p-2 text-white"
+        >
+          Add Course
         </Link>
       </div>
       <Input
