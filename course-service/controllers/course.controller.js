@@ -2,6 +2,7 @@ import { tryCatch } from "../utils/tryCatchWrapper.js";
 import { CustomError } from "../exceptions/baseException.js";
 import Course from "../models/course.model.js";
 import { stripe } from "../server.js";
+import axios from "axios";
 
 const addCourse = tryCatch(async (req, res) => {
   const { courseName, courseDescription, price, author, rating, duration } =
@@ -35,7 +36,10 @@ const addCourse = tryCatch(async (req, res) => {
 });
 
 const getCourses = tryCatch(async (_, res) => {
-  const courses = await Course.find().populate("contents");
+  const courses = await Course.find();
+
+  // const data = await axios.get("http://localhost:8000/api/user/allProfiles");
+  // const dataFromOtherAPI = data.data;
 
   res.status(200).json(courses);
 });

@@ -6,6 +6,7 @@ import {
   removeCourse,
   getCourseById,
 } from "../controllers/course.controller.js";
+import { protect } from "../middleware/authMiddleware.js";
 
 router.post("/", addCourse);
 router.get("/", getCourses);

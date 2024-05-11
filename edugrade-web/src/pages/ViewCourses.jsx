@@ -10,9 +10,8 @@ const ViewCourses = () => {
   const [courseData, setCourseData] = useState([]);
 
   const getCourses = async () => {
-    await axios.get("http://localhost:8000/api/course/v1").then((response) => {
-      setCourseData(response.data);
-    });
+    const response = await axios.get("http://localhost:8000/api/course/v1");
+    setCourseData(response.data);
   };
 
   useEffect(() => {
