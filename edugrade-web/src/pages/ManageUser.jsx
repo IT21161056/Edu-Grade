@@ -10,7 +10,7 @@ export const ManageUser = () => {
     console.log(users)
     
     const getUsers = async() => {
-        await axios.get('http://localhost:8001/api/user/allProfiles')
+        await axios.get('http://localhost:8000/api/user/allProfiles')
         .then((res) => {
             setUsers(res.data)
         })
@@ -23,8 +23,21 @@ export const ManageUser = () => {
         getUsers()
     },[])
 
-    const handleDelete = (id) => {
-        console.log(id)
+    const deleteUser = async(id) => {
+        try{
+            await axios.delete(`http://localhost:8000/api/user/${id}`)
+            .then((res) => {
+                if(res.status === 200){
+                    const filterUser = users.filter((Obj) => Obj._id !== id)
+                    setUsers(filterUser)
+                }
+            })
+            .catch((err) => {
+                console.log('error deleting user')
+            })
+        }catch(err){
+
+        }
     }
 
     return (
@@ -103,7 +116,7 @@ export const ManageUser = () => {
                                             color="blue-gray"
                                             className="font-medium cursor-pointe text-neutral-950"
                                         >
-                                            <Trash2 color="red" onClick={() => handleDelete(_id)}/>
+                                            <Trash2 color="red" onClick={() => deleteUser(_id)}/>
                                         </Typography>
                                     </td>
                                 </tr>
