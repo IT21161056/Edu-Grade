@@ -5,10 +5,13 @@ import { AuthContext } from "../context/authContext";
 import Navbar from "../components/ui/navbar";
 import Home from "../pages/home";
 import Footer from "../components/common/footer";
+import AdminNavbar from "../components/ui/adminNavbar";
 
 const Layout = () => {
   const { user } = useContext(AuthContext);
   const location = useLocation();
+
+  const isAdmin = user && user.role == "student";
 
   const showNavbar =
     location.pathname === "/login" || location.pathname === "/register";
@@ -19,9 +22,10 @@ const Layout = () => {
 
   return (
     <div>
-      {!showNavbar && <Navbar />}
+      {!showNavbar && (!isAdmin ? <Navbar /> : <AdminNavbar />)}
+
       <Router />
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };
