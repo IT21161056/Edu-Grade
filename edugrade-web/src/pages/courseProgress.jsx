@@ -45,15 +45,7 @@ const CourseProgress = () => {
     setProgress((prev) => prev + 20);
   };
 
-  return (
-    <div>
-      {/* <Progress value={progress} label="Completed" /> */}
-
-      <div className="w-10 h-10">
-        <CircularProgressbar value={progress} text={`${progress}%`} />
-      </div>
-    </div>
-  );
+  return <div>{/* <Progress value={progress} label="Completed" /> */}</div>;
 };
 
 export default CourseProgress;
