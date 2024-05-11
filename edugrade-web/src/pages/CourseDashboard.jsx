@@ -10,10 +10,13 @@ const CourseDashboard = () => {
   const [error, setError] = useState(null);
   const [filterQuery, setFilterQuery] = useState("");
 
+  console.log(courseDetails);
+
   useEffect(() => {
     const fetchCourseData = async () => {
       try {
         const res = await axios.get("http://localhost:8000/api/course/v1");
+        console.log(res);
         setCourseDetails(res.data);
         console.log(res.data);
       } catch (err) {
@@ -22,14 +25,14 @@ const CourseDashboard = () => {
       } finally {
         setIsLoading(false);
       }
-      fetchCourseData();
     };
+    fetchCourseData();
   }, []);
 
   const deleteCourse = async (id) => {
     setIsLoading(true);
     try {
-      await axios.delete(`http://localhost:8000/api/course/v1/${id}`);
+      await axios.delete(`http://localhost:8003/api/course/v1/${id}`);
       const filteredData = courseDetails.map((course) => course._id !== id);
       setCourseDetails(filteredData);
     } catch (err) {
@@ -42,9 +45,9 @@ const CourseDashboard = () => {
 
   console.log("hi");
 
-  const filterCourses = courseDetails.filter((course) => {
-    return course.topic.toLowerCase().includes(filterQuery.toLowerCase());
-  });
+  // const filterCourses = courseDetails.filter((course) => {
+  //   return course.topic.toLowerCase().includes(filterQuery.toLowerCase());
+  // });
 
   // const DeleteButton = ({ onclick }) => {
   //   return (
@@ -115,7 +118,7 @@ const CourseDashboard = () => {
               </td>
             </tr>
           ) : (
-            filterCourses.map((course) => (
+            courseDetails.map((course) => (
               <tr key={course.key}>
                 <td className="border-b border-blue-gray-100 bg-white p-4">
                   <Typography
