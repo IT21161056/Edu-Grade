@@ -20,6 +20,7 @@ const userSchema = new Schema(
     },
     role: {
       type: String,
+      enum: ['learner', 'instructor', 'admin'],
       default: "student",
     },
     password: {
