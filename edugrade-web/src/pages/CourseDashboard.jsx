@@ -1,4 +1,4 @@
-import { Card, Input, Typography } from "@material-tailwind/react";
+import { Button, Card, Input, Typography } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
@@ -73,11 +73,8 @@ const CourseDashboard = () => {
     <Card className="h-full w-full overflow-scroll p-4">
       <div className="flex justify-between items-center mb-4">
         <Typography variant="h5">Manage Courses</Typography>
-        <Link
-          to="/create-course"
-          className="bg-blue-800 rounded-lg p-2 text-white"
-        >
-          Add Course
+        <Link to="/admin/create-course">
+          <Button>Add Course</Button>
         </Link>
       </div>
       {
