@@ -17,6 +17,7 @@ import WatchCourse from "../pages/watchCourse";
 import Success from "../pages/paymentSuccess";
 import CourseDashboard from "../pages/CourseDashboard";
 import { ManageUser } from "../pages/ManageUser";
+import Dashboard from "../pages/dashboard";
 
 const Router = () => {
   const ProtectedRoute = ({ children }) => {
@@ -42,13 +43,10 @@ const Router = () => {
 
       <Route path="/success" element={<Success />} />
 
-      <Route path="/manage-user" element={<ManageUser />} />
-
       {/* <Route
         path="/create-course"
         element={
           <ProtectedRoute> */}
-      <Route path="/create-course" element={<CreateCourse />} />
 
       {/* </ProtectedRoute>
         }
@@ -66,7 +64,15 @@ const Router = () => {
       <Route path="/pay" element={<MakePayment />} />
       <Route path="/progress" element={<CourseProgress />} />
 
-      <Route path="/manage-course" element={<CourseDashboard />} />
+      <Route path="/progress" element={<CourseProgress />} />
+      <Route path="/progress" element={<CourseProgress />} />
+
+      <Route path="/admin">
+        <Route path="/admin" element={<Dashboard />} />
+        <Route path="/admin/create-course" element={<CreateCourse />} />
+        <Route path="/admin/manage-course" element={<CourseDashboard />} />
+        <Route path="/admin/manage-user" element={<ManageUser />} />
+      </Route>
     </Routes>
   );
 };

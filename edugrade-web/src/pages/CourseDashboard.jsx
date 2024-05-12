@@ -51,7 +51,6 @@ const CourseDashboard = () => {
     return course.author.toLowerCase().includes(filterQuery.toLowerCase());
   });
 
-
   const TABLE_HEAD = [
     "Author",
     "Course Description",
@@ -75,19 +74,18 @@ const CourseDashboard = () => {
     <Card className="h-full w-full overflow-scroll p-4">
       <div className="flex justify-between items-center mb-4">
         <Typography variant="h5">Manage Courses</Typography>
-        <Link
-          to="/create-course"
-          className="bg-blue-800 rounded-lg p-2 text-white"
-        >
-          Add Course
+        <Link to="/admin/create-course">
+          <Button>Add Course</Button>
         </Link>
       </div>
-      {<Input
-        type="text"
-        label="Search courses here"
-        value={filterQuery}
-        onChange={(e) => setFilterQuery(e.target.value)}
-      />}
+      {
+        <Input
+          type="text"
+          label="Search courses here"
+          value={filterQuery}
+          onChange={(e) => setFilterQuery(e.target.value)}
+        />
+      }
       <table className="w-full min-w-max table-auto text-left mt-4">
         <thead>
           <tr>
