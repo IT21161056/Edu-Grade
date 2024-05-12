@@ -30,23 +30,32 @@ const Register = () => {
     setIsLoading(true);
     try {
       await axios
-        .post(`http://localhost:8000/api/user/register`, {
+
+        .post(`http://localhost:8000/api/user/register`,  {
           ...formData,
           role: role,
         })
-        .then(() => {
+        .then((res) => {
+          if (res.status === 201) {
+            Swal.fire({
+              title: "Success!",
+              text: "You are successfully registered!",
+              icon: "success",
+            });
+          }
+
           reset();
         })
         .catch((error) => {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Something went wrong!",
+          });
           console.log(error);
         });
 
       setIsLoading(false);
-      Swal.fire({
-        title: "Success!",
-        text: "You are successfully registered!",
-        icon: "success",
-      });
     } catch (err) {
       console.log(err);
       setIsLoading(false);
