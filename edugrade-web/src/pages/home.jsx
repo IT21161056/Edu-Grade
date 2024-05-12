@@ -6,9 +6,26 @@ import {
   CardFooter,
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import webdev from "../assets/webdev.jpg";
+import { useEffect, useState } from "react";
+import Aos from "aos";
+import Course from "../components/common/Course";
 
 const home = () => {
+  const [courseData, setCourseData] = useState([]);
+  console.log(courseData);
+
+  const getCourses = async () => {
+    const response = await axios.get("http://localhost:8000/api/course/v1");
+    setCourseData(response.data);
+  };
+
+  useEffect(() => {
+    Aos.init({ duration: 2000 });
+    getCourses();
+  }, []);
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
       <div className="max-w-3xl mx-auto text-center mb-6">
@@ -23,51 +40,19 @@ const home = () => {
         </Link>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto px-8">
-        <Card className="shadow-lg flex flex-col items-center p-4">
-          <img src={webdev} alt="course" className="w-full h-auto mb-2" />
-          <CardBody className="text-center">
-            <Typography variant="h5" className="mb-2">
-              Web Development
-            </Typography>
-            <Typography variant="paragraph" className="text-gray-600">
-              Learn to build modern web applications.
-            </Typography>
-          </CardBody>
-          <CardFooter className="flex justify-center">
-            <Button>Explore</Button>
-          </CardFooter>
-        </Card>
-
-        <Card className="shadow-lg flex flex-col items-center p-4">
-          <img src={webdev} alt="course" className="w-full h-auto mb-2" />
-          <CardBody>
-            <Typography variant="h5" className="mb-2">
-              Data Science
-            </Typography>
-            <Typography variant="paragraph" className="text-gray-600">
-              Explore the world of data analysis and machine learning.
-            </Typography>
-          </CardBody>
-          <CardFooter className="flex justify-center">
-            <Button>Explore</Button>
-          </CardFooter>
-        </Card>
-
-        <Card className="shadow-lg flex flex-col items-center p-4">
-          <img src={webdev} alt="course" className="w-full h-auto mb-2" />
-          <CardBody>
-            <Typography variant="h5" className="mb-2">
-              UI/UX Design
-            </Typography>
-            <Typography variant="paragraph" className="text-gray-600">
-              Create beautiful and user-friendly interfaces.
-            </Typography>
-          </CardBody>
-          <CardFooter className="flex justify-center">
-            <Button>Explore</Button>
-          </CardFooter>
-        </Card>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto px-8 mb-24">
+        {courseData &&
+          courseData
+            .slice(0, 3)
+            .map((element, index) => (
+              <Course
+                key={index}
+                id={element._id}
+                topic={element.courseName}
+                description={element.courseDescription}
+                price={element.price}
+              />
+            ))}
       </div>
     </div>
   );
