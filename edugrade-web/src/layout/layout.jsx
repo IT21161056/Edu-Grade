@@ -6,12 +6,16 @@ import Navbar from "../components/ui/navbar";
 import Home from "../pages/home";
 import Footer from "../components/common/footer";
 import AdminNavbar from "../components/ui/adminNavbar";
+import SideNav from "../components/common/sideNav";
 
 const Layout = () => {
   const { user } = useContext(AuthContext);
   const location = useLocation();
 
-  const isAdmin = user && user.role == "student";
+  // const isAdmin = user && user.role == "student";
+  const isAdmin = true;
+
+  const showAdminNavbar = location.pathname === "/admin";
 
   const showNavbar =
     location.pathname === "/login" || location.pathname === "/register";
@@ -21,12 +25,26 @@ const Layout = () => {
   const showFinaceNavbar = location.pathname === "/finace";
 
   return (
-    <div>
-      {!showNavbar && (!isAdmin ? <Navbar /> : <AdminNavbar />)}
-
-      <Router />
-      {/* <Footer /> */}
-    </div>
+    <>
+      {!isAdmin ? (
+        <div className="flex-1 relative h-screen flex flex-col">
+          <Navbar />
+          <Router />
+        </div>
+      ) : (
+        <div className="h-screen">
+          <nav className="">
+            <AdminNavbar />
+          </nav>
+          <div className="flex">
+            <SideNav />
+            <div className="flex-1 relative h-screen flex flex-col overflow-auto">
+              <Router />
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { Trash2 } from "lucide-react";
+// import { DeleteIcon } from "@material-tailwind/react/icons";
 
 const CourseDashboard = () => {
   const [courseDetails, setCourseDetails] = useState([]);
@@ -50,6 +51,7 @@ const CourseDashboard = () => {
     return course.author.toLowerCase().includes(filterQuery.toLowerCase());
   });
 
+
   const TABLE_HEAD = [
     "Author",
     "Course Description",
@@ -80,12 +82,12 @@ const CourseDashboard = () => {
           Add Course
         </Link>
       </div>
-      <Input
+      {<Input
         type="text"
         label="Search courses here"
         value={filterQuery}
         onChange={(e) => setFilterQuery(e.target.value)}
-      />
+      />}
       <table className="w-full min-w-max table-auto text-left mt-4">
         <thead>
           <tr>

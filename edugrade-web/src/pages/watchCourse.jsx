@@ -97,7 +97,14 @@ const WatchCourse = () => {
 
   return (
     <div className="">
-      <Container className="grid grid-cols-4 p-4  h-full px-0">
+      {course && (
+        <div className="bg-black text-white">
+          <Container className="flex items-center h-20">
+            <h1 className="text-3xl">{course.courseName}</h1>
+          </Container>
+        </div>
+      )}
+      <Container className="grid grid-cols-4 p-4 h-full border-l border-r pt-10">
         <div className="col-span-3">
           <div className="max-h-[560px] border-r">
             {course && (
@@ -145,6 +152,9 @@ const WatchCourse = () => {
         </div>
 
         <div className="col-span-1 h-full overflow-auto pl-2">
+          <div className=" flex items-center justify-center h-10 border mb-4">
+            <Typography variant="small">All Videos</Typography>
+          </div>
           {course &&
             contents.map((content, index) => {
               const { source, topic } = content;
@@ -153,13 +163,13 @@ const WatchCourse = () => {
               return (
                 <div
                   key={source}
-                  className="w-full h-[180px] mb-2 rounded-md border relative overflow-hidden cursor-pointer group transition-all"
+                  className="w-full h-[180px] mb-2 border relative overflow-hidden cursor-pointer group transition-all"
                   onClick={() => setContentIndex(index)}
                 >
                   <img
                     src={url}
                     alt="ui/ux review check"
-                    className="object-cover w-full h-full rounded-md"
+                    className="object-cover w-full h-full"
                   />
                   <div className="absolute flex items-end bottom-0 bg-gradient-to-t from-slate-900 transition-all group-hover:from-slate-600 left-0 w-full h-2/5">
                     <h6 className="font-medium capitalize mb-2 ml-2 text-white">
