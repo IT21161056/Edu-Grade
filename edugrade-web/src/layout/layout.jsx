@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Router from "../router/router";
 import { AuthContext } from "../context/authContext";
 import Navbar from "../components/ui/navbar";
@@ -9,11 +9,15 @@ import AdminNavbar from "../components/ui/adminNavbar";
 import SideNav from "../components/common/sideNav";
 
 const Layout = () => {
+  const navigate = useNavigate();
   const { user } = useContext(AuthContext);
   const location = useLocation();
 
-  // const isAdmin = user && user.role == "student";
-  const isAdmin = true;
+  const isAdmin = user && user.role == "admin";
+  // const isAdmin = true;
+  // if (isAdmin) {
+  //   navigate("/admin/manage-course");
+  // }
 
   const showAdminNavbar = location.pathname === "/admin";
 
@@ -28,7 +32,7 @@ const Layout = () => {
     <>
       {!isAdmin ? (
         <div className="flex-1 relative h-screen flex flex-col">
-          <Navbar />
+          {!showNavbar && <Navbar />}
           <Router />
         </div>
       ) : (

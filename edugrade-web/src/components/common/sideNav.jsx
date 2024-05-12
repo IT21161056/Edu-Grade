@@ -15,12 +15,12 @@ const SideNav = () => {
   if (user) {
     if (user.role == "admin") {
       items = [
-        { label: "Manage Course", href: "/manage-course" },
-        { label: "Manage Users", href: "/manage-user" },
+        { label: "Manage Course", href: "/admin/manage-course" },
+        { label: "Manage Users", href: "/admin/manage-user" },
       ];
     }
     if (user.role == "instructor") {
-      items = [{ label: "Manage Course", href: "/manage-course" }];
+      items = [{ label: "Manage Course", href: "/admin/create-course" }];
     }
   }
   return (
@@ -29,7 +29,7 @@ const SideNav = () => {
         <Link
           key={item.href}
           to={item.href}
-          className="rounded-lg h-[40px] bg-white flex items-center p-4 cursor-pointer transition-all hover:bg-blue-gray-100 border mb-2"
+          className="rounded-lg h-[40px] bg-white flex items-center p-4 cursor-pointer transition-all hover:bg-blue-gray-50 border mb-2"
         >
           {item.label}
         </Link>

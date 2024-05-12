@@ -74,7 +74,7 @@ const CourseDashboard = () => {
     <Card className="h-full w-full overflow-scroll p-4">
       <div className="flex justify-between items-center mb-4">
         <Typography variant="h5">Manage Courses</Typography>
-        <Link to="/create-course">
+        <Link to="/admin/create-course">
           <Button>Add Course</Button>
         </Link>
       </div>
