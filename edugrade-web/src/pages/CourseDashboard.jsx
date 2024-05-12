@@ -2,6 +2,7 @@ import { Button, Card, Input, Typography } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { format } from "date-fns";
 // import { DeleteIcon } from "@material-tailwind/react/icons";
 
 const CourseDashboard = () => {
@@ -13,7 +14,7 @@ const CourseDashboard = () => {
   useEffect(() => {
     const fetchCourseData = async () => {
       try {
-        const res = await axios.get(`http://localhost:8003/v1`);
+        const res = await axios.get(`http://localhost:8000/api/course/v1`);
         setCourseDetails(res.data);
         console.log(res.data);
       } catch (err) {
@@ -22,8 +23,8 @@ const CourseDashboard = () => {
       } finally {
         setIsLoading(false);
       }
-      fetchCourseData();
     };
+    fetchCourseData();
   }, []);
 
   const deleteCourse = async (id) => {
@@ -40,9 +41,9 @@ const CourseDashboard = () => {
     }
   };
 
-  const filterCourses = courseDetails.filter((course) => {
-    return course.topic.toLowerCase().includes(filterQuery.toLowerCase());
-  });
+  // const filterCourses = courseDetails.filter((course) => {
+  //   return course.topic.toLowerCase().includes(filterQuery.toLowerCase());
+  // });
 
   // const DeleteButton = ({ onclick }) => {
   //   return (
@@ -53,11 +54,11 @@ const CourseDashboard = () => {
   // };
 
   const TABLE_HEAD = [
-    "Topic",
-    "ContentDescription",
-    "Type",
-    "Body",
-    "Source",
+    "Course Name",
+    "Author",
+    "Duration",
+    "Price",
+    "Created Day",
     "Action",
   ];
 
@@ -73,16 +74,16 @@ const CourseDashboard = () => {
     <Card className="h-full w-full overflow-scroll p-4">
       <div className="flex justify-between items-center mb-4">
         <Typography variant="h5">Manage Courses</Typography>
-        <Link>
-          <Button to="/">Add Course</Button>
+        <Link to="/create-course">
+          <Button>Add Course</Button>
         </Link>
       </div>
-      <Input
+      {/* <Input
         type="text"
         label="Search courses here"
         value={filterQuery}
         onChange={(e) => setFilterQuery(e.target.value)}
-      />
+      /> */}
       <table className="w-full min-w-max table-auto text-left mt-4">
         <thead>
           <tr>
@@ -110,7 +111,7 @@ const CourseDashboard = () => {
               </td>
             </tr>
           ) : (
-            filterCourses.map((course) => (
+            courseDetails.map((course) => (
               <tr key={course.key}>
                 <td className="border-b border-blue-gray-100 bg-white p-4">
                   <Typography
@@ -118,7 +119,7 @@ const CourseDashboard = () => {
                     color="blue-gray"
                     className="font-normal leading-none"
                   >
-                    {course.topic}
+                    {course.courseName}
                   </Typography>
                 </td>
                 <td className="border-b border-blue-gray-100 bg-white p-4">
@@ -127,7 +128,7 @@ const CourseDashboard = () => {
                     color="blue-gray"
                     className="font-normal leading-none"
                   >
-                    {course.contentDescription}
+                    {course.author}
                   </Typography>
                 </td>
                 <td className="border-b border-blue-gray-100 bg-white p-4">
@@ -136,7 +137,7 @@ const CourseDashboard = () => {
                     color="blue-gray"
                     className="font-normal leading-none"
                   >
-                    {course.type}
+                    {course.duration}
                   </Typography>
                 </td>
                 <td className="border-b border-blue-gray-100 bg-white p-4">
@@ -145,7 +146,7 @@ const CourseDashboard = () => {
                     color="blue-gray"
                     className="font-normal leading-none"
                   >
-                    {course.body}
+                    {course.price}
                   </Typography>
                 </td>
                 <td className="border-b border-blue-gray-100 bg-white p-4">
@@ -154,7 +155,7 @@ const CourseDashboard = () => {
                     color="blue-gray"
                     className="font-normal leading-none"
                   >
-                    {course.source}
+                    {format(new Date(course.createdAt), "yyyy-MM-dd")}
                   </Typography>
                 </td>
                 <td className="border-b border-blue-gray-100 bg-white p-4">

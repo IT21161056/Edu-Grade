@@ -16,6 +16,7 @@
     "aos": "^2.3.4",
     "axios": "^1.6.8",
     "clsx": "^2.1.0",
+    "date-fns": "^3.6.0",
     "lucide-react": "^0.371.0",
     "react": "^18.2.0",
     "react-circular-progressbar": "^2.1.0",

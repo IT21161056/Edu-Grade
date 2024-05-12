@@ -18,7 +18,6 @@ import Success from "../pages/paymentSuccess";
 import CourseDashboard from "../pages/CourseDashboard";
 import { ManageUser } from "../pages/ManageUser";
 
-
 const Router = () => {
   const ProtectedRoute = ({ children }) => {
     const { user } = useContext(AuthContext);
@@ -43,16 +42,17 @@ const Router = () => {
 
       <Route path="/success" element={<Success />} />
 
-      <Route path="/manage-user" element={<ManageUser/>} />
-      
-      <Route
+      <Route path="/manage-user" element={<ManageUser />} />
+
+      {/* <Route
         path="/create-course"
         element={
-          <ProtectedRoute>
-            <CreateCourse />
-          </ProtectedRoute>
+          <ProtectedRoute> */}
+      <Route path="/create-course" element={<CreateCourse />} />
+
+      {/* </ProtectedRoute>
         }
-      />
+      /> */}
 
       <Route
         path="/profile"
@@ -66,7 +66,7 @@ const Router = () => {
       <Route path="/pay" element={<MakePayment />} />
       <Route path="/progress" element={<CourseProgress />} />
 
-      <Route path="/courseDash" element={<CourseDashboard />} />
+      <Route path="/manage-course" element={<CourseDashboard />} />
     </Routes>
   );
 };
