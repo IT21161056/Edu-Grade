@@ -38,7 +38,13 @@ const Login = () => {
           text: "You are successfully logged in!",
           icon: "success",
         });
-        navigate("/");
+
+        if (res.data.role == "admin") {
+          console.log("adad>", res.data.role);
+          navigate("/admin");
+        } else {
+          navigate("/");
+        }
       })
       .catch((error) => {
         dispatch({ type: "LOGIN_FAILURE" });

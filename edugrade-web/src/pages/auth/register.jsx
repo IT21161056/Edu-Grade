@@ -4,7 +4,10 @@ import {
   Checkbox,
   Button,
   Typography,
+  Select,
+  Option,
 } from "@material-tailwind/react";
+
 import axios from "axios";
 import { useState } from "react";
 import Loading from "../../components/common/loading";
@@ -13,6 +16,7 @@ import FormItem from "../../components/common/formItem";
 import Swal from "sweetalert2";
 
 const Register = () => {
+  const [role, setRole] = useState("student");
   const {
     register,
     handleSubmit,
@@ -26,7 +30,11 @@ const Register = () => {
     setIsLoading(true);
     try {
       await axios
-        .post(`http://localhost:8000/api/user/register`, formData)
+
+        .post(`http://localhost:8000/api/user/register`,  {
+          ...formData,
+          role: role,
+        })
         .then((res) => {
           if (res.status === 201) {
             Swal.fire({
@@ -35,6 +43,7 @@ const Register = () => {
               icon: "success",
             });
           }
+
           reset();
         })
         .catch((error) => {
@@ -56,12 +65,14 @@ const Register = () => {
   return (
     <div className="flex items-center justify-center flex-1">
       <Card color="transparent" shadow={true} className="p-6">
-        <Typography variant="h4" color="blue-gray">
-          Sign Up
-        </Typography>
-        <Typography color="gray" className="mt-1 font-normal">
-          Nice to meet you! Enter your details to register.
-        </Typography>
+        <div>
+          <Typography variant="h4" color="blue-gray">
+            Sign Up
+          </Typography>
+          <Typography color="gray" className="mt-1 font-normal">
+            Nice to meet you! Enter your details to register.
+          </Typography>
+        </div>
         <form
           onSubmit={handleSubmit(handleUserRegistration)}
           className="mt-2 mb-2 w-80 max-w-screen-lg sm:w-96"
@@ -123,6 +134,22 @@ const Register = () => {
                 }}
                 error={Boolean(errors.mobile)}
               />
+            </FormItem>
+            <Typography variant="h6" color="blue-gray" className="-mb-3">
+              User Role
+            </Typography>
+            <FormItem name="role" errors={errors}>
+              <Select
+                value={role}
+                onChange={(val) => setRole(val)}
+                labelProps={{
+                  className: "before:!mr-0 after:!ml-0",
+                }}
+              >
+                <Option value="admin">Admin</Option>
+                <Option value="student">Learner</Option>
+                <Option value="instructor">Instructor</Option>
+              </Select>
             </FormItem>
 
             <Typography variant="h6" color="blue-gray" className="-mb-3">
