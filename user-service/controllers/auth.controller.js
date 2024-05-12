@@ -24,7 +24,7 @@ const authUser = tryCatch(async (req, res) => {
 });
 
 const registerUser = tryCatch(async (req, res, next) => {
-  const { name, email, mobile, password } = req.body;
+  const { name, email, mobile, password, role } = req.body;
 
   const userExists = await User.findOne({ email });
   if (userExists) {
@@ -36,6 +36,7 @@ const registerUser = tryCatch(async (req, res, next) => {
     email,
     mobile,
     password,
+    role,
   });
 
   if (user) {

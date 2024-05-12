@@ -22,16 +22,15 @@ app.use("/", rootRoute);
 //main routes
 // app.use(protect);
 
-// app.use("/api/user/", proxy("http://user_service:8001"));
-// app.use("/api/user/", proxy("http://localhost:8001"));
-// app.use("/api/course/", proxy("http://localhost:8003"));
-// app.use("/api/learner-service/", proxy("http://localhost:8004"));
-// app.use("/api/payment-service/", proxy("http://localhost:8005"));
+app.use("/api/user/", proxy("http://localhost:8001"));
+app.use("/api/course/", proxy("http://localhost:8003"));
+app.use("/api/learner-service/", proxy("http://localhost:8004"));
+app.use("/api/payment-service/", proxy("http://localhost:8005"));
 
-app.use("/api/user/", proxy("http://user-service:8001"));
-app.use("/api/course/", proxy("http://course-service:8003"));
-app.use("/api/learner-service/", proxy("http://learner-service:8004"));
-app.use("/api/payment-service/", proxy("http://payment-service:8005"));
+// app.use("/api/user/", proxy("http://user-service:8001"));
+// app.use("/api/course/", proxy("http://course-service:8003"));
+// app.use("/api/learner-service/", proxy("http://learner-service:8004"));
+// app.use("/api/payment-service/", proxy("http://payment-service:8005"));
 
 //out side routes
 app.all("*", (req, res) => {
