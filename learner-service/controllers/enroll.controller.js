@@ -1,7 +1,7 @@
 import Enrollment from "../models/enrollmentModel.js";
 import { SendEmail, SendSms } from "./notification.controller.js";
 import { tryCatch } from "../utils/tryCatchWrapper.js";
-import { CustomError } from "../../course-service/exceptions/baseException.js";
+import { CustomError } from "../exceptions/baseException.js";
 
 const enrollToCourse = tryCatch(async (req, res) => {
   const { user, course } = req.body;
