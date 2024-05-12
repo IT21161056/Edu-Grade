@@ -1,4 +1,4 @@
-import { CustomError } from "../../gateway/exceptions/baseException.js";
+import { CustomError } from "../exceptions/baseException.js";
 import CoursePayment from "../models/coursePayementModel.js";
 import { tryCatch } from "../utils/tryCatchWrapper.js";
 
