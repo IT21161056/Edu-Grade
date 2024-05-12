@@ -36,7 +36,7 @@ const home = () => {
           Unlock your learning potential with our wide range of courses.
         </Typography>
         <Link to="/view-course">
-          <Button>Browse Courses</Button>
+          <Button className="bg-blue-800">Browse Courses</Button>
         </Link>
       </div>
 

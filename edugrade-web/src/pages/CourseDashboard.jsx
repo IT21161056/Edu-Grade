@@ -1,8 +1,8 @@
-import { Button, Card, Input, Typography } from "@material-tailwind/react";
+import { Card, Input, Typography } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-// import { DeleteIcon } from "@material-tailwind/react/icons";
+import { Trash2 } from "lucide-react";
 
 const CourseDashboard = () => {
   const [courseDetails, setCourseDetails] = useState([]);
@@ -10,15 +10,12 @@ const CourseDashboard = () => {
   const [error, setError] = useState(null);
   const [filterQuery, setFilterQuery] = useState("");
 
-  console.log(courseDetails);
-
   useEffect(() => {
+    setIsLoading(true);
     const fetchCourseData = async () => {
       try {
         const res = await axios.get("http://localhost:8000/api/course/v1");
-        console.log(res);
         setCourseDetails(res.data);
-        console.log(res.data);
       } catch (err) {
         setError(err.message);
         console.log("Error fetching course data", err);
@@ -32,9 +29,15 @@ const CourseDashboard = () => {
   const deleteCourse = async (id) => {
     setIsLoading(true);
     try {
-      await axios.delete(`http://localhost:8003/api/course/v1/${id}`);
-      const filteredData = courseDetails.map((course) => course._id !== id);
-      setCourseDetails(filteredData);
+      const res = await axios.delete(
+        `http://localhost:8000/api/course/v1/${id}`
+      );
+      if (res.status === 200) {
+        const filteredData = courseDetails.filter(
+          (course) => course._id !== id
+        );
+        setCourseDetails(filteredData);
+      }
     } catch (err) {
       setError(err);
       console.log("Error deleteing course", err);
@@ -43,26 +46,18 @@ const CourseDashboard = () => {
     }
   };
 
-  console.log("hi");
-
-  // const filterCourses = courseDetails.filter((course) => {
-  //   return course.topic.toLowerCase().includes(filterQuery.toLowerCase());
-  // });
-
-  // const DeleteButton = ({ onclick }) => {
-  //   return (
-  //     <Button variant="outlined" color="red" onclick={onclick}>
-  //       <DeleteIcon className="mr-2">Delete</DeleteIcon>
-  //     </Button>
-  //   );
-  // };
+  const filterCourses = courseDetails.filter((course) => {
+    return course.author.toLowerCase().includes(filterQuery.toLowerCase());
+  });
 
   const TABLE_HEAD = [
-    "Topic",
-    "ContentDescription",
-    "Type",
-    "Body",
-    "Source",
+    "Author",
+    "Course Description",
+    "Course Name",
+    "Created Date",
+    "Duration",
+    "Price",
+    "Ratings",
     "Action",
   ];
 
@@ -118,15 +113,15 @@ const CourseDashboard = () => {
               </td>
             </tr>
           ) : (
-            courseDetails.map((course) => (
-              <tr key={course.key}>
+            filterCourses.map((course) => (
+              <tr key={course.author}>
                 <td className="border-b border-blue-gray-100 bg-white p-4">
                   <Typography
                     variant="small"
                     color="blue-gray"
                     className="font-normal leading-none"
                   >
-                    {course.topic}
+                    {course.author}
                   </Typography>
                 </td>
                 <td className="border-b border-blue-gray-100 bg-white p-4">
@@ -135,7 +130,7 @@ const CourseDashboard = () => {
                     color="blue-gray"
                     className="font-normal leading-none"
                   >
-                    {course.contentDescription}
+                    {course.courseDescription.substring(0, 20)}...
                   </Typography>
                 </td>
                 <td className="border-b border-blue-gray-100 bg-white p-4">
@@ -144,7 +139,7 @@ const CourseDashboard = () => {
                     color="blue-gray"
                     className="font-normal leading-none"
                   >
-                    {course.type}
+                    {course.courseName}
                   </Typography>
                 </td>
                 <td className="border-b border-blue-gray-100 bg-white p-4">
@@ -153,7 +148,7 @@ const CourseDashboard = () => {
                     color="blue-gray"
                     className="font-normal leading-none"
                   >
-                    {course.body}
+                    {new Date(course.createdAt).toLocaleDateString()}
                   </Typography>
                 </td>
                 <td className="border-b border-blue-gray-100 bg-white p-4">
@@ -162,18 +157,38 @@ const CourseDashboard = () => {
                     color="blue-gray"
                     className="font-normal leading-none"
                   >
-                    {course.source}
+                    {course.duration}
                   </Typography>
                 </td>
                 <td className="border-b border-blue-gray-100 bg-white p-4">
-                  {/* <DeleteButton onclick={() => deleteCourse(courseDetails._id)} /> */}
-                  <Button
-                    variant="outlined"
-                    color="red"
-                    onClick={() => deleteCourse(course._id)}
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-normal leading-none"
                   >
-                    Delete
-                  </Button>
+                    {course.price}
+                  </Typography>
+                </td>
+                <td className="border-b border-blue-gray-100 bg-white p-4">
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-normal leading-none"
+                  >
+                    {course.ratings}
+                  </Typography>
+                </td>
+                <td className="border-b border-blue-gray-100 bg-white p-4">
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-normal leading-none"
+                  >
+                    <Trash2
+                      color="red"
+                      onClick={() => deleteCourse(course._id)}
+                    />
+                  </Typography>
                 </td>
               </tr>
             ))
