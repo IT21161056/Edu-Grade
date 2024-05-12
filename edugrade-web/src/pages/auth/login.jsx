@@ -6,6 +6,8 @@ import { useForm } from "react-hook-form";
 import FormItem from "../../components/common/formItem";
 import { AuthContext } from "../../context/authContext";
 import { Link, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import { ChevronLeft, CircleArrowLeft } from "lucide-react";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -31,16 +33,27 @@ const Login = () => {
         setIsLoading(false);
         console.log(res);
         dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
+        Swal.fire({
+          title: "Success!",
+          text: "You are successfully logged in!",
+          icon: "success",
+        });
         navigate("/");
       })
       .catch((error) => {
+        dispatch({ type: "LOGIN_FAILURE" });
+        Swal.fire({
+          title: "Error!",
+          text: "Login failed!",
+          icon: "error",
+        });
         console.log(error);
       });
   };
 
   return (
-    <div className="flex items-center justify-center mt-10">
-      <Card color="transparent" shadow={false}>
+    <div className="flex items-center justify-center flex-1 h">
+      <Card color="transparent" shadow={true} className="p-6">
         <Typography variant="h4" color="blue-gray">
           Sign In
         </Typography>
@@ -60,6 +73,10 @@ const Login = () => {
                 name="email"
                 {...register("email", {
                   required: "Email is required!",
+                  // pattern: {
+                  //   value: /^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$/,
+                  //   message: "Invalid email.",
+                  // },
                 })}
                 placeholder="example@gmail.com"
                 labelProps={{
@@ -93,12 +110,20 @@ const Login = () => {
               fullWidth
               style={{ backgroundColor: "rgb(0, 86, 210)", color: "#fff" }}
             >
-              {isLoading ? <Loading /> : "Log In"}
+              {loading ? <Loading /> : "Log In"}
             </Button>
             <Typography color="gray" className="mt-4 text-center font-normal">
               Do not have an account?{" "}
               <Link to="/register" className="font-medium text-blue-800">
                 Sign Up
+              </Link>
+            </Typography>
+            <Typography
+              color="gray"
+              className="mt-4 text-center font-normal flex justify-center "
+            >
+              <Link to="/" className="font-medium flex items-center gap-2">
+                <ChevronLeft width={20} /> Back to home
               </Link>
             </Typography>
           </div>

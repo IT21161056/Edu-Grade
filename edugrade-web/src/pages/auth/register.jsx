@@ -10,6 +10,7 @@ import { useState } from "react";
 import Loading from "../../components/common/loading";
 import { useForm } from "react-hook-form";
 import FormItem from "../../components/common/formItem";
+import Swal from "sweetalert2";
 
 const Register = () => {
   const {
@@ -34,6 +35,11 @@ const Register = () => {
         });
 
       setIsLoading(false);
+      Swal.fire({
+        title: "Success!",
+        text: "You are successfully registered!",
+        icon: "success",
+      });
     } catch (err) {
       console.log(err);
       setIsLoading(false);
@@ -41,8 +47,8 @@ const Register = () => {
   };
 
   return (
-    <div className="flex items-center justify-center mt-10">
-      <Card color="transparent" shadow={false}>
+    <div className="flex items-center justify-center flex-1">
+      <Card color="transparent" shadow={true} className="p-6">
         <Typography variant="h4" color="blue-gray">
           Sign Up
         </Typography>
@@ -51,7 +57,7 @@ const Register = () => {
         </Typography>
         <form
           onSubmit={handleSubmit(handleUserRegistration)}
-          className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96"
+          className="mt-2 mb-2 w-80 max-w-screen-lg sm:w-96"
         >
           <div className="mb-1 flex flex-col gap-6">
             <Typography variant="h6" color="blue-gray" className="-mb-3">

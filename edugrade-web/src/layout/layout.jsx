@@ -21,7 +21,7 @@ const Layout = () => {
   const showFinaceNavbar = location.pathname === "/finace";
 
   return (
-    <div>
+    <div className="flex-1 relative h-screen flex flex-col">
       {!showNavbar && (!isAdmin ? <Navbar /> : <AdminNavbar />)}
 
       <Router />
