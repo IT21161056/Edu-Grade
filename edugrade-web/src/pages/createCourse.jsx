@@ -47,7 +47,7 @@ const CreateCourse = () => {
 
   const {
     register: register2,
-    handleSubmit: handleSubmit2,
+    handleSubmit: handleSubmit2,reset,
 
     watch,
     formState: { errors: errors2 },
@@ -167,6 +167,7 @@ const CreateCourse = () => {
         const newUrl = url.replace(".mp4", ".png");
         setContentList([...contentList, { image: newUrl }]);
         setIsLoading(false);
+        reset()
       });
   };
 
