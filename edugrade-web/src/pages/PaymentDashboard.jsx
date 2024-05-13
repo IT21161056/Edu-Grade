@@ -28,9 +28,9 @@ const PaymentDashboard = () => {
     fetchPayments();
   }, []);
 
-  // const filterPayments = paymentDetails.filter((pay) => {
-  //   return pay.name.toLowerCase().includes(filterQuery.toLowerCase());
-  // });
+  const filterPayments = paymentDetails.filter((pay) => {
+    return pay.name.toLowerCase().includes(filterQuery.toLowerCase());
+  });
 
   const TABLE_HEAD = [
     "User Name",
@@ -89,7 +89,7 @@ const PaymentDashboard = () => {
               </td>
             </tr>
           ) : (
-            paymentDetails.map((pay) => (
+            filterPayments.map((pay) => (
               <tr key={pay.name}>
                 <td className="border-b border-blue-gray-100 bg-white p-4">
                   <Typography
