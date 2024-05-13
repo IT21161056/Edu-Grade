@@ -6,10 +6,14 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import React, { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/authContext";
-import { Link, useNavigate, useNavigation } from "react-router-dom";
 
 const list = [
+  {
+    label: "All courses",
+    href: "/view-course",
+  },
   {
     label: "My Learnings",
     href: "/my-courses",
@@ -63,7 +67,7 @@ export default function StickyNavbar() {
       <div className="flex items-center justify-between text-blue-gray-900">
         <Typography
           as="a"
-          href="#"
+          href="/"
           className="mr-4 cursor-pointer py-1.5 font-medium"
         >
           EDU GRADE
@@ -73,7 +77,7 @@ export default function StickyNavbar() {
           <div className="flex items-center gap-x-1">
             {user ? (
               <Button
-                variant="text"
+                variant="outlined"
                 size="sm"
                 className="hidden lg:inline-block"
                 onClick={handleLogout}
@@ -148,9 +152,8 @@ export default function StickyNavbar() {
           {user ? (
             <Button
               fullWidth
-              variant="text"
+              variant="outlined"
               size="sm"
-              className=""
               onClick={handleLogout}
             >
               <span>Log out</span>

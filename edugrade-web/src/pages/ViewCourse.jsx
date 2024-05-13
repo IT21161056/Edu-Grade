@@ -22,6 +22,7 @@ import Arrow from "../assets/icons";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { checkout } from "../util/checkout";
+import { ChevronLeft } from "lucide-react";
 
 const ViewCourse = () => {
   const [open, setOpen] = React.useState(0);
@@ -88,8 +89,12 @@ const ViewCourse = () => {
 
   return (
     <>
-      <Button onClick={back} className="relative top-4 ml-7">
-        Back
+      <Button
+        onClick={back}
+        className=" flex items-center relative top-4 ml-7 w-fit"
+        size="sm"
+      >
+        <ChevronLeft width={20} /> Back
       </Button>
       <Container>
         <Card className="w-full md:flex-row flex-col mt-16 shadow-none ">
