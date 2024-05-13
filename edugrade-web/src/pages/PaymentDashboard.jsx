@@ -1,64 +1,44 @@
-import { Button, Card, Input, Typography } from "@material-tailwind/react";
+import { Card, Input, Typography } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
-import { Trash2 } from "lucide-react";
 
-const CourseDashboard = () => {
-  const [courseDetails, setCourseDetails] = useState([]);
+const PaymentDashboard = () => {
+  const [paymentDetails, setPaymentDetails] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [filterQuery, setFilterQuery] = useState("");
 
+  console.log(paymentDetails);
+
   useEffect(() => {
     setIsLoading(true);
-    const fetchCourseData = async () => {
+    const fetchPayments = async () => {
       try {
-        const res = await axios.get("http://localhost:8000/api/course/v1");
-        setCourseDetails(res.data);
+        const res = await axios.get(
+          "http://localhost:8000/api/payment-service/checkout/all"
+        );
+        setPaymentDetails(res.data);
       } catch (err) {
         setError(err.message);
-        console.log("Error fetching course data", err);
+        console.log("Error fetching payments", err);
       } finally {
         setIsLoading(false);
       }
     };
-    fetchCourseData();
+    fetchPayments();
   }, []);
 
-  const deleteCourse = async (id) => {
-    setIsLoading(true);
-    try {
-      const res = await axios.delete(
-        `http://localhost:8000/api/course/v1/${id}`
-      );
-      if (res.status === 200) {
-        const filteredData = courseDetails.filter(
-          (course) => course._id !== id
-        );
-        setCourseDetails(filteredData);
-      }
-    } catch (err) {
-      setError(err);
-      console.log("Error deleteing course", err);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const filterCourses = courseDetails.filter((course) => {
-    return course.author.toLowerCase().includes(filterQuery.toLowerCase());
+  const filterPayments = paymentDetails.filter((pay) => {
+    return pay.name.toLowerCase().includes(filterQuery.toLowerCase());
   });
 
   const TABLE_HEAD = [
-    "Author",
-    "Course Description",
+    "User Name",
+    "User Email",
     "Course Name",
-    "Created Date",
-    "Duration",
-    "Price",
-    "Ratings",
-    "Action",
+    "Course Author",
+    "Purchased Date",
+    "Payment Price",
   ];
 
   if (error) {
@@ -72,15 +52,12 @@ const CourseDashboard = () => {
   return (
     <Card className="h-full w-full overflow-scroll p-4">
       <div className="flex justify-between items-center mb-4">
-        <Typography variant="h5">Manage Courses</Typography>
-        <Link to="/admin/create-course">
-          <Button>Add Course</Button>
-        </Link>
+        <Typography variant="h5">Manage Payments</Typography>
       </div>
       {
         <Input
           type="text"
-          label="Search courses here"
+          label="Search payment here"
           value={filterQuery}
           onChange={(e) => setFilterQuery(e.target.value)}
         />
@@ -112,15 +89,15 @@ const CourseDashboard = () => {
               </td>
             </tr>
           ) : (
-            filterCourses.map((course) => (
-              <tr key={course.author}>
+            filterPayments.map((pay) => (
+              <tr key={pay.name}>
                 <td className="border-b border-blue-gray-100 bg-white p-4">
                   <Typography
                     variant="small"
                     color="blue-gray"
                     className="font-normal leading-none"
                   >
-                    {course.author}
+                    {pay.name}
                   </Typography>
                 </td>
                 <td className="border-b border-blue-gray-100 bg-white p-4">
@@ -129,7 +106,7 @@ const CourseDashboard = () => {
                     color="blue-gray"
                     className="font-normal leading-none"
                   >
-                    {course.courseDescription.substring(0, 20)}...
+                    {pay.email}
                   </Typography>
                 </td>
                 <td className="border-b border-blue-gray-100 bg-white p-4">
@@ -138,7 +115,7 @@ const CourseDashboard = () => {
                     color="blue-gray"
                     className="font-normal leading-none"
                   >
-                    {course.courseName}
+                    {pay.courseName}
                   </Typography>
                 </td>
                 <td className="border-b border-blue-gray-100 bg-white p-4">
@@ -147,7 +124,7 @@ const CourseDashboard = () => {
                     color="blue-gray"
                     className="font-normal leading-none"
                   >
-                    {new Date(course.createdAt).toLocaleDateString()}
+                    {pay.author}
                   </Typography>
                 </td>
                 <td className="border-b border-blue-gray-100 bg-white p-4">
@@ -156,7 +133,7 @@ const CourseDashboard = () => {
                     color="blue-gray"
                     className="font-normal leading-none"
                   >
-                    {course.duration}
+                    {new Date(pay.createdAt).toLocaleDateString()}
                   </Typography>
                 </td>
                 <td className="border-b border-blue-gray-100 bg-white p-4">
@@ -165,28 +142,7 @@ const CourseDashboard = () => {
                     color="blue-gray"
                     className="font-normal leading-none"
                   >
-                    {course.price}
-                  </Typography>
-                </td>
-                <td className="border-b border-blue-gray-100 bg-white p-4">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal leading-none"
-                  >
-                    {course.ratings}
-                  </Typography>
-                </td>
-                <td className="border-b border-blue-gray-100 bg-white p-4">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal leading-none"
-                  >
-                    <Trash2
-                      color="red"
-                      onClick={() => deleteCourse(course._id)}
-                    />
+                    {pay.amount} $
                   </Typography>
                 </td>
               </tr>
@@ -198,4 +154,4 @@ const CourseDashboard = () => {
   );
 };
 
-export default CourseDashboard;
+export default PaymentDashboard;
