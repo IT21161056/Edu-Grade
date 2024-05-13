@@ -43,7 +43,7 @@ const Login = () => {
         icon: "success",
       });
 
-      if (response.data.role == "admin") {
+      if (response.data.user.role == "admin") {
         navigate("/admin");
       } else {
         navigate("/");
