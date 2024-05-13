@@ -8,6 +8,7 @@ import { AuthContext } from "../../context/authContext";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { ChevronLeft, CircleArrowLeft } from "lucide-react";
+import login from "../../assets/login.png"
 
 const Login = () => {
   const navigate = useNavigate();
@@ -59,6 +60,7 @@ const Login = () => {
 
   return (
     <div className="flex items-center justify-center flex-1 h">
+       <img src={login} alt="login" className="w-1/4 h-3/5 absolute" style={{marginRight:'900px'}}/>
       <Card color="transparent" shadow={true} className="p-6">
         <Typography variant="h4" color="blue-gray">
           Sign In
@@ -72,7 +74,7 @@ const Login = () => {
         >
           <div className="mb-1 flex flex-col gap-6">
             <Typography variant="h6" color="blue-gray" className="-mb-3 ">
-              Your Name or email-address
+              Enter email and password
             </Typography>
             <FormItem name={"email"} errors={errors}>
               <Input

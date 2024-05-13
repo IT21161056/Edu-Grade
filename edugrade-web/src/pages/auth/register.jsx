@@ -14,6 +14,8 @@ import Loading from "../../components/common/loading";
 import { useForm } from "react-hook-form";
 import FormItem from "../../components/common/formItem";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
+import regImage from "../../assets/register.png"
 
 const Register = () => {
   const [role, setRole] = useState("student");
@@ -25,6 +27,8 @@ const Register = () => {
   } = useForm();
 
   const [isLoading, setIsLoading] = useState(false);
+
+  const navigate = useNavigate()
 
   const handleUserRegistration = async (formData) => {
     setIsLoading(true);
@@ -42,6 +46,7 @@ const Register = () => {
               text: "You are successfully registered!",
               icon: "success",
             });
+            navigate('/login')
           }
 
           reset();
@@ -64,6 +69,7 @@ const Register = () => {
 
   return (
     <div className="flex items-center justify-center flex-1">
+       <img src={regImage} alt="register" className="w-1/4 h-4/5 absolute" style={{marginRight:'900px'}}/>
       <Card color="transparent" shadow={true} className="p-6">
         <div>
           <Typography variant="h4" color="blue-gray">
