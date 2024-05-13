@@ -23,6 +23,40 @@ const authUser = tryCatch(async (req, res) => {
   }
 });
 
+const login = tryCatch(async (req, res) => {
+  const authHeader = req.headers.authorization;
+
+  try {
+    const { email, password } = req.body; // Extracting email and password from request body
+
+    // Finding user by email
+    const user = await User.findOne({ email });
+
+    // Checking if user exists and password matches
+    if (user && (await user.matchPassword(password))) {
+      // Generating token for authenticated user
+      const token = generateToken(res, user._id);
+
+      // Sending user information in response
+      res.status(200).json({
+        message: "Login successful",
+        user: {
+          _id: user._id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+          mobile: user.mobile,
+        },
+        token: token,
+      });
+    } else {
+      res.status(401).json({ error: "Invalid email or password" });
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
 const registerUser = tryCatch(async (req, res, next) => {
   const { name, email, mobile, password, role } = req.body;
 
@@ -149,4 +183,5 @@ export {
   deleteUserProfile,
   deleteUser,
   userById,
+  login,
 };
