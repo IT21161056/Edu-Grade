@@ -11,7 +11,7 @@ import { NavLink } from "react-router-dom";
 
 const Course = ({ topic, description, id, price }) => {
   return (
-    <Card className="w-full overflow-hidden rounded-none shadow-none hover:shadow-lg transition-shadow">
+    <Card className="w-full overflow-hidden rounded-none shadow-none hover:shadow-lg transition-shadow border">
       <CardHeader
         floated={false}
         shadow={false}
