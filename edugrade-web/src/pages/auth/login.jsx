@@ -32,7 +32,7 @@ const Login = () => {
     const response = await axios.post(`user/auth`, formData);
 
     if (response.status == 200) {
-      dispatch({ type: "LOGIN_SUCCESS", payload: response.data });
+      dispatch({ type: "LOGIN_SUCCESS", payload: response.data.user });
       Cookies.set("jwt", response.data.token, {
         expires: 30,
       });
