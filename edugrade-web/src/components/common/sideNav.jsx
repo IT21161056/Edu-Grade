@@ -17,6 +17,7 @@ const SideNav = () => {
       items = [
         { label: "Manage Course", href: "/admin/manage-course" },
         { label: "Manage Users", href: "/admin/manage-user" },
+        { label: "Manage Payments", href: "/admin/manage-pay" },
       ];
     }
     if (user.role == "instructor") {
