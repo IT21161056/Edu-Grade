@@ -1,4 +1,4 @@
-import { Card, Typography } from "@material-tailwind/react";
+import { Card, Input, Typography } from "@material-tailwind/react";
 import axios from "axios";
 import { Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -6,43 +6,55 @@ import { useEffect, useState } from "react";
 const TABLE_HEAD = ["Name", "Email", "Mobile", "Role", "Action"];
 export const ManageUser = () => {
 
-    const [users,setUsers] = useState([])
+    const [users, setUsers] = useState([])
+    const [filterUser, setFilterUser] = useState("")
+
     console.log(users)
-    
-    const getUsers = async() => {
+
+    const getUsers = async () => {
         await axios.get('http://localhost:8000/api/user/allProfiles')
-        .then((res) => {
-            setUsers(res.data)
-        })
-        .catch((err) => {
-            console.error(err)
-        })
+            .then((res) => {
+                setUsers(res.data)
+            })
+            .catch((err) => {
+                console.error(err)
+            })
     }
 
     useEffect(() => {
         getUsers()
-    },[])
+    }, [])
 
-    const deleteUser = async(id) => {
-        try{
+    const userFiltered  = users.filter((oneUser) => {
+        return oneUser.name.toLowerCase().includes(filterUser.toLowerCase())
+    })
+
+    const deleteUser = async (id) => {
+        try {
             await axios.delete(`http://localhost:8000/api/user/${id}`)
-            .then((res) => {
-                if(res.status === 200){
-                    const filterUser = users.filter((Obj) => Obj._id !== id)
-                    setUsers(filterUser)
-                }
-            })
-            .catch((err) => {
-                console.log('error deleting user')
-            })
-        }catch(err){
+                .then((res) => {
+                    if (res.status === 200) {
+                        const filterUser = users.filter((Obj) => Obj._id !== id)
+                        setUsers(filterUser)
+                    }
+                })
+                .catch((err) => {
+                    console.log('error deleting user')
+                })
+        } catch (err) {
 
         }
     }
 
     return (
         <div className="h-full w-full overflow-scroll p-4">
-                <Typography className="font-bold text-xl mb-4">User management</Typography>
+            <Typography className="font-bold text-xl mb-4">User management</Typography>
+            <Input
+                type="text"
+                label="Search Users here"
+                value={filterUser}
+                onChange={(e) => setFilterUser(e.target.value)}
+            />
             <Card className="h-full w-full overflow-scroll">
                 <table className="w-full min-w-max table-auto text-left mt-4">
                     <thead>
@@ -64,7 +76,7 @@ export const ManageUser = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {users.map(({ name, email, mobile, role,_id }, index) => {
+                        {userFiltered.map(({ name, email, mobile, role, _id }, index) => {
                             const isLast = index === users.length - 1;
                             const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
 
@@ -116,7 +128,7 @@ export const ManageUser = () => {
                                             color="blue-gray"
                                             className="font-medium cursor-pointe text-neutral-950"
                                         >
-                                            <Trash2 color="red" onClick={() => deleteUser(_id)}/>
+                                            <Trash2 color="red" onClick={() => deleteUser(_id)} />
                                         </Typography>
                                     </td>
                                 </tr>

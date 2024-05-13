@@ -1,11 +1,12 @@
 import { Button, Card, Input, Typography } from "@material-tailwind/react";
-import { useContext, useState } from "react";
 import Cookies from "js-cookie";
 import { ChevronLeft } from "lucide-react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import axios from "../../api/api.js";
+import login from "../../assets/login.png";
 import FormItem from "../../components/common/formItem";
 import Loading from "../../components/common/loading";
 import { AuthContext } from "../../context/authContext";
@@ -57,6 +58,7 @@ const Login = () => {
 
   return (
     <div className="flex items-center justify-center flex-1 h">
+       <img src={login} alt="login" className="w-1/4 h-3/5 absolute" style={{marginRight:'900px'}}/>
       <Card color="transparent" shadow={true} className="p-6">
         <Typography variant="h4" color="blue-gray">
           Sign In
@@ -70,7 +72,7 @@ const Login = () => {
         >
           <div className="mb-1 flex flex-col gap-6">
             <Typography variant="h6" color="blue-gray" className="-mb-3 ">
-              Your Name or email-address
+              Enter email and password
             </Typography>
             <FormItem name={"email"} errors={errors}>
               <Input
