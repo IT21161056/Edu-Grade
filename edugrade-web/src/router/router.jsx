@@ -16,6 +16,7 @@ import MyCourses from "../pages/my-courses";
 import WatchCourse from "../pages/watchCourse";
 import Success from "../pages/paymentSuccess";
 import CourseDashboard from "../pages/CourseDashboard";
+import PaymentDashboard from "../pages/PaymentDashboard";
 import { ManageUser } from "../pages/ManageUser";
 import Dashboard from "../pages/dashboard";
 
@@ -72,6 +73,7 @@ const Router = () => {
         <Route path="/admin/create-course" element={<CreateCourse />} />
         <Route path="/admin/manage-course" element={<CourseDashboard />} />
         <Route path="/admin/manage-user" element={<ManageUser />} />
+        <Route path="/admin/manage-pay" element={<PaymentDashboard />} />
       </Route>
     </Routes>
   );
