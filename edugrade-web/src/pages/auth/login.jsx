@@ -1,13 +1,15 @@
-import { Card, Input, Button, Typography } from "@material-tailwind/react";
+import { Button, Card, Input, Typography } from "@material-tailwind/react";
 import { useContext, useState } from "react";
-import axios from "axios";
-import Loading from "../../components/common/loading";
+import Cookies from "js-cookie";
+import { ChevronLeft } from "lucide-react";
 import { useForm } from "react-hook-form";
-import FormItem from "../../components/common/formItem";
-import { AuthContext } from "../../context/authContext";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import { ChevronLeft, CircleArrowLeft } from "lucide-react";
+import axios from "../../api/api.js";
+import FormItem from "../../components/common/formItem";
+import Loading from "../../components/common/loading";
+import { AuthContext } from "../../context/authContext";
+// import { jwtDecode } from "jwt-decode";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -26,35 +28,31 @@ const Login = () => {
     setIsLoading(true);
     dispatch({ type: "LOGIN_START" });
 
-    await axios
-      .post(`http://localhost:8000/api/user/auth`, formData)
-      .then((res) => {
-        reset();
-        setIsLoading(false);
-        console.log(res);
-        dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
-        Swal.fire({
-          title: "Success!",
-          text: "You are successfully logged in!",
-          icon: "success",
-        });
+    const response = await axios.post(`user/auth`, formData);
 
-        if (res.data.role == "admin") {
-          console.log("adad>", res.data.role);
-          navigate("/admin");
-        } else {
-          navigate("/");
-        }
-      })
-      .catch((error) => {
-        dispatch({ type: "LOGIN_FAILURE" });
-        Swal.fire({
-          title: "Error!",
-          text: "Login failed!",
-          icon: "error",
-        });
-        console.log(error);
+    if (response.status == 200) {
+      dispatch({ type: "LOGIN_SUCCESS", payload: response.data });
+      Cookies.set("jwt", response.data.token, {
+        expires: 30,
       });
+      reset();
+
+      if (response.data.role == "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
+    }
+
+    if (response.status == 401) {
+      dispatch({ type: "LOGIN_FAILURE" });
+      Swal.fire({
+        title: "Error!",
+        text: "Login failed!",
+        icon: "error",
+      });
+    }
+    setIsLoading(false);
   };
 
   return (
@@ -79,10 +77,6 @@ const Login = () => {
                 name="email"
                 {...register("email", {
                   required: "Email is required!",
-                  // pattern: {
-                  //   value: /^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$/,
-                  //   message: "Invalid email.",
-                  // },
                 })}
                 placeholder="example@gmail.com"
                 labelProps={{
@@ -116,7 +110,7 @@ const Login = () => {
               fullWidth
               style={{ backgroundColor: "rgb(0, 86, 210)", color: "#fff" }}
             >
-              {loading ? <Loading /> : "Log In"}
+              {isLoading ? <Loading /> : "Log In"}
             </Button>
             <Typography color="gray" className="mt-4 text-center font-normal">
               Do not have an account?{" "}

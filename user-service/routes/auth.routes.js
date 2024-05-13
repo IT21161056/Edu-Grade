@@ -9,13 +9,14 @@ import {
   deleteUserProfile,
   deleteUser,
   userById,
+  login,
 } from "../controllers/auth.controller.js";
 
 import { protect } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-router.post("/auth", authUser);
+router.post("/auth", login);
 router.post("/register", registerUser);
 router.post("/logout", logoutUser);
 router.get("/profile", protect, getUserProfile);
