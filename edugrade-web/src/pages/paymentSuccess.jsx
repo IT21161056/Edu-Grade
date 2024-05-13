@@ -26,7 +26,11 @@ const Success = () => {
 
       const payment = {
         courseId: course._id,
+        courseName: course.courseName,
+        author: course.author,
         userId: user._id,
+        name: user.name,
+        email: user.email,
         amount: course.price,
       };
 
