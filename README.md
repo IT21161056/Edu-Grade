@@ -1,6 +1,6 @@
 # Educational Platform Deployment Guide
 
-This guide provides instructions on deploying the educational platform developed by [Group Name].
+This guide provides instructions on deploying the educational platform developed.
 
 ## Prerequisites
 
@@ -32,7 +32,7 @@ Before proceeding with the deployment, ensure you have the following:
 
 ## Setup Instructions
 
-1. **Clone the Repository**: `git clone https://github.com/sliitcsse/se3040-assignment02-IsuruX98.git`
+1. **Clone the Repository**: `git clone https://github.com/IT21161056/Edu-Grade.git`
 
 2. **Install Dependencies**:
 
