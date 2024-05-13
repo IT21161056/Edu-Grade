@@ -11,18 +11,6 @@ import { Link, useNavigate, useNavigation } from "react-router-dom";
 
 const list = [
   {
-    label: "Pages",
-    href: "/",
-  },
-  {
-    label: "Account",
-    href: "/",
-  },
-  {
-    label: "Blocks",
-    href: "/",
-  },
-  {
     label: "My Learnings",
     href: "/my-courses",
   },
