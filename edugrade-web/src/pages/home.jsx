@@ -7,7 +7,6 @@ import {
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import webdev from "../assets/webdev.jpg";
 import { useEffect, useState } from "react";
 import Aos from "aos";
 import Course from "../components/common/Course";

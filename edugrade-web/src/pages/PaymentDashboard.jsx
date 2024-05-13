@@ -37,6 +37,7 @@ const PaymentDashboard = () => {
     "User Email",
     "Course Name",
     "Course Author",
+    "Purchased Date",
     "Payment Price",
   ];
 
@@ -124,6 +125,15 @@ const PaymentDashboard = () => {
                     className="font-normal leading-none"
                   >
                     {pay.author}
+                  </Typography>
+                </td>
+                <td className="border-b border-blue-gray-100 bg-white p-4">
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-normal leading-none"
+                  >
+                    {new Date(pay.createdAt).toLocaleDateString()}
                   </Typography>
                 </td>
                 <td className="border-b border-blue-gray-100 bg-white p-4">
