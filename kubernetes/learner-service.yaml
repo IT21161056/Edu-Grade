@@ -31,7 +31,7 @@ spec:
     app: learner-server-app
   type: NodePort
   ports:
-    - port: 3004
-      targetPort: 3004
+    - port: 8004
+      targetPort: 8004
       nodePort: 30004 # Specify your desired NodePort here
       protocol: TCP

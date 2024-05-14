@@ -47,7 +47,8 @@ const CreateCourse = () => {
 
   const {
     register: register2,
-    handleSubmit: handleSubmit2,reset,
+    handleSubmit: handleSubmit2,
+    reset,
 
     watch,
     formState: { errors: errors2 },
@@ -167,7 +168,7 @@ const CreateCourse = () => {
         const newUrl = url.replace(".mp4", ".png");
         setContentList([...contentList, { image: newUrl }]);
         setIsLoading(false);
-        reset()
+        reset();
       });
   };
 
@@ -202,7 +203,7 @@ const CreateCourse = () => {
     localStorage.removeItem("course");
     localStorage.removeItem("active");
 
-    navigate("/");
+    navigate("/admin/manage-course");
   };
 
   return (
