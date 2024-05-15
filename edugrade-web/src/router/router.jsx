@@ -38,19 +38,7 @@ const Router = () => {
       <Route path="/view-course" element={<ViewCourses />} />
       <Route path="/view/:id" element={<ViewCourse />} />
 
-      <Route path="/my-courses" element={<MyCourses />} />
-      <Route path="/my-courses/:id" element={<WatchCourse />} />
-
       <Route path="/success" element={<Success />} />
-
-      {/* <Route
-        path="/create-course"
-        element={
-          <ProtectedRoute> */}
-
-      {/* </ProtectedRoute>
-        }
-      /> */}
 
       <Route
         path="/profile"
@@ -60,11 +48,25 @@ const Router = () => {
           </ProtectedRoute>
         }
       />
+      <Route
+        path="/my-courses"
+        element={
+          <ProtectedRoute>
+            <MyCourses />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/my-courses/:id"
+        element={
+          <ProtectedRoute>
+            <WatchCourse />
+          </ProtectedRoute>
+        }
+      />
+
       <Route path="/register" element={<Register />} />
       <Route path="/pay" element={<MakePayment />} />
-      <Route path="/progress" element={<CourseProgress />} />
-
-      <Route path="/progress" element={<CourseProgress />} />
       <Route path="/progress" element={<CourseProgress />} />
 
       <Route path="/admin">
