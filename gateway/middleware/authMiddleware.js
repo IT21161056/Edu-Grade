@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import { CustomError } from "../exceptions/baseException.js";
 
+// authentication middleware
 export const protect = async (req, res, next) => {
   let token;
   console.log(req.cookies);
@@ -34,6 +35,7 @@ export const protect = async (req, res, next) => {
   }
 };
 
+//check role
 export const checkRole = (role) => {
   return (req, res, next) => {
     try {
