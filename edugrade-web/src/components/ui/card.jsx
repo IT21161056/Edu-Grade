@@ -48,10 +48,10 @@ const CourseCard = ({ data }) => {
         </Typography>
       </CardBody>
       <CardFooter className="flex flex-col justify-between w-full px-3 pt-0 pb-3">
-        <Progress value={25} size="sm" />
+        <Progress value={0} size="sm" />
         <div className="flex items-start -space-x-3 mt-1">
           <Typography variant="small" className="font-normal ">
-            30%
+            0%
           </Typography>
         </div>
       </CardFooter>

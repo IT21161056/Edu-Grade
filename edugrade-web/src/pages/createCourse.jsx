@@ -21,18 +21,17 @@ import Loading from "../components/common/loading";
 import DropZone from "../components/ui/dropZone";
 import { useNavigate } from "react-router-dom";
 
-const Content = ({ image }) => {
+const Content = ({ content }) => {
+  const { image, type } = content;
   return (
     <div className="rounded-md min-w-[200px] p-2 border h-[100px] relative flex">
-      <div className="overflow-hidden rounded-sm flex bg-yellow-300">
-        <img
-          src={image}
-          className="object-cover w-[120px] h-full bg-blue-500"
-        />
-      </div>
-      <div className="w-full flex-1 flex justify-center">
-        <span>1</span>
-      </div>
+      {type == "video" ? (
+        <div className="overflow-hidden rounded-sm flex">
+          <img src={image} className="object-cover h-full w-full" />
+        </div>
+      ) : (
+        <div className="grid w-full place-items-center">Reading Material</div>
+      )}
     </div>
   );
 };
@@ -78,6 +77,7 @@ const CreateCourse = () => {
   const [isFirstStep, setIsFirstStep] = useState(false);
   const [open, handleOpen] = useState(false);
   const [video, setVideo] = useState(null);
+  const [courseImage, setCourseImage] = useState(null);
   const [objectURL, setOBjectURL] = useState("");
   const [contentList, setContentList] = useState([]);
   const [progressBar, setProgressBar] = useState(0);
@@ -101,28 +101,15 @@ const CreateCourse = () => {
     setOBjectURL(URL.createObjectURL(video));
   };
 
+  const [imageURL, setImageURL] = useState("");
+
+  const handleImageSelect = (image) => {
+    setCourseImage(image);
+    setImageURL(URL.createObjectURL(image));
+  };
+
   const removeSelected = () => {
     setVideo(null);
-  };
-
-  const handleCourseData = (e) => {
-    const { name, value } = e.target;
-    setCourseObject((object) => {
-      return {
-        ...object,
-        [name]: value,
-      };
-    });
-  };
-
-  const handleContentData = (e) => {
-    const { name, value } = e.target;
-    setContentObject((object) => {
-      return {
-        ...object,
-        [name]: value,
-      };
-    });
   };
 
   const handleNext = async (courseData) => {
@@ -140,7 +127,6 @@ const CreateCourse = () => {
 
   const createContent = async () => {
     const course = JSON.parse(localStorage.getItem("course"));
-
     const contentData = JSON.parse(localStorage.getItem("content"));
     const url = localStorage.getItem("url");
 
@@ -148,28 +134,30 @@ const CreateCourse = () => {
       topic: contentData.topic,
       contentDescription: contentData.contentDescription,
       type: contentData.type,
-      source: url,
+      source: url ?? "",
       courseID: course._id,
+      body: contentData.body ?? "",
     };
 
-    console.log("content >>", content);
+    console.log(content);
 
-    await axios
-      .post("http://localhost:8000/api/course/v2", content)
-      .then((res) => {
-        setVideo(null);
-        setContentObject({
-          topic: "",
-          contentDescription: "",
-          type: "video",
-          body: "",
-          source: "",
-        });
-        const newUrl = url.replace(".mp4", ".png");
-        setContentList([...contentList, { image: newUrl }]);
-        setIsLoading(false);
-        reset();
-      });
+    const response = await axios.post(
+      "http://localhost:8000/api/course/v2",
+      content
+    );
+
+    setVideo(null);
+    setContentObject({
+      topic: "",
+      contentDescription: "",
+      type: "video",
+      body: "",
+      source: "",
+    });
+    const newUrl = url.replace(".mp4", ".png");
+    setContentList([...contentList, { image: newUrl, type: content.type }]);
+    setIsLoading(false);
+    reset();
   };
 
   const uploadVideo = async () => {
@@ -194,6 +182,8 @@ const CreateCourse = () => {
     setContentObject(contentFormData);
     if (video) {
       uploadVideo();
+    } else {
+      createContent();
     }
   };
 
@@ -316,6 +306,24 @@ const CreateCourse = () => {
                     error={Boolean(errors.duration)}
                   />
                 </FormItem>
+                {/* <div>
+                  <Typography variant="h6" color="blue-gray" className="mb-2">
+                    Duration(Hours)
+                  </Typography>
+                  <div className="relative mt-3">
+                    <DropZone
+                      onChange={handleImageSelect}
+                      clear={removeSelected}
+                      value={imageURL}
+                    />
+                    {video && (
+                      <View
+                        className="absolute right-[34px] top-[10px] cursor-pointer text-blue-500"
+                        onClick={() => handleOpen(true)}
+                      />
+                    )}
+                  </div>
+                </div> */}
               </div>
             </div>
             <div>
@@ -328,9 +336,17 @@ const CreateCourse = () => {
       ) : (
         <div className="mt-10">
           <div className="w-full border flex flex-nowrap gap-2 p-2 relative overflow-auto">
-            {contentList.map((element, index) => (
-              <Content image={element.image} key={index} />
-            ))}
+            {contentList.length ? (
+              contentList.map((content, index) => (
+                <Content content={content} key={index} />
+              ))
+            ) : (
+              <div className="rounded-md min-w-[200px] p-2 border h-[100px] relative flex">
+                <div className="grid w-full place-items-center">
+                  No contents yet!
+                </div>
+              </div>
+            )}
           </div>
           <Card color="transparent" shadow={false} className="mt-10 flex-3">
             <Typography variant="h4" color="blue-gray">
@@ -413,12 +429,14 @@ const CreateCourse = () => {
                     </Typography>
                     <div className="mt-3">
                       <Textarea
+                        name="body"
                         className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
                         labelProps={{
                           className: "before:content-none after:content-none",
                         }}
-                        name="body"
-                        onChange={(e) => handleContentData(e)}
+                        {...register2("body")}
+
+                        // onChange={(e) => handleContentData(e)}
                       />
                     </div>
                   </div>

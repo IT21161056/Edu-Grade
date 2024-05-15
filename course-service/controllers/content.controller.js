@@ -4,7 +4,6 @@ import Content from "../models/content.model.js";
 import Course from "../models/course.model.js";
 
 const addContent = tryCatch(async (req, res) => {
-  console.log("awfaf");
   const { topic, contentDescription, type, body, source, courseID } = req.body;
   console.log("content body >>", req.body);
   if (!topic)
